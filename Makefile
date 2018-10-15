@@ -18,7 +18,7 @@ CLASSES = $(SRC)/util/NotImplementedException \
 	  $(SRC)/z808/ui/UIz808
 
 .PHONY: doc clean default
-default: classes
+default: build
 
 build: $(addsuffix .java, $(CLASSES))
 	$(JC) $(JFLAGS) -cp $(BIN) $(addsuffix .java, $(CLASSES)) -d $(BIN)
