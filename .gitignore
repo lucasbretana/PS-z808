@@ -5,6 +5,7 @@
 *.html
 *.css
 *.js
+doc/*
 
 # Log file
 *.log

@@ -3,8 +3,12 @@ SHELL = /bin/bash
 JC = javac
 JFLAGS = -g -Xlint:all
 
+JD = javadoc
+JDFLAG = -Xdoclint:all
+
 BIN = bin
 SRC = src
+DOC = doc
 
 CLASSES = $(SRC)/util/NotImplementedException \
 	  $(SRC)/z808/Assembler \
@@ -16,8 +20,12 @@ CLASSES = $(SRC)/util/NotImplementedException \
 .PHONY: doc clean default
 default: classes
 
-classes: $(addsuffix .java, $(CLASSES))
+build: $(addsuffix .java, $(CLASSES))
 	$(JC) $(JFLAGS) -cp $(BIN) $(addsuffix .java, $(CLASSES)) -d $(BIN)
+
+doc: $(addsuffix .java, $(CLASSES))
+	$(JD) $(JDFLAGS) -cp $(BIN) $(addsuffix .java, $(CLASSES)) -d $(DOC)
 
 clean:
 	$(RM) $(BIN)/**/*.class
+	$(RM) -r $(DOC)/*
