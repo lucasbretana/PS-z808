@@ -1,3 +1,6 @@
+# Figurative Files for Makefile
+*.pkt
+
 # Compiled class file
 *.class
 

@@ -10,22 +10,44 @@ BIN = bin
 SRC = src
 DOC = doc
 
-CLASSES = $(SRC)/util/NotImplementedException \
-	  $(SRC)/z808/Assembler \
-	  $(SRC)/z808/Linker \
-	  $(SRC)/z808/MacroProcessor \
-	  $(SRC)/z808/Processor \
-	  $(SRC)/z808/ui/UIz808
+FILES = util/NotImplementedException \
+				z808/Assembler \
+				z808/Linker \
+				z808/MacroProcessor \
+				z808/Processor \
+				z808/ui/UIz808
 
-.PHONY: doc clean default
-default: build
+PACKAGES = util \
+					 z808 \
+					 z808/ui
 
-build: $(addsuffix .java, $(CLASSES))
-	$(JC) $(JFLAGS) -cp $(BIN) $(addsuffix .java, $(CLASSES)) -d $(BIN)
+JVS = $(addprefix $(SRC)/, $(addsuffix .java , $(FILES)))
+CLS = $(addprefix $(BIN)/, $(addsuffix .class, $(FILES)))
+PKS = $(addprefix $(BIN)/, $(addsuffix .pkt, $(PACKAGES)))
 
-doc: $(addsuffix .java, $(CLASSES))
-	$(JD) $(JDFLAGS) -cp $(BIN) $(addsuffix .java, $(CLASSES)) -d $(DOC)
+.PHONY: all build clean test doc
+all: build
+
+build: buildByPackage
+
+.PHONY: buildAll buildByClasses buildByPackage
+buildByPackage: $(PKS)
+buildByClasses: $(CLS)
+buildAll:
+	$(JC) $(JFLAGS) -cp $(BIN) $(JVS) -d $(BIN)
+
+bin/%.pkt: src/%
+	@echo "Building for $@ with $^"
+	$(JC) $(JFLAGS) -cp $(BIN) $^/*.java -d $(BIN)
+	@touch $@
+
+bin/%.class: src/%.java
+	@echo "Building for $@ with $<"
+	$(JC) $(JFLAGS) -cp $(BIN) $< -d $(BIN)
 
 clean:
-	$(RM) $(BIN)/**/*.class
+	$(RM) $(BIN)/*.pkt
+	$(RM) $(BIN)/*/*.class
+	$(RM) $(BIN)/*/*.pkt
+	$(RM) $(BIN)/*/*/*.class
 	$(RM) -r $(DOC)/*
