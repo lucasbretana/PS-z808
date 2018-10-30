@@ -12,11 +12,12 @@ DOC = doc
 
 FILES =	\
 				util/NotImplementedException \
+				util/ExecutionException \
+				z808/Memory \
 				z808/command/Command \
 				z808/command/Directive \
 				z808/command/instruction/Instruction \
-				z808/command/instruction/Add \
-				z808/command/instruction/Sub \
+				z808/command/instruction/AddDX \
 				z808/MacroProcessor \
 				z808/Assembler \
 				z808/Linker \
@@ -33,6 +34,10 @@ PACKAGES = util \
 JVS = $(addprefix $(SRC)/, $(addsuffix .java , $(FILES)))
 CLS = $(addprefix $(BIN)/, $(addsuffix .class, $(FILES)))
 PKS = $(addprefix $(BIN)/, $(addsuffix .pkt, $(PACKAGES)))
+
+define clean_regex
+	find bin/ -name '$(1)' -exec rm {} \;
+endef
 
 .PHONY: all build clean test doc
 all: build
@@ -55,10 +60,6 @@ bin/%.class: src/%.java
 	$(JC) $(JFLAGS) -cp $(BIN) $< -d $(BIN)
 
 clean:
-	$(RM) $(BIN)/*.pkt
-	$(RM) $(BIN)/*/*.class
-	$(RM) $(BIN)/*/*.pkt
-	$(RM) $(BIN)/*/*/*.class
-	$(RM) $(BIN)/*/*/*.pkt
-	$(RM) $(BIN)/*/*/*/*.class
+	$(call clean_regex,*.pkt)
+	$(call clean_regex,*.class)
 	$(RM) -r $(DOC)/*
