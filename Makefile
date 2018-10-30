@@ -11,6 +11,11 @@ SRC = src
 DOC = doc
 
 FILES = util/NotImplementedException \
+				z808/Command \
+				z808/command/Directive \
+				z808/command/Instruction \
+				z808/command/instruction/Add \
+				z808/command/instruction/Sub \
 				z808/Assembler \
 				z808/Linker \
 				z808/MacroProcessor \
@@ -19,6 +24,8 @@ FILES = util/NotImplementedException \
 
 PACKAGES = util \
 					 z808 \
+					 z808/command \
+					 z808/command/instruction \
 					 z808/ui
 
 JVS = $(addprefix $(SRC)/, $(addsuffix .java , $(FILES)))
