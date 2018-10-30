@@ -10,22 +10,24 @@ BIN = bin
 SRC = src
 DOC = doc
 
-FILES = util/NotImplementedException \
-				z808/Command \
+FILES =	\
+				util/NotImplementedException \
+				z808/command/Command \
 				z808/command/Directive \
-				z808/command/Instruction \
+				z808/command/instruction/Instruction \
 				z808/command/instruction/Add \
 				z808/command/instruction/Sub \
+				z808/MacroProcessor \
 				z808/Assembler \
 				z808/Linker \
-				z808/MacroProcessor \
 				z808/Processor \
-				z808/ui/UIz808
+				z808/ui/UIz808 \
+				z808/MainTest
 
 PACKAGES = util \
-					 z808 \
 					 z808/command \
 					 z808/command/instruction \
+					 z808 \
 					 z808/ui
 
 JVS = $(addprefix $(SRC)/, $(addsuffix .java , $(FILES)))
@@ -57,4 +59,6 @@ clean:
 	$(RM) $(BIN)/*/*.class
 	$(RM) $(BIN)/*/*.pkt
 	$(RM) $(BIN)/*/*/*.class
+	$(RM) $(BIN)/*/*/*.pkt
+	$(RM) $(BIN)/*/*/*/*.class
 	$(RM) -r $(DOC)/*

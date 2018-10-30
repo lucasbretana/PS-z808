@@ -1,6 +1,6 @@
-package z808.command;
+package z808.command.instruction;
 
-import z808.Command;
+import z808.command.Command;
 import util.NotImplementedException;
 
 public abstract class Instruction extends Command {

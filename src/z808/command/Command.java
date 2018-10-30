@@ -1,11 +1,11 @@
-package z808;
+package z808.command;
 
 import util.NotImplementedException;
 
 public abstract class Command {
 	protected int size;
 	protected int address;
-  protected String label;
+	protected String label;
 
 	public int getSize() {
 		return this.size;
