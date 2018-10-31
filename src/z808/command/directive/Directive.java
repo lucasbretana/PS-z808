@@ -1,4 +1,4 @@
-package z808.command;
+package z808.command.directive;
 
 import z808.command.Command;
 import util.NotImplementedException;
