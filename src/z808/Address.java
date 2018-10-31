@@ -15,4 +15,9 @@ public class Address extends Number {
 	public double doubleValue() { return this.value * 1.0; }
 	public float floatValue() { return (new Double(this.value * 1.0)).floatValue(); }
 	public long longValue() { return this.value * 1L; }
+
+	@Override
+	public String toString() {
+		return "0x" + Integer.toHexString(this.value);
+	}
 }
