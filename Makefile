@@ -17,6 +17,7 @@ FILES =	\
 				z808/Memory \
 				z808/command/Command \
 				z808/command/directive/Directive \
+				z808/command/directive/Dup \
 				z808/command/directive/DW \
 				z808/command/instruction/Instruction \
 				z808/command/instruction/AddDX \
