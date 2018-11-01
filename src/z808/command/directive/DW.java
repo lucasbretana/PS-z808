@@ -8,25 +8,56 @@ import z808.Address;
 
 public class DW extends Directive {
 	public static final String MNEMONIC = "DW";
-	public static final int OPCODE      = 131;
 
 	private Object value  = null;
 	private Class<?> type = null;
 
+	/**
+	 * Important constructor
+	 * @param value the data to save
+	 * @param type its type, so it can be cast
+	 */
 	private DW(Object value, Class<?> type) {
 		this.value = value;
 		this.type = type;
 	}
+	/**
+	 * Creates an empty memory space
+	 * Example in z808: DW ?
+	 */
 	public DW() { }
-	public DW(Integer value) throws NotImplementedException {this(value, value.getClass());}
-	public DW(Address addr)throws NotImplementedException {this(addr, addr.getClass());}
-	public DW(Character value)throws NotImplementedException {this(value, value.getClass());}
-	public DW(Directive dup)throws NotImplementedException {this(dup, dup.getClass());} // TODO: test @Bretana
+	/**
+	 * Creaes a variable with an int
+	 * Example in z808: DW 13
+	 * @param value int value to save
+	 */
+	public DW(Integer value)  {this(value, value.getClass());}
+	/**
+	 * Creates a variable with an address
+	 * Example in z808: DW 0x0D
+	 * @param addr address value to save
+	 */
+	public DW(Address addr) {this(addr, addr.getClass());}
+	/**
+	 * Creates a variable with an char
+	 * Example in z808: DW 'd'
+	 * @param value char to save
+	 */
+	public DW(Character value) {this(value, value.getClass());}
+	/**
+	 * Creates a variable with a Dup directive
+	 * Example in z808: DW 13 DUP 0x0d
+	 * @param dup the directive to be executed
+	 */
+	public DW(Directive dup) {this(dup, dup.getClass());}
 
 	public Memory exec (Memory mem) throws NotImplementedException, ExecutionException {
 		throw new NotImplementedException("TODO");
 	}
 
+	/**
+	 * Returns the z808 string equivalent of this DW directive
+	 */
 	public String toString() {
 		String ret = DW.MNEMONIC + " ";
 		if (this.value == null)
