@@ -19,17 +19,25 @@ public class MainTest{
 		System.out.println(d.toString());
 		d = new Dup(10, new Address(0x2048));
 		System.out.println(d.toString());
+		try {
+			d.setLabel("AnyLabel");
+		} catch (ExecutionException ex) {
+			System.err.println(ex.getLocalizedMessage());
+		}
 
 		System.out.println("Testing DW");
-		d = new DW();
+		d = new DW(new Address(1));
 		System.out.println(d.toString());
-		d = new DW(1024);
+		d = new DW(new Address(1), 1024);
 		System.out.println(d.toString());
-		d = new DW('X');
+		d = new DW(new Address(1), 'X');
 		System.out.println(d.toString());
-		d = new DW(new Address(0x1024));
+		d = new DW(new Address(1), new Address(0x1024));
 		System.out.println(d.toString());
-		d = new DW(new Dup(10));
+		d = new DW(new Address(1), new Dup(10));
+		System.out.println(d.toString());
+		d = new DW(new Address(1), new Dup(10));
+		d.setLabel("FirstDW_with_label");
 		System.out.println(d.toString());
 
 	}

@@ -70,4 +70,20 @@ public class Dup extends Directive {
 			ret += this.value.toString();
 		return ret;
 	}
+
+	@Override
+	public int getSize() {
+		return this.count;
+	}
+	/**
+	 * This class should not have a lebel
+	 * Its corresponding DW may have tho
+	 * @param lbl nothing important
+	 * @throws ExecutionException always
+	 */
+	@Override
+	public void setLabel(String lbl) throws ExecutionException {
+		throw new ExecutionException("A Dup never have a label, its DW may have tho");
+	}
+
 }
