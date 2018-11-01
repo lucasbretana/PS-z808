@@ -1,6 +1,9 @@
 package z808;
 
 import z808.command.directive.DW;
+import z808.command.directive.End;
+import z808.command.directive.Ends;
+import z808.command.directive.Segment;
 import z808.command.directive.Dup;
 import z808.command.directive.Directive;
 import z808.command.instruction.Instruction;
@@ -10,7 +13,6 @@ import util.ExecutionException;
 public class MainTest{
 	public static void main(String...args) throws ExecutionException{
 		Directive d = null;
-		System.out.println("Testing Dup");
 		d = new Dup(10);
 		System.out.println(d.toString());
 		d = new Dup(10, 2048);
@@ -25,7 +27,6 @@ public class MainTest{
 			System.err.println(ex.getLocalizedMessage());
 		}
 
-		System.out.println("Testing DW");
 		d = new DW(new Address(1));
 		System.out.println(d.toString());
 		d = new DW(new Address(1), 1024);
@@ -40,6 +41,15 @@ public class MainTest{
 		d.setLabel("FirstDW_with_label");
 		System.out.println(d.toString());
 
+		d = new End("Test", new Address(1), "First Module w label");
+		System.out.println(d.toString());
+		d = new End(new Address(1), "First Module");
+		System.out.println(d.toString());
+
+		d = new Segment("ExampleName");
+		System.out.println(d.toString());
+		d = new Ends("ExampleName");
+		System.out.println(d.toString());
 	}
 }
 

@@ -17,6 +17,9 @@ FILES =	\
 				z808/Memory \
 				z808/command/Command \
 				z808/command/directive/Directive \
+				z808/command/directive/End \
+				z808/command/directive/Ends \
+				z808/command/directive/Segment \
 				z808/command/directive/Dup \
 				z808/command/directive/DW \
 				z808/command/instruction/Instruction \

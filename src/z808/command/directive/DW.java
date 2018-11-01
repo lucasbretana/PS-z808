@@ -20,6 +20,7 @@ public class DW extends Directive {
 	 */
 	private DW(Address a, Object value, Class<?> type) {
 		this.size = 2; // WORDSIZE
+		this.address = a.intValue();
 		if (value instanceof Dup)
 			this.size *= Dup.class.cast(value).getSize();
 		this.value = value;
@@ -58,7 +59,7 @@ public class DW extends Directive {
 	 * @param a the address of this memory allocation
 	 * @param dup the directive to be executed
 	 */
-	public DW(Address a, Directive dup) {this(a, dup, dup.getClass());}
+	public DW(Address a, Dup dup) {this(a, dup, dup.getClass());}
 
 	public Memory exec (Memory mem) throws NotImplementedException, ExecutionException {
 		throw new NotImplementedException("TODO");
