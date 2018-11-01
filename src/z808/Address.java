@@ -6,6 +6,11 @@ public class Address extends Number {
 	protected static final long serialVersionUID = 313L;
 	int value;
 
+	/**
+	 * Creates an addres 
+	 * @param i a positive number
+	 * @throws ExecutionException in case there is an error
+	 */
 	public Address(int i) throws ExecutionException{
 		if ( i<0 ) throw new ExecutionException("Invalid address (NEG)");
 		this.value = i;
