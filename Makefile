@@ -18,6 +18,10 @@ FILES =	\
 				z808/command/Directive \
 				z808/command/instruction/Instruction \
 				z808/command/instruction/AddDX \
+				z808/command/instruction/AddAX \
+				z808/command/instruction/AddCTE \
+				z808/command/instruction/DivSI \
+				z808/command/instruction/DivAX \
 				z808/MacroProcessor \
 				z808/Assembler \
 				z808/Linker \

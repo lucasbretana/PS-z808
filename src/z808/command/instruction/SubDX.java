@@ -6,20 +6,20 @@ import z808.command.instruction.Instruction;
 import util.NotImplementedException;
 import util.ExecutionException;
 
-public class AddDX extends Instruction {
-	public static final int OPCODE = 0X03C2;
+public class SubDX extends Instruction {
+	public static final int OPCODE = 0X2BC4;
 	public static final int SIZE   = 2;
-
-	public AddDX (int address) {
+	
+	public SubDX (int address) {
 		this(address, null);
 	}
 
-	public AddDX (int address, String label) {
-		this.size = AddDX.SIZE;
+	public SubDX (int address, String label) {
+		this.size = SubDX.SIZE;
 		this.address = address;
 		this.label = label;
 
-		this.code = AddDX.OPCODE;
+		this.code = SubDX.OPCODE;
 		return;
 	}
 
