@@ -4,7 +4,7 @@ import util.ExecutionException;
 import util.NotImplementedException;
 import z808.command.directive.Directive;
 import z808.Address;
-import z808.Memory;
+import z808.memory.Memory;
 
 public class End extends Directive {
 	public static final String MNEMONIC = "END";
@@ -34,7 +34,7 @@ public class End extends Directive {
 	}
 
 	@Override
-	public Memory exec(Memory m) throws NotImplementedException {
+	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");
 	}
 

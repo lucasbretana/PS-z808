@@ -3,7 +3,7 @@ package z808.command.directive;
 import util.ExecutionException;
 import util.NotImplementedException;
 import z808.command.Command;
-import z808.Memory;
+import z808.memory.Memory;
 import z808.Address;
 
 import z808.command.directive.Directive;
@@ -55,7 +55,7 @@ public class Dup extends Directive {
 	public Dup(int count, Character value) {this(count, value, value.getClass());}
 
 	@Override
-	public Memory exec(Memory m) throws NotImplementedException {
+	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");
 	}
 

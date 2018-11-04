@@ -10,37 +10,44 @@ BIN = bin
 SRC = src
 DOC = doc
 
-FILES =	\
-				util/ExecutionException \
-				util/NotImplementedException \
-				z808/Address \
-				z808/Memory \
-				z808/command/Command \
-				z808/command/directive/Directive \
-				z808/command/directive/End \
-				z808/command/directive/Ends \
-				z808/command/directive/Segment \
-				z808/command/directive/Dup \
-				z808/command/directive/DW \
-				z808/command/instruction/Instruction \
-				z808/command/instruction/AddDX \
-				z808/command/instruction/AddAX \
-				z808/command/instruction/AddCTE \
-				z808/command/instruction/DivSI \
-				z808/command/instruction/DivAX \
-				z808/MacroProcessor \
-				z808/Assembler \
-				z808/Linker \
-				z808/Processor \
-				z808/ui/UIz808 \
-				z808/MainTest
+FILES =\
+	util/ExecutionException \
+	util/NotImplementedException \
+	util/FinishedException \
+	z808/Address \
+	z808/memory/Register \
+	z808/memory/Memory \
+	z808/command/Command \
+	z808/command/directive/Directive \
+	z808/command/directive/End \
+	z808/command/directive/Ends \
+	z808/command/directive/Segment \
+	z808/command/directive/Dup \
+	z808/command/directive/DW \
+	z808/command/instruction/Instruction \
+	z808/command/instruction/AddDX \
+	z808/command/instruction/AddAX \
+	z808/command/instruction/AddCTE \
+	z808/command/instruction/DivSI \
+	z808/command/instruction/DivAX \
+	z808/command/instruction/SubDX \
+	z808/command/instruction/SubAX \
+	z808/command/instruction/SubCTE \
+	z808/MacroProcessor \
+	z808/Assembler \
+	z808/Linker \
+	z808/Processor \
+	z808/ui/UIz808 \
+	z808/MainTest
 
-PACKAGES = util \
-					 z808/command \
-					 z808/command/directive \
-					 z808/command/instruction \
-					 z808 \
-					 z808/ui
+PACKAGES =\
+	util \
+	z808/memory \
+	z808/command \
+	z808/command/directive \
+	z808/command/instruction \
+	z808 \
+	z808/ui
 
 JVS = $(addprefix $(SRC)/, $(addsuffix .java , $(FILES)))
 CLS = $(addprefix $(BIN)/, $(addsuffix .class, $(FILES)))

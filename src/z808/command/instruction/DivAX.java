@@ -1,6 +1,6 @@
 package z808.command.instruction;
 
-import z808.Memory;
+import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -23,7 +23,7 @@ public class DivAX extends Instruction {
 		return;
 	}
 
-	public Memory exec (Memory mem) throws NotImplementedException, ExecutionException {
+	public void exec (Memory mem) throws NotImplementedException, ExecutionException {
 		throw new NotImplementedException("TODO");
 	}
 }

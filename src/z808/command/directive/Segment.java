@@ -1,7 +1,7 @@
 package z808.command.directive;
 
 import z808.command.directive.Directive;
-import z808.Memory;
+import z808.memory.Memory;
 import util.NotImplementedException;
 
 public class Segment extends Directive {
@@ -18,7 +18,7 @@ public class Segment extends Directive {
 	}
 
 	@Override
-	public Memory exec(Memory m) throws NotImplementedException {
+	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");
 	}
 

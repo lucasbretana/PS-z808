@@ -3,7 +3,7 @@ package z808.command.directive;
 import util.ExecutionException;
 import util.NotImplementedException;
 import z808.command.Command;
-import z808.Memory;
+import z808.memory.Memory;
 import z808.Address;
 
 public class DW extends Directive {
@@ -61,7 +61,7 @@ public class DW extends Directive {
 	 */
 	public DW(Address a, Dup dup) {this(a, dup, dup.getClass());}
 
-	public Memory exec (Memory mem) throws NotImplementedException, ExecutionException {
+	public void exec (Memory mem) throws NotImplementedException, ExecutionException {
 		throw new NotImplementedException("TODO");
 	}
 

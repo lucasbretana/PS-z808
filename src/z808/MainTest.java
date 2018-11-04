@@ -1,21 +1,37 @@
 package z808;
 
-import z808.command.instruction.Instruction;
-import z808.command.instruction.AddAX;
-import z808.command.instruction.AddDX;
-import z808.command.instruction.AddCTE;
-import z808.command.instruction.DivAX;
+import java .util.Map;
+import java.util.TreeMap;
+
+import util.ExecutionException;
+import util.NotImplementedException;
+
+import z808.Processor;
+
+import z808.command.Command;
+import z808.command.directive.*;
+import z808.command.instruction.*;
 
 public class MainTest {
-	public static void main(String...args) {
-		Instruction l1 = new AddDX (0);
-		Instruction l2 = new AddCTE(2, 200);
-		Instruction l3 = new AddAX (5);
-		Instruction l4 = new DivAX (7);
-		System.out.println(l1);
-		System.out.println(l2);
-		System.out.println(l3);
-		System.out.println(l4);
+	public static void main(String...args)
+		throws ExecutionException, NotImplementedException {
+
+		TreeMap<Integer, Command> code = new TreeMap<Integer, Command>();
+		code.put(0, new AddDX (0));
+		code.put(2, new AddAX (2));
+		code.put(4, new SubDX (4));
+
+		System.out.println("-- Code --");
+		for (Map.Entry<Integer, Command> entry : code.entrySet()) {
+			System.out.println(String.format("%04X %s"
+																			 , entry.getKey()
+																			 , entry.getValue()));
+		}
+
+		Processor p = new Processor ();
+		System.out.println(p);
+		p.process(code);
+		System.out.println(p);
 	}
 }
 
