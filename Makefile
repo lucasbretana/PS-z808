@@ -11,11 +11,17 @@ SRC = src
 DOC = doc
 
 FILES =	\
-				util/NotImplementedException \
 				util/ExecutionException \
+				util/NotImplementedException \
+				z808/Address \
 				z808/Memory \
 				z808/command/Command \
-				z808/command/Directive \
+				z808/command/directive/Directive \
+				z808/command/directive/End \
+				z808/command/directive/Ends \
+				z808/command/directive/Segment \
+				z808/command/directive/Dup \
+				z808/command/directive/DW \
 				z808/command/instruction/Instruction \
 				z808/command/instruction/AddDX \
 				z808/command/instruction/AddAX \
@@ -31,6 +37,7 @@ FILES =	\
 
 PACKAGES = util \
 					 z808/command \
+					 z808/command/directive \
 					 z808/command/instruction \
 					 z808 \
 					 z808/ui
@@ -46,7 +53,7 @@ endef
 .PHONY: all build clean test doc
 all: build
 
-build: buildByPackage
+build: buildByClasses
 
 .PHONY: buildAll buildByClasses buildByPackage
 buildByPackage: $(PKS)

@@ -8,7 +8,7 @@ import util.ExecutionException;
 public abstract class Command {
 	protected int size;
 	protected int address;
-	protected String label;
+	protected String label = null;
 
 	public abstract Memory exec (Memory mem) throws NotImplementedException, ExecutionException;
 
@@ -19,7 +19,7 @@ public abstract class Command {
 		return this.address;
 	}
 	public String getLabel() {
-		return new String(this.label);
+		return this.label;
 	}
 }
 
