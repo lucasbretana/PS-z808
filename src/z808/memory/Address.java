@@ -1,4 +1,4 @@
-package z808;
+package z808.memory;
 
 import util.ExecutionException;
 

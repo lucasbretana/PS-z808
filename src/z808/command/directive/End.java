@@ -3,7 +3,7 @@ package z808.command.directive;
 import util.ExecutionException;
 import util.NotImplementedException;
 import z808.command.directive.Directive;
-import z808.Address;
+import z808.memory.Address;
 import z808.memory.Memory;
 
 public class End extends Directive {

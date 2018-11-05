@@ -3,6 +3,8 @@ package z808.memory;
 import util.NotImplementedException;
 import util.ExecutionException;
 
+import z808.memory.Address;
+
 public class Register extends Number {
 	protected static final long serialVersionUID = 313L;
 
@@ -18,6 +20,7 @@ public class Register extends Number {
 	}
 
 	public void set(int v) {this.defined = true;this.value = v;}
+	public void set(Address v) {this.defined =true;this.value = v.intValue();}
 	public void set(Register r) throws ExecutionException {this.set(r.get());}
 
 	public int get() throws ExecutionException {

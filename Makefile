@@ -14,7 +14,7 @@ FILES =\
 	util/ExecutionException \
 	util/NotImplementedException \
 	util/FinishedException \
-	z808/Address \
+	z808/memory/Address \
 	z808/memory/Register \
 	z808/memory/Memory \
 	z808/command/Command \

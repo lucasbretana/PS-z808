@@ -4,7 +4,7 @@ import util.ExecutionException;
 import util.NotImplementedException;
 import z808.command.Command;
 import z808.memory.Memory;
-import z808.Address;
+import z808.memory.Address;
 
 import z808.command.directive.Directive;
 
