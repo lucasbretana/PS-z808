@@ -46,12 +46,11 @@ public class SubCTE extends Instruction {
 		mem.REM.set(this.arg);
 		// 4. Value fetch in case of address
 		mem.RBM.set(mem.get(mem.REM));
-		mem.DX.set(mem.RBM);
 		// 5. Second arg fetch
 		// 6. Second value fetch in case of address
 
 		// 7. Execution
-		mem.AX.set( mem.AX.get() - mem.DX.get() );
+		mem.AX.set( mem.AX.get() - mem.RBM.get() );
 
 		// 8. Write back
 		// 9. Program Counter increment

@@ -43,7 +43,7 @@ public class Memory {
 		Register v = this.memory.get(address);
 		if (v == null)
 			throw new ExecutionException ("Segmentation Fault!\n"
-																		+ "Memory access outside of memory declaration: "
+																		+ "Memory access outside of data segmentation: "
 																		+ address + "\n");
 		return v.intValue();
 	}
@@ -67,14 +67,14 @@ public class Memory {
 		String ret = "";
 		for (Map.Entry<Address, Register> entry : this.memory.entrySet()) {
 			ret += String.format("%04X %s\n"
-													 , entry.getKey()
+													 , entry.getKey().intValue()
 													 , entry.getValue());
 		}
 		return ret;
 	}
-	
+
 	public String toString () {
 		return "-- Registers --\n" + this.registersToString() +
-			"-- Memory --" + this.memoryToString();
+			"-- Memory --\n" + this.memoryToString();
 	}
 }

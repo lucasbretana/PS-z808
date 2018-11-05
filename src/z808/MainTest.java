@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 import util.ExecutionException;
 import util.NotImplementedException;
+import util.FinishedException;
 
 import z808.Processor;
 
@@ -14,15 +15,14 @@ import z808.command.instruction.*;
 
 public class MainTest {
 	public static void main(String...args)
-		throws ExecutionException, NotImplementedException {
+		throws ExecutionException, NotImplementedException, FinishedException {
 
 		TreeMap<Integer, Command> code = new TreeMap<Integer, Command>();
-		code.put(0, new AddDX (0));
-		code.put(2, new AddAX (2));
-		code.put(4, new SubDX (4));
-		code.put(6, new AddCTE (6, 0x200));
-		code.put(9, new Hlt (9));
-		// code.put(6, new Hlt (6));
+		code.put(0, new Equ (0, 5));       // EQU 5
+		code.put(1, new AddCTE (1, 0x0));  // add AX 0x0
+		code.put(4, new AddAX (4));        // add Ax Ax
+		code.put(6, new AddAX (6));        // add Ax Ax
+		code.put(8, new Hlt (8));          // hlt
 
 		System.out.println("-- Code --");
 		for (Map.Entry<Integer, Command> entry : code.entrySet()) {
@@ -33,7 +33,7 @@ public class MainTest {
 
 		Processor p = new Processor ();
 		System.out.println(p);
-		System.out.println("Running code <Should raise Segmentation Fault>!");
+		System.out.println("Running code!");
 		p.process(code);
 		System.out.println(p);
 	}
