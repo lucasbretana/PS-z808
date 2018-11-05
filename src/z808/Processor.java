@@ -7,6 +7,7 @@ import util.NotImplementedException;
 import util.FinishedException;
 
 import z808.memory.Memory;
+import z808.memory.Address;
 import z808.memory.Register;
 
 import z808.command.Command;
@@ -18,7 +19,7 @@ public class Processor {
 	  this.memory = new Memory();
 	}
 
-	public void process (TreeMap<Integer, Command> commands)
+	public void process (TreeMap<Address, Command> commands)
 		throws ExecutionException {
 		try { while (true) {this.step(commands);} }
 		catch (FinishedException e) {
@@ -26,7 +27,7 @@ public class Processor {
 		return;
 	}
 
-	public void step(TreeMap<Integer, Command> commands)
+	public void step(TreeMap<Address, Command> commands)
 		throws ExecutionException, FinishedException {
 		this.sanityCheck(this.memory);
 		Command cmd =  commands.get(this.memory.getCurrentInstruction());

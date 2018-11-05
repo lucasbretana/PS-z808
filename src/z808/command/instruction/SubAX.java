@@ -1,6 +1,7 @@
 package z808.command.instruction;
 
 import z808.memory.Memory;
+import z808.memory.Address;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -10,11 +11,11 @@ public class SubAX extends Instruction {
 	public static final int OPCODE = 0X2BC0;
 	public static final int SIZE   = 2;
 	
-	public SubAX (int address) {
+	public SubAX (Address address) {
 		this(address, null);
 	}
 
-	public SubAX (int address, String label) {
+	public SubAX (Address address, String label) {
 		this.size = SubAX.SIZE;
 		this.address = address;
 		this.label = label;

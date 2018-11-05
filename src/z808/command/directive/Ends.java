@@ -13,7 +13,7 @@ public class Ends extends Directive {
 	 */
 	public Ends(String name) {
 		this.label = new String(name);
-		this.address = 0;
+		this.address = null;
 		this.size = 0;
 	}
 

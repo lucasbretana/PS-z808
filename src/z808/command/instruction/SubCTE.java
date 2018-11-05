@@ -13,19 +13,19 @@ public class SubCTE extends Instruction {
 
 	private Address arg;
 
-	public SubCTE (int address, Address value) {
+	public SubCTE (Address address, Address value) {
 		this(address, null, value);
 	}
-	public SubCTE (int address, int value)
+	public SubCTE (Address address, int value)
 		throws ExecutionException {
-		this(address, null, value);
+		this(address, null, new Address(value));
 	}
-	public SubCTE (int address, String label, int value)
+	public SubCTE (Address address, String label, int value)
 		throws ExecutionException {
 		this(address, label, new Address(value));
 	}
 
-	public SubCTE (int address, String label, Address value) {
+	public SubCTE (Address address, String label, Address value) {
 		this.size = SubCTE.SIZE;
 		this.address = address;
 		this.label = label;

@@ -13,9 +13,8 @@ public class Equ extends Directive {
 
 	private int arg;
 	
-	public Equ (Address address, int value) { this(address.intValue(), null, value); }
-	public Equ (int address, int value) { this(address, null, value); }
-	public Equ (int address, String label, int value) {
+	public Equ (Address address, int value) { this(address, null, value); }
+	public Equ (Address address, String label, int value) {
 		this.size = Equ.SIZE;
 		this.address = address;
 		this.label = label;
@@ -27,7 +26,7 @@ public class Equ extends Directive {
 	public void exec (Memory mem)
 		throws ExecutionException {
 		// 1. Create Memory entry
-		mem.newMemoryEntry(new Address(this.address), this.arg);
+		mem.newMemoryEntry(this.address, this.arg);
 
 		// 2. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );

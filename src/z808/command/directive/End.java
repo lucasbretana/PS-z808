@@ -27,7 +27,7 @@ public class End extends Directive {
 	 */
 	public End(String lbl, Address a, String entry_point) {
 		this.label = lbl;
-		this.address = a.intValue();
+		this.address = a;
 		this.size = 0;
 
 		this.entry_point = entry_point;

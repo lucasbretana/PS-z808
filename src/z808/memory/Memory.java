@@ -1,6 +1,6 @@
 package z808.memory;
 
-import java .util.Map;
+import java.util.Map;
 import java.util.TreeMap;
 
 import util.NotImplementedException;
@@ -48,8 +48,8 @@ public class Memory {
 		return v.intValue();
 	}
 
-	public int getCurrentInstruction() {
-		return this.CL.intValue();
+	public Address getCurrentInstruction() throws ExecutionException {
+		return new Address(this.CL.intValue());
 	}
 
 	public String registersToString () {

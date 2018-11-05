@@ -8,7 +8,7 @@ import util.NotImplementedException;
 import util.FinishedException;
 
 import z808.Processor;
-
+import z808.memory.Address;
 import z808.command.Command;
 import z808.command.directive.*;
 import z808.command.instruction.*;
@@ -17,18 +17,16 @@ public class MainTest {
 	public static void main(String...args)
 		throws ExecutionException, NotImplementedException, FinishedException {
 
-		TreeMap<Integer, Command> code = new TreeMap<Integer, Command>();
-		code.put(0, new Equ (0, 5));       // EQU 5
-		code.put(1, new AddCTE (1, 0x0));  // add AX 0x0
-		code.put(4, new AddAX (4));        // add Ax Ax
-		code.put(6, new AddAX (6));        // add Ax Ax
-		code.put(8, new Hlt (8));          // hlt
+		TreeMap<Address, Command> code = new TreeMap<Address, Command>();
+		Address a0 = new Address(0); code.put(a0, new Equ (a0, 5));       // EQU 5
+		Address a1 = new Address(1); code.put(a1, new AddCTE (a1, 0x0));  // add AX 0x0
+		Address a4 = new Address(4); code.put(a4, new AddAX (a4));        // add Ax Ax
+		Address a6 = new Address(6); code.put(a6, new AddAX (a6));        // add Ax Ax
+		Address a8 = new Address(8); code.put(a8, new Hlt (a8));          // hlt
 
 		System.out.println("-- Code --");
-		for (Map.Entry<Integer, Command> entry : code.entrySet()) {
-			System.out.println(String.format("%04X %s"
-																			 , entry.getKey()
-																			 , entry.getValue()));
+		for (Map.Entry<Address, Command> entry : code.entrySet()) {
+			System.out.println(entry.getKey() + " " + entry.getValue());
 		}
 
 		Processor p = new Processor ();
@@ -38,4 +36,3 @@ public class MainTest {
 		System.out.println(p);
 	}
 }
-

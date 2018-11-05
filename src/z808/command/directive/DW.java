@@ -20,7 +20,7 @@ public class DW extends Directive {
 	 */
 	private DW(Address a, Object value, Class<?> type) {
 		this.size = 2; // WORDSIZE
-		this.address = a.intValue();
+		this.address = a;
 		if (value instanceof Dup)
 			this.size *= Dup.class.cast(value).getSize();
 		this.value = value;
