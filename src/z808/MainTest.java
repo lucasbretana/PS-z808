@@ -20,7 +20,9 @@ public class MainTest {
 		code.put(0, new AddDX (0));
 		code.put(2, new AddAX (2));
 		code.put(4, new SubDX (4));
-		code.put(6, new Hlt (6));
+		code.put(6, new AddCTE (6, 0x200));
+		code.put(9, new Hlt (9));
+		// code.put(6, new Hlt (6));
 
 		System.out.println("-- Code --");
 		for (Map.Entry<Integer, Command> entry : code.entrySet()) {
@@ -31,6 +33,7 @@ public class MainTest {
 
 		Processor p = new Processor ();
 		System.out.println(p);
+		System.out.println("Running code <Should raise Segmentation Fault>!");
 		p.process(code);
 		System.out.println(p);
 	}

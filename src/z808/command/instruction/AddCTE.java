@@ -44,14 +44,14 @@ public class AddCTE extends Instruction {
 		mem.RI.set(mem.RBM);
 		// 3. Arg fetch
 		mem.REM.set(this.arg);
-		// 4. Arg fetch in case of address
+		// 4. Value fetch in case of address
 		mem.RBM.set(mem.get(mem.REM));
 		mem.DX.set(mem.RBM);
 		// 5. Second arg fetch
-		// 6. Second arg fetch in case of address
+		// 6. Second Value fetch in case of address
 
 		// 7. Execution
-		mem.AX.set( mem.AX.get() + mem.AX.get());
+		mem.AX.set( mem.AX.get() + mem.DX.get() );
 
 		// 8. Write back
 		// 9. Program Counter increment

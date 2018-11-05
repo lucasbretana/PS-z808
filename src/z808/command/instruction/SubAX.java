@@ -31,9 +31,9 @@ public class SubAX extends Instruction {
 		mem.RBM.set(this.code % 0x100);
 		mem.RI.set(mem.RBM);
 		// 3. Arg fetch
-		// 4. Arg fetch in case of address
+		// 4. Value fetch in case of address
 		// 5. Second arg fetch
-		// 6. Second arg fetch in case of address
+		// 6. Second value fetch in case of address
 
 		// 7. Execution
 		mem.AX.set( mem.AX.get() - mem.AX.get());

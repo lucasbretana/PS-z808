@@ -5,7 +5,7 @@ import util.ExecutionException;
 
 import z808.memory.Address;
 
-public class Register extends Number {
+public class Register extends Number implements Comparable<Number> {
 	protected static final long serialVersionUID = 313L;
 
 	private boolean defined;
@@ -29,11 +29,13 @@ public class Register extends Number {
 		else
 			throw new ExecutionException ("Trying to get the value of a undefined register.");
 	}
-	
+
 	public int intValue() { return this.value; }
 	public float floatValue() { return (float) this.value; }
 	public double doubleValue() { return (double) this.value; }
 	public long longValue() { return (long) this.value; }
+
+	public int compareTo(Number o) {return this.value - o.intValue();}
 
 	@Override
 	public String toString() {

@@ -4,6 +4,7 @@ import java .util.Map;
 import java.util.TreeMap;
 
 import util.NotImplementedException;
+import util.ExecutionException;
 
 import z808.memory.Address;
 import z808.memory.Register;
@@ -38,8 +39,13 @@ public class Memory {
 		this.memory.put(address, value);
 	}
 
-	public int get(Number address) {
-		return this.memory.get(address).intValue();
+	public int get(Number address) throws ExecutionException {
+		Register v = this.memory.get(address);
+		if (v == null)
+			throw new ExecutionException ("Segmentation Fault!\n"
+																		+ "Memory access outside of memory declaration: "
+																		+ address + "\n");
+		return v.intValue();
 	}
 
 	public int getCurrentInstruction() {
