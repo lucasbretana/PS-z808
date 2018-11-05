@@ -1,12 +1,12 @@
 package z808;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 import util.ExecutionException;
 import util.NotImplementedException;
 import util.FinishedException;
 
+import z808.Program;
 import z808.Processor;
 import z808.memory.Address;
 import z808.command.Command;
@@ -17,12 +17,12 @@ public class MainTest {
 	public static void main(String...args)
 		throws ExecutionException, NotImplementedException, FinishedException {
 
-		TreeMap<Address, Command> code = new TreeMap<Address, Command>();
-		Address a0 = new Address(0); code.put(a0, new Equ (a0, 5));       // EQU 5
-		Address a1 = new Address(1); code.put(a1, new AddCTE (a1, 0x0));  // add AX 0x0
-		Address a4 = new Address(4); code.put(a4, new AddAX (a4));        // add Ax Ax
-		Address a6 = new Address(6); code.put(a6, new AddAX (a6));        // add Ax Ax
-		Address a8 = new Address(8); code.put(a8, new Hlt (a8));          // hlt
+		Program code = new Program();
+		code.put(new Equ (new Address(0), 5));       // EQU 5
+		code.put(new AddCTE (new Address(1), 0x0));  // add AX 0x0
+		code.put(new AddAX (new Address(4)));        // add Ax Ax
+		code.put(new AddAX (new Address(6)));        // add Ax Ax
+		code.put(new Hlt (new Address(8)));          // hlt
 
 		System.out.println("-- Code --");
 		for (Map.Entry<Address, Command> entry : code.entrySet()) {

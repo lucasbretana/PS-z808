@@ -1,10 +1,10 @@
 package z808;
 
-import java.util.TreeMap;
-
 import util.ExecutionException;
 import util.NotImplementedException;
 import util.FinishedException;
+
+import z808.Program;
 
 import z808.memory.Memory;
 import z808.memory.Address;
@@ -19,7 +19,7 @@ public class Processor {
 	  this.memory = new Memory();
 	}
 
-	public void process (TreeMap<Address, Command> commands)
+	public void process (Program commands)
 		throws ExecutionException {
 		try { while (true) {this.step(commands);} }
 		catch (FinishedException e) {
@@ -27,10 +27,10 @@ public class Processor {
 		return;
 	}
 
-	public void step(TreeMap<Address, Command> commands)
+	public void step(Program commands)
 		throws ExecutionException, FinishedException {
 		this.sanityCheck(this.memory);
-		Command cmd =  commands.get(this.memory.getCurrentInstruction());
+		Command cmd = commands.get(this.memory.getCurrentInstruction());
 		if (cmd != null)
 			cmd.exec(this.memory);
 		else

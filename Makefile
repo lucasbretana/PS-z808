@@ -35,6 +35,7 @@ FILES =\
 	z808/command/instruction/SubAX \
 	z808/command/instruction/SubCTE \
 	z808/command/instruction/Hlt \
+	z808/Program \
 	z808/MacroProcessor \
 	z808/Assembler \
 	z808/Linker \
