@@ -30,16 +30,19 @@ public class Processor {
 	public void step(TreeMap<Integer, Command> commands)
 		throws ExecutionException, FinishedException {
 		this.sanityCheck(this.memory);
-		commands
-			.get(this.memory.getCurrentInstruction())
-			.exec(this.memory);
+		Command cmd =  commands.get(this.memory.getCurrentInstruction());
+		if (cmd != null)
+			cmd.exec(this.memory);
+		else
+			throw new ExecutionException ("Processor reached invalid intruction address:"
+																		+ this.memory.getCurrentInstruction());
 	}
 	
 	public String toString () {
 		return this.memory.toString();
 	}
 
-	private void sanityCheck(Memory cmd)
+	private void sanityCheck(Memory mem)
 		throws ExecutionException {
 		return;
 	}

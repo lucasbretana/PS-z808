@@ -20,6 +20,7 @@ public class MainTest {
 		code.put(0, new AddDX (0));
 		code.put(2, new AddAX (2));
 		code.put(4, new SubDX (4));
+		code.put(6, new Hlt (6));
 
 		System.out.println("-- Code --");
 		for (Map.Entry<Integer, Command> entry : code.entrySet()) {

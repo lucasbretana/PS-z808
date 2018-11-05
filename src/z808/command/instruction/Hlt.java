@@ -5,26 +5,27 @@ import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
 import util.ExecutionException;
+import util.FinishedException;
 
-public class AddAX extends Instruction {
-	public static final int OPCODE = 0X03C0;
-	public static final int SIZE   = 2;
+public class Hlt extends Instruction {
+	public static final int OPCODE = 0XF4;
+	public static final int SIZE   = 1;
 	
-	public AddAX (int address) {
+	public Hlt (int address) {
 		this(address, null);
 	}
 
-	public AddAX (int address, String label) {
-		this.size = AddAX.SIZE;
+	public Hlt (int address, String label) {
+		this.size = Hlt.SIZE;
 		this.address = address;
 		this.label = label;
 
-		this.code = AddAX.OPCODE;
+		this.code = Hlt.OPCODE;
 		return;
 	}
 
 	public void exec (Memory mem)
-		throws NotImplementedException, ExecutionException {
+		throws NotImplementedException, ExecutionException, FinishedException {
 		// 1. Intruction Fetch
 		mem.REM.set(this.getAddress());
 		// 2. Decode
@@ -36,10 +37,11 @@ public class AddAX extends Instruction {
 		// 6. Second arg fetch in case of address
 
 		// 7. Execution
-		mem.AX.set( mem.AX.get() + mem.AX.get());
 
 		// 8. Write back
 		// 9. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
+
+		throw new FinishedException("HLT INSTRUCTION");
 	}
 }
