@@ -13,10 +13,9 @@ public class Equ extends Directive {
 
 	private int arg;
 	
-	public Equ (Address address, int value) { this(address, null, value); }
-	public Equ (Address address, String label, int value) {
+	public Equ (int value) { this(null, value); }
+	public Equ (String label, int value) {
 		this.size = Equ.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.arg = value;

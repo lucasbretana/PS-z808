@@ -12,13 +12,12 @@ public class Hlt extends Instruction {
 	public static final int OPCODE = 0XF4;
 	public static final int SIZE   = 1;
 	
-	public Hlt (Address address) {
-		this(address, null);
+	public Hlt () {
+		this(null);
 	}
 
-	public Hlt (Address address, String label) {
+	public Hlt (String label) {
 		this.size = Hlt.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.code = Hlt.OPCODE;

@@ -11,13 +11,12 @@ public class SubDX extends Instruction {
 	public static final int OPCODE = 0X2BC4;
 	public static final int SIZE   = 2;
 	
-	public SubDX (Address address) {
-		this(address, null);
+	public SubDX () {
+		this(null);
 	}
 
-	public SubDX (Address address, String label) {
+	public SubDX (String label) {
 		this.size = SubDX.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.code = SubDX.OPCODE;

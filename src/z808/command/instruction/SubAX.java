@@ -11,13 +11,12 @@ public class SubAX extends Instruction {
 	public static final int OPCODE = 0X2BC0;
 	public static final int SIZE   = 2;
 	
-	public SubAX (Address address) {
-		this(address, null);
+	public SubAX () {
+		this(null);
 	}
 
-	public SubAX (Address address, String label) {
+	public SubAX (String label) {
 		this.size = SubAX.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.code = SubAX.OPCODE;

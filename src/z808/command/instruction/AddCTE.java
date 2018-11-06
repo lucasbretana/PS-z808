@@ -13,21 +13,20 @@ public class AddCTE extends Instruction {
 
 	private Address arg ;
 
-	public AddCTE (Address address, Address value) {
-		this(address, null, value);
+	public AddCTE (Address value) {
+		this(null, value);
 	}
-	public AddCTE (Address address, int value)
+	public AddCTE (int value)
 		throws ExecutionException {
-		this(address, null, value);
+		this(null, value);
 	}
-	public AddCTE (Address address, String label, int value)
+	public AddCTE (String label, int value)
 		throws ExecutionException {
-		this(address, label, new Address(value));
+		this(label, new Address(value));
 	}
 
-	public AddCTE (Address address, String label, Address value) {
+	public AddCTE (String label, Address value) {
 		this.size = AddCTE.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.arg = value;

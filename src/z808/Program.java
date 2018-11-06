@@ -16,8 +16,8 @@ public class Program extends TreeMap<Address, Command> {
 		code = new TreeMap<Address, Command>();
 	}
 
-	public void put(Command cmd) throws ExecutionException {
-		Command v = super.putIfAbsent(cmd.getAddress(), cmd);
+	public void add(Address addr, Command cmd) throws ExecutionException {
+		Command v = super.putIfAbsent(addr, cmd);
 		if (v != null)
 			throw new ExecutionException("\nTrying set instruction to an occupied memory location.\n"
 																	 + "Memory location: " + cmd.getAddress()

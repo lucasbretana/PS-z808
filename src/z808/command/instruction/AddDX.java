@@ -11,13 +11,12 @@ public class AddDX extends Instruction {
 	public static final int OPCODE = 0X03C2;
 	public static final int SIZE   = 2;
 
-	public AddDX (Address address) {
-		this(address, null);
+	public AddDX () {
+		this(null);
 	}
 
-	public AddDX (Address address, String label) {
+	public AddDX (String label) {
 		this.size = AddDX.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.code = AddDX.OPCODE;

@@ -18,11 +18,11 @@ public class MainTest {
 		throws ExecutionException, NotImplementedException, FinishedException {
 
 		Program code = new Program();
-		code.put(new Equ (new Address(0), 5));       // EQU 5
-		code.put(new AddCTE (new Address(1), 0x0));  // add AX 0x0
-		code.put(new AddAX (new Address(4)));        // add Ax Ax
-		code.put(new AddAX (new Address(6)));        // add Ax Ax
-		code.put(new Hlt (new Address(8)));          // hlt
+		code.add(new Address(0x0), new Equ (5));          // EQU 5
+		code.add(new Address(0x4), new AddCTE (0x0));     // add AX 0x0
+		code.add(new Address(0x6), new AddAX ());         // add Ax Ax
+		code.add(new Address(0x8), new AddAX ());         // add Ax Ax
+		code.add(new Address(0xa), new Hlt ());           // hlt
 
 		System.out.println("-- Code --");
 		for (Map.Entry<Address, Command> entry : code.entrySet()) {
