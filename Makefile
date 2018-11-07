@@ -41,6 +41,7 @@ FILES =\
 	z808/Linker \
 	z808/Processor \
 	z808/ui/UIz808 \
+	z808/command/directive/GenericDirectiveTester \
 	z808/MainTest
 
 PACKAGES =\

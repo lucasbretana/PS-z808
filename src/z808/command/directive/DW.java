@@ -14,11 +14,13 @@ public class DW extends Directive {
 
 	/**
 	 * Important constructor
+	 * @param lbl the name of the variable, default is empty one
 	 * @param value the data to save
 	 * @param type its type, so it can be cast
 	 */
-	private DW(Object value, Class<?> type) {
+	private DW(String lbl, Object value, Class<?> type) {
 		this.size = 2; // WORDSIZE
+		this.label = new String(lbl);
 		if (value instanceof Dup)
 			this.size *= Dup.class.cast(value).getSize();
 		this.value = value;
@@ -27,32 +29,42 @@ public class DW extends Directive {
 	/**
 	 * Creates an empty memory space
 	 * Example in z808: DW ?
+	 * @param lbl the name of the variable, default is empty one
 	 */
-	public DW() { this(null, null); }
+	public DW(String lbl) { this(lbl, null, null); }
+	public DW() { this("", null, null); }
 	/**
 	 * Creaes a variable with an int
 	 * Example in z808: DW 13
+	 * @param lbl the name of the variable, default is empty one
 	 * @param value int value to save
 	 */
-	public DW(Integer value)  {this(value, value.getClass());}
+	public DW(String lbl, Integer value)  {this(lbl, value, value.getClass());}
+	public DW(Integer value)  {this("", value, value.getClass());}
 	/**
 	 * Creates a variable with an address
 	 * Example in z808: DW 0x0D
+	 * @param lbl the name of the variable, default is empty one
 	 * @param addr address value to save
 	 */
-	public DW(Address addr) {this(addr, addr.getClass());}
+	public DW(String lbl, Address addr) {this(lbl, addr, addr.getClass());}
+	public DW(Address addr) {this("", addr, addr.getClass());}
 	/**
 	 * Creates a variable with an char
 	 * Example in z808: DW 'd'
+	 * @param lbl the name of the variable, default is empty one
 	 * @param value char to save
 	 */
-	public DW(Character value) {this(value, value.getClass());}
+	public DW(String lbl, Character value) {this(lbl, value, value.getClass());}
+	public DW(Character value) {this("", value, value.getClass());}
 	/**
 	 * Creates a variable with a Dup directive
 	 * Example in z808: DW 13 DUP 0x0d
+	 * @param lbl the name of the variable, default is empty one
 	 * @param dup the directive to be executed
 	 */
-	public DW(Dup dup) {this(dup, dup.getClass());}
+	public DW(String lbl, Dup dup) {this(lbl, dup, dup.getClass());}
+	public DW(Dup dup) {this("", dup, dup.getClass());}
 
 	public void exec (Memory mem) throws NotImplementedException, ExecutionException {
 		throw new NotImplementedException("TODO");

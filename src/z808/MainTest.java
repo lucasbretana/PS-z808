@@ -35,5 +35,7 @@ public class MainTest {
 		System.out.println("Running code!");
 		p.process(code);
 		System.out.println(p);
+
+		z808.command.directive.GenericDirectiveTester.all();
 	}
 }
