@@ -16,8 +16,10 @@ public abstract class Instruction extends Command {
 	public String toString() {
 		String ret = "";
 		int code = this.code; // Local copy to possible shift
+		ret = String.format("%02X", code % 0x100);
+		code = code >> 8;
 		while (code > 0) {
-			ret = String.format("%02X", code % 0x100) + " " + ret;
+			ret = String.format("%02X ", code % 0x100) + ret;
 			code = code >> 8;
 		}
 		return ret;

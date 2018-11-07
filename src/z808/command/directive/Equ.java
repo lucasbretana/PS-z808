@@ -37,6 +37,6 @@ public class Equ extends Directive {
 	}
 
 	public String toString() {
-		return String.format("");
+		return String.format("%04X", this.arg);
 	}
 }

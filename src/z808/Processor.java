@@ -73,18 +73,18 @@ public class Processor {
 		return;
 	}
 
-	public String codeToSting() {
+	public String codeToString() {
 		return this.commands.toString();
 	}
 
-	public String memoryToSting() {
-		return this.memory.toString();
+	public String registersToString () {
+		return this.memory.registersToString();
 	}
 
 	public String toString () {
 		return "-- Code --\n"
-			+ this.codeToSting()
-			+ this.memoryToSting();
+			+ this.codeToString()
+			+ this.memory.toString();
 	}
 
 	private void sanityCheck(Memory mem)

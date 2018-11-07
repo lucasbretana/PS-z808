@@ -11,6 +11,7 @@ SRC = src
 DOC = doc
 
 FILES =\
+	util/TestFaliedException \
 	util/ExecutionException \
 	util/NotImplementedException \
 	util/SegmentationException \
