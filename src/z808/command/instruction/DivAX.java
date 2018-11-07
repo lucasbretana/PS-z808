@@ -1,7 +1,6 @@
 package z808.command.instruction;
 
 import z808.memory.Memory;
-import z808.memory.Address;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -17,7 +16,6 @@ public class DivAX extends Instruction {
 
 	public DivAX (String label) {
 		this.size = DivAX.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.code = DivAX.OPCODE;

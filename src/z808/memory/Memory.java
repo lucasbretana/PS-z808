@@ -33,6 +33,10 @@ public class Memory {
 		this.memory = new TreeMap<Address, Register>();
 	}
 
+	public void newMemoryEntry(Number address)
+		throws ExecutionException {this.newMemoryEntry(new Address(address.intValue()), new Register());}
+	public void newMemoryEntry(Number address, int value)
+		throws ExecutionException {this.newMemoryEntry(new Address(address.intValue()), new Register(value));}
 	public void newMemoryEntry(Address address) {this.newMemoryEntry(address, new Register());}
 	public void newMemoryEntry(Address address, int value) {this.newMemoryEntry(address, new Register(value));}
 	public void newMemoryEntry(Address address, Register value) {

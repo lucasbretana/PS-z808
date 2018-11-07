@@ -37,12 +37,13 @@ public class SubCTE extends Instruction {
 	public void exec (Memory mem)
 		throws NotImplementedException, ExecutionException {
 		// 1. Intruction Fetch
-		mem.REM.set(this.getAddress());
+		mem.REM.set(mem.CL);
 		// 2. Decode
 		mem.RBM.set(this.code % 0x100);
 		mem.RI.set(mem.RBM);
 		// 3. Arg fetch
 		mem.REM.set(this.arg);
+		System.out.println("Calling for read of: " + this.arg);
 		// 4. Value fetch in case of address
 		mem.RBM.set(mem.get(mem.REM));
 		// 5. Second arg fetch
