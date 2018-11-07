@@ -6,6 +6,7 @@ import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
 import util.ExecutionException;
+import util.TooLongValue;
 
 public class AddCTE extends Instruction {
 	public static final int OPCODE = 0X05;
@@ -13,19 +14,21 @@ public class AddCTE extends Instruction {
 
 	private Address arg ;
 
-	public AddCTE (Address value) {
+	public AddCTE (Address value) throws TooLongValue {
 		this(null, value);
 	}
 	public AddCTE (int value)
-		throws ExecutionException {
+		throws ExecutionException, TooLongValue {
 		this(null, value);
 	}
 	public AddCTE (String label, int value)
-		throws ExecutionException {
+		throws ExecutionException, TooLongValue {
 		this(label, new Address(value));
 	}
 
-	public AddCTE (String label, Address value) {
+	public AddCTE (String label, Address value) throws TooLongValue {
+		if (value.intValue() >= 0xFFFF)
+			throw new TooLongValue (value);
 		this.size = AddCTE.SIZE;
 		this.label = label;
 

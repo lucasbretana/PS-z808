@@ -1,7 +1,10 @@
 package z808.command.directive;
 
+import java.lang.Math;
+
 import util.ExecutionException;
 import util.NotImplementedException;
+import util.TooLongValue;
 
 import z808.command.Command;
 import z808.memory.Memory;
@@ -13,8 +16,10 @@ public class Equ extends Directive {
 
 	private int arg;
 	
-	public Equ (int value) { this(null, value); }
-	public Equ (String label, int value) {
+	public Equ (int value) throws TooLongValue { this(null, value); }
+	public Equ (String label, int value) throws TooLongValue {
+		if (Math.abs(value) >= 0xFFFF)
+			throw new TooLongValue (value);
 		this.size = Equ.SIZE;
 		this.label = label;
 
@@ -32,6 +37,6 @@ public class Equ extends Directive {
 	}
 
 	public String toString() {
-		return Integer.toString(this.arg);
+		return String.format("");
 	}
 }

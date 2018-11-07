@@ -1,7 +1,5 @@
 package z808;
 
-import java.util.Map;
-
 import util.ExecutionException;
 import util.NotImplementedException;
 import util.FinishedException;
@@ -25,15 +23,11 @@ public class MainTest {
 		code.add(new Address(0x8), new SubCTE (0x0));  // sub AX 0x0
 		code.add(new Address(0xb), new Hlt ());        // hlt
 
-		System.out.println("-- Code --");
-		for (Map.Entry<Address, Command> entry : code.entrySet()) {
-			System.out.println(entry.getKey() + " " + entry.getValue());
-		}
-
 		Processor p = new Processor ();
+		p.load(code);
 		System.out.println(p);
 		System.out.println("Running code!");
-		p.process(code);
+		p.process();
 		System.out.println(p);
 	}
 }
