@@ -13,6 +13,7 @@ public class AddCTE extends Instruction {
 	public static final int SIZE   = 3;
 
 	private Address arg ;
+	private boolean defined = false;
 
 	public AddCTE (Address value) throws TooLongValue {
 		this(null, value);
@@ -57,6 +58,11 @@ public class AddCTE extends Instruction {
 		// 8. Write back
 		// 9. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
+	}
+
+	@Override
+	public boolean isDefined() {
+		return this.defined;
 	}
 
 	@Override
