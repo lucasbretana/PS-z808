@@ -40,6 +40,7 @@ FILES =\
 	z808/Assembler \
 	z808/Linker \
 	z808/Processor \
+	z808/ui/BeautyFactory \
 	z808/ui/UIz808 \
 	z808/MainTest
 
