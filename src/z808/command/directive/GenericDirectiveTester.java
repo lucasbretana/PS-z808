@@ -16,7 +16,7 @@ public class GenericDirectiveTester {
 		testDW();
 	}
 	
-	static public void testDW() {
+	static public void testDW() throws ExecutionException {
 		Directive d = null;
 		System.err.println(" -- Testing DW directive --");
 		d = new DW();
@@ -35,7 +35,7 @@ public class GenericDirectiveTester {
 		System.gc();
 	}
 
-	static public testDup() {
+	static public void testDup() throws ExecutionException {
 		Directive d = null;
 		d = new Dup(10);
 		System.out.println(d.toString());

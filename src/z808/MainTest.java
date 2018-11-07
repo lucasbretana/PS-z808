@@ -23,6 +23,12 @@ public class MainTest {
 		  System.err.println("Failed Processor Tests:" + e);
 		}
 		// Implement try to other tests here.
+		try {
+		  z808.command.directive.GenericDirectiveTester.all();
+		  z808.Assembler.fakeModule();
+		} catch (ExecutionException ex) {
+		  ex.printStackTrace();
+		}
 	}
 
 	private static void ProcessorTests()
@@ -59,6 +65,7 @@ public class MainTest {
 		if (expected.compareTo(p.registersToString()) != 0)
 			throw new TestFaliedException(-2, p.registersToString());
 		return;
+>>>>>>> Stashed changes
 	}
 
 }
