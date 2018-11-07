@@ -1,7 +1,6 @@
 package z808;
 
-import java.util.Map;
-
+import util.TestFaliedException;
 import util.ExecutionException;
 import util.NotImplementedException;
 import util.FinishedException;
@@ -16,6 +15,26 @@ import z808.command.instruction.*;
 public class MainTest {
 	public static void main(String...args)
 		throws ExecutionException, NotImplementedException, FinishedException {
+	  System.out.println("-- Running Processor Tests --");
+		try {
+			MainTest.ProcessorTests();
+			System.out.println("Processor is Ok!");
+		} catch (TestFaliedException e) {
+		  System.err.println("Failed Processor Tests:" + e);
+		}
+		// Implement try to other tests here.
+	}
+
+	private static void ProcessorTests()
+		throws ExecutionException, NotImplementedException,
+					 FinishedException, TestFaliedException {
+		String expected
+			= "0000 0005\n"
+			+ "0001 05 0000\n"
+			+ "0004 03 C0\n"
+			+ "0006 03 C0\n"
+			+ "0008 2B 0000\n"
+			+ "000B F4\n";
 
 		Program code = new Program();
 		code.add(new Address(0x0), new Equ (5));       // EQU 5
@@ -25,17 +44,22 @@ public class MainTest {
 		code.add(new Address(0x8), new SubCTE (0x0));  // sub AX 0x0
 		code.add(new Address(0xb), new Hlt ());        // hlt
 
-		System.out.println("-- Code --");
-		for (Map.Entry<Address, Command> entry : code.entrySet()) {
-			System.out.println(entry.getKey() + " " + entry.getValue());
-		}
-
-		Processor p = new Processor ();
-		System.out.println(p);
-		System.out.println("Running code!");
-		p.process(code);
-		System.out.println(p);
-
-		z808.command.directive.GenericDirectiveTester.all();
+		Processor p = new Processor();
+		p.load(code);
+		if (expected.compareTo(p.codeToString()) != 0)
+			throw new TestFaliedException(-1, p.codeToString());
+		expected
+			= "CL:0C\n"
+			+ "RI:F4\n"
+			+ "REM:0B\n"
+			+ "RBM:F4\n"
+			+ "AX:0F\n"
+			+ "DX:00\n";
+		p.process();
+		if (expected.compareTo(p.registersToString()) != 0)
+			throw new TestFaliedException(-2, p.registersToString());
+		return;
 	}
+
 }
+

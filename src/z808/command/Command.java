@@ -19,5 +19,10 @@ public abstract class Command {
 	public String getLabel() {
 		return this.label;
 	}
+
+	// to be overrite command that access the memory (like AddCTE)
+	public boolean isDefined() {
+		return true;
+	}
 }
 

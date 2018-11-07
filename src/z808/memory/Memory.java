@@ -9,6 +9,10 @@ import util.ExecutionException;
 import z808.memory.Address;
 import z808.memory.Register;
 
+/**
+ * This class represents the internal memory of the z808 processor, registers and main memory.
+ * @author Jonathas-Conceicao
+ */
 public class Memory {
 	/* Register Bank */
 	public Register CL;  // Program Counter
@@ -19,9 +23,13 @@ public class Memory {
 	public Register AX;
 	public Register DX;
 
-	private TreeMap<Address, Register> memory;
-	
-	public Memory() {
+	private TreeMap<Address, Register> mainMemory;
+
+	/**
+	 * Builds the memory with a specific memory size.
+	 * @param memorySizeInK memory size in Kilo Bytes.
+	 */
+	public Memory(int memorySizeInK) {
 		this.CL  = new Register(0);
 		this.RI  = new Register(0);
 		this.REM = new Register();
@@ -30,7 +38,7 @@ public class Memory {
 		this.AX  = new Register(0);
 		this.DX  = new Register(0);
 
-		this.memory = new TreeMap<Address, Register>();
+		this.mainMemory = new TreeMap<Address, Register>();
 	}
 
 	public void newMemoryEntry(Number address)
@@ -40,11 +48,11 @@ public class Memory {
 	public void newMemoryEntry(Address address) {this.newMemoryEntry(address, new Register());}
 	public void newMemoryEntry(Address address, int value) {this.newMemoryEntry(address, new Register(value));}
 	public void newMemoryEntry(Address address, Register value) {
-		this.memory.put(address, value);
+		this.mainMemory.put(address, value);
 	}
 
 	public int get(Number address) throws ExecutionException {
-		Register v = this.memory.get(address);
+		Register v = this.mainMemory.get(address);
 		if (v == null)
 			throw new ExecutionException ("Segmentation Fault!\n"
 																		+ "Memory access outside of data segmentation: "
@@ -69,16 +77,15 @@ public class Memory {
 
 	public String memoryToString() {
 		String ret = "";
-		for (Map.Entry<Address, Register> entry : this.memory.entrySet()) {
-			ret += String.format("%04X %s\n"
-													 , entry.getKey().intValue()
-													 , entry.getValue());
+		for (Map.Entry<Address, Register> entry : this.mainMemory.entrySet()) {
+			ret += entry.getKey() + " " + entry.getValue() + "\n";
 		}
 		return ret;
 	}
 
 	public String toString () {
-		return "-- Registers --\n" + this.registersToString() +
+		return
+			"-- Registers --\n" + this.registersToString() +
 			"-- Memory --\n" + this.memoryToString();
 	}
 }

@@ -1,11 +1,14 @@
 package z808.command.instruction;
 
+import java.lang.Math;
+
 import z808.memory.Memory;
 import z808.memory.Address;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
 import util.ExecutionException;
+import util.TooLongValue;
 
 public class SubCTE extends Instruction {
 	public static final int OPCODE = 0X2B;
@@ -13,19 +16,21 @@ public class SubCTE extends Instruction {
 
 	private Address arg;
 
-	public SubCTE (Address value) {
+	public SubCTE (Address value) throws TooLongValue {
 		this(null, value);
 	}
 	public SubCTE (int value)
-		throws ExecutionException {
+		throws ExecutionException, TooLongValue {
 		this(null, new Address(value));
 	}
 	public SubCTE (String label, int value)
-		throws ExecutionException {
+		throws ExecutionException, TooLongValue {
 		this(label, new Address(value));
 	}
 
-	public SubCTE (String label, Address value) {
+	public SubCTE (String label, Address value) throws TooLongValue {
+		if (value.intValue() >= 0xFFFF)
+			throw new TooLongValue (value);
 		this.size = SubCTE.SIZE;
 		this.label = label;
 
@@ -43,7 +48,6 @@ public class SubCTE extends Instruction {
 		mem.RI.set(mem.RBM);
 		// 3. Arg fetch
 		mem.REM.set(this.arg);
-		System.out.println("Calling for read of: " + this.arg);
 		// 4. Value fetch in case of address
 		mem.RBM.set(mem.get(mem.REM));
 		// 5. Second arg fetch
