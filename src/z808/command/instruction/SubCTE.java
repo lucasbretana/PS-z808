@@ -1,11 +1,14 @@
 package z808.command.instruction;
 
+import java.lang.Math;
+
 import z808.memory.Memory;
 import z808.memory.Address;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
 import util.ExecutionException;
+import util.TooLongValue;
 
 public class SubCTE extends Instruction {
 	public static final int OPCODE = 0X2B;
@@ -13,21 +16,22 @@ public class SubCTE extends Instruction {
 
 	private Address arg;
 
-	public SubCTE (Address address, Address value) {
-		this(address, null, value);
+	public SubCTE (Address value) throws TooLongValue {
+		this(null, value);
 	}
-	public SubCTE (Address address, int value)
-		throws ExecutionException {
-		this(address, null, new Address(value));
+	public SubCTE (int value)
+		throws ExecutionException, TooLongValue {
+		this(null, new Address(value));
 	}
-	public SubCTE (Address address, String label, int value)
-		throws ExecutionException {
-		this(address, label, new Address(value));
+	public SubCTE (String label, int value)
+		throws ExecutionException, TooLongValue {
+		this(label, new Address(value));
 	}
 
-	public SubCTE (Address address, String label, Address value) {
+	public SubCTE (String label, Address value) throws TooLongValue {
+		if (value.intValue() >= 0xFFFF)
+			throw new TooLongValue (value);
 		this.size = SubCTE.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.arg = value;
@@ -38,7 +42,7 @@ public class SubCTE extends Instruction {
 	public void exec (Memory mem)
 		throws NotImplementedException, ExecutionException {
 		// 1. Intruction Fetch
-		mem.REM.set(this.getAddress());
+		mem.REM.set(mem.CL);
 		// 2. Decode
 		mem.RBM.set(this.code % 0x100);
 		mem.RI.set(mem.RBM);

@@ -11,8 +11,11 @@ SRC = src
 DOC = doc
 
 FILES =\
+	util/TestFaliedException \
 	util/ExecutionException \
 	util/NotImplementedException \
+	util/SegmentationException \
+	util/TooLongValue \
 	util/FinishedException \
 	z808/memory/Address \
 	z808/memory/Register \
@@ -40,9 +43,9 @@ FILES =\
 	z808/Assembler \
 	z808/Linker \
 	z808/Processor \
+	z808/MainTest \
 	z808/ui/BeautyFactory \
-	z808/ui/UIz808 \
-	z808/MainTest
+	z808/ui/UIz808
 
 PACKAGES =\
 	util \
@@ -73,12 +76,12 @@ buildAll:
 	$(JC) $(JFLAGS) -cp $(BIN) $(JVS) -d $(BIN)
 
 bin/%.pkt: src/%
-	@echo "Building for $@ with $^"
+#	@echo "Building for $@ with $^"
 	$(JC) $(JFLAGS) -cp $(BIN) $^/*.java -d $(BIN)
 	@touch $@
 
 bin/%.class: src/%.java
-	@echo "Building for $@ with $<"
+#	@echo "Building for $@ with $<"
 	$(JC) $(JFLAGS) -cp $(BIN) $< -d $(BIN)
 
 clean:

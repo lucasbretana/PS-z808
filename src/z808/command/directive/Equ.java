@@ -1,7 +1,10 @@
 package z808.command.directive;
 
+import java.lang.Math;
+
 import util.ExecutionException;
 import util.NotImplementedException;
+import util.TooLongValue;
 
 import z808.command.Command;
 import z808.memory.Memory;
@@ -13,10 +16,11 @@ public class Equ extends Directive {
 
 	private int arg;
 	
-	public Equ (Address address, int value) { this(address, null, value); }
-	public Equ (Address address, String label, int value) {
+	public Equ (int value) throws TooLongValue { this(null, value); }
+	public Equ (String label, int value) throws TooLongValue {
+		if (Math.abs(value) >= 0xFFFF)
+			throw new TooLongValue (value);
 		this.size = Equ.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.arg = value;
@@ -26,13 +30,13 @@ public class Equ extends Directive {
 	public void exec (Memory mem)
 		throws ExecutionException {
 		// 1. Create Memory entry
-		mem.newMemoryEntry(this.address, this.arg);
+		mem.newMemoryEntry(mem.CL, this.arg);
 
 		// 2. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
 	}
 
 	public String toString() {
-		return Integer.toString(this.arg);
+		return String.format("%04X", this.arg);
 	}
 }

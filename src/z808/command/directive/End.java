@@ -3,7 +3,6 @@ package z808.command.directive;
 import util.ExecutionException;
 import util.NotImplementedException;
 import z808.command.directive.Directive;
-import z808.memory.Address;
 import z808.memory.Memory;
 
 public class End extends Directive {
@@ -13,21 +12,18 @@ public class End extends Directive {
 
 	/**
 	 * Creates an End directive without label
-	 * @param a the addres of this directive
 	 * @param entry_point the name of the module
 	 */
-	public End(Address a, String entry_point) {
-		this(null, a, entry_point);
+	public End(String entry_point) {
+		this(null, entry_point);
 	}
 	/**
 	 * Creates an End directive without label
 	 * @param lbl the label of the command
-	 * @param a the addres of this directive
 	 * @param entry_point the name of the module
 	 */
-	public End(String lbl, Address a, String entry_point) {
+	public End(String lbl, String entry_point) {
 		this.label = lbl;
-		this.address = a;
 		this.size = 0;
 
 		this.entry_point = entry_point;

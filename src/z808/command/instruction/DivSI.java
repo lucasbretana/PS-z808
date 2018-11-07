@@ -1,7 +1,6 @@
 package z808.command.instruction;
 
 import z808.memory.Memory;
-import z808.memory.Address;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -11,13 +10,12 @@ public class DivSI extends Instruction {
 	public static final int OPCODE = 0XF7F6;
 	public static final int SIZE   = 2;
 
-	public DivSI (Address address) {
-		this(address, null);
+	public DivSI () {
+		this(null);
 	}
 
-	public DivSI (Address address, String label) {
+	public DivSI (String label) {
 		this.size = DivSI.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.code = DivSI.OPCODE;

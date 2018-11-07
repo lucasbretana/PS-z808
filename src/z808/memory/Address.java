@@ -25,6 +25,6 @@ public class Address extends Number implements Comparable<Number> {
 
 	@Override
 	public String toString() {
-		return "0x" + Integer.toHexString(this.value);
+		return String.format("%04X", this.value);
 	}
 }

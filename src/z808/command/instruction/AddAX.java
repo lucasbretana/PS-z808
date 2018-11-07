@@ -1,7 +1,6 @@
 package z808.command.instruction;
 
 import z808.memory.Memory;
-import z808.memory.Address;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -11,13 +10,12 @@ public class AddAX extends Instruction {
 	public static final int OPCODE = 0X03C0;
 	public static final int SIZE   = 2;
 	
-	public AddAX (Address address) {
-		this(address, null);
+	public AddAX () {
+		this(null);
 	}
 
-	public AddAX (Address address, String label) {
+	public AddAX (String label) {
 		this.size = AddAX.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.code = AddAX.OPCODE;
@@ -27,7 +25,7 @@ public class AddAX extends Instruction {
 	public void exec (Memory mem)
 		throws NotImplementedException, ExecutionException {
 		// 1. Intruction Fetch
-		mem.REM.set(this.getAddress());
+		mem.REM.set(mem.CL);
 		// 2. Decode
 		mem.RBM.set(this.code % 0x100);
 		mem.RI.set(mem.RBM);

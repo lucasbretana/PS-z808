@@ -1,7 +1,6 @@
 package z808.command.instruction;
 
 import z808.memory.Memory;
-import z808.memory.Address;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -12,13 +11,12 @@ public class Hlt extends Instruction {
 	public static final int OPCODE = 0XF4;
 	public static final int SIZE   = 1;
 	
-	public Hlt (Address address) {
-		this(address, null);
+	public Hlt () {
+		this(null);
 	}
 
-	public Hlt (Address address, String label) {
+	public Hlt (String label) {
 		this.size = Hlt.SIZE;
-		this.address = address;
 		this.label = label;
 
 		this.code = Hlt.OPCODE;
@@ -28,7 +26,7 @@ public class Hlt extends Instruction {
 	public void exec (Memory mem)
 		throws NotImplementedException, ExecutionException, FinishedException {
 		// 1. Intruction Fetch
-		mem.REM.set(this.getAddress());
+		mem.REM.set(mem.CL);
 		// 2. Decode
 		mem.RBM.set(this.code % 0x100);
 		mem.RI.set(mem.RBM);

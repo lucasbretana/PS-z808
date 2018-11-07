@@ -13,7 +13,6 @@ public class Segment extends Directive {
 	 */
 	public Segment(String name) {
 		this.label = new String(name);
-		this.address = null;
 		this.size = 0;
 	}
 
