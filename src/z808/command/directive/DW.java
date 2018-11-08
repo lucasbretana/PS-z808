@@ -31,8 +31,8 @@ public class DW extends Directive {
 	 * Example in z808: DW ?
 	 * @param lbl the name of the variable, default is empty one
 	 */
-	public DW(String lbl) { this(lbl, '?', Character.class); }
-	public DW() { this("", '?', Character.class); }
+	public DW(String lbl) { this(lbl, null, null); }
+	public DW() { this("", null, null); }
 	/**
 	 * Creaes a variable with an int
 	 * Example in z808: DW 13
@@ -72,7 +72,7 @@ public class DW extends Directive {
 
 	@Override
 	public String toString() {
-		return this.value.toString();
+		return this.value != null ? this.value.toString() : "XXXX";
 	}
 
 	/**

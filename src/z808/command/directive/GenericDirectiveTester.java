@@ -13,7 +13,9 @@ import z808.command.instruction.*;
 
 public class GenericDirectiveTester {
 	static public void all() throws ExecutionException {
+		System.out.println("## -- begin directives tests -- ##");
 		testDW();
+		System.out.println("## -- end directives tests -- ##");
 	}
 	
 	static public void testDW() throws ExecutionException {
