@@ -12,6 +12,7 @@ import util.NotImplementedException;
 
 public class Module {
 	private String m_name = null;
+	private int m_size = 0;
 	protected Program m_code = null;
 
 	// go through this and create a big global symbol table
@@ -30,6 +31,7 @@ public class Module {
 		this.m_code = new Program();
 		this.global_symbol_table = new ArrayList<Triple<String, Number, Boolean>>();
 		this.local_symbol_table = new ArrayList<Triple<String, Number, Boolean>>();
+		this.use_table = new ArrayList<Tuple<Command,Address>>();
 	}
 
 	// TODO @Bretana those "add symbols functions to some table" (except use table) should verify for symbols redefinition
@@ -73,7 +75,9 @@ public class Module {
 	 * @param cmd the command that uses the Symbol
 	 * @param addr the address of that command
 	 */
-	public void addUseSymbol(Command cmd, Address addr) throws NotImplementedException {
+	public void addUseSymbol(Command cmd, Address addr) {
+		Tuple <Command,Address>t = new Tuple<Command,Address>(cmd, addr);
+		this.use_table.add(t);
 	}
 
 	public Address findInUseByName(String name) {
@@ -91,6 +95,35 @@ public class Module {
 				return t;
 		}
 		return null;
+	}
+
+	public int getSize() { return this.m_size; }
+	public void incSize(int plus) throws ExecutionException {
+		if (plus < 0)
+			throw new ExecutionException("Cannot decrease module size");
+		this.m_size += plus;
+	}
+
+	@Override
+	public String toString() {
+		String ret = "-- begin module --\n";
+		ret += "Name: " + ((this.m_name == null) ? "undef." : this.m_name) + "\n";
+		ret += "Seg. size " + this.m_size+ "B\n";
+
+		ret += "## global table\n";
+		for (Triple<String,Number,Boolean> t3 : this.global_symbol_table)
+			ret += t3.a + " at 0x" + t3.b + ((t3.c) ? " a" : " r") + "\n"; 
+
+		ret += "## local table\n";
+		for (Triple<String,Number,Boolean> t3 : this.local_symbol_table)
+			ret += t3.a + " at 0x" + t3.b + ((t3.c) ? " a" : " r") + "\n"; 
+
+		ret += "## use table\n";
+		for (Tuple<Command,Address> t2 : this.use_table)
+			ret += "0x" + t2.b + " cmd " + t2.a + " is extern\n";
+
+		ret += "-- end module --";
+		return ret;
 	}
 }
 

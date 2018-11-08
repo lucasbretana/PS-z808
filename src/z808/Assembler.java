@@ -21,9 +21,6 @@ public class Assembler {
 	 * @return a new module
 	 */
 	public static Module assembleCode(List<Command> code) throws ExecutionException {
-		Address PC = new Address(0x0);
-		Integer IC = 0;
-
 		Module mod = new Module();
 
 		List<?> extern_names = new ArrayList<String>();
@@ -63,6 +60,7 @@ public class Assembler {
 				// 4. only commands that ocupies some memory go to the program
 				if ( cmd.getSize() != 0 )
 					mod.m_code.add(curAddr, cmd);
+				mod.incSize(cmd.getSize());
 			} catch (InvalidOperationException invO) {
 				throw new ExecutionException(invO.getMessage() + "\n" + "Probably an invalid Org directive", invO);
 			}
@@ -107,6 +105,7 @@ public class Assembler {
 	}
 
 	public static void fakeModule() throws ExecutionException {
-		System.out.println(Assembler.assembleCode(Arrays.asList(new DW("one", 1), new DW("max"), new AddCTE("Sum", 1))).toString());
+		System.out.println(Assembler.assembleCode(Arrays.asList(new DW("one", 1), new DW("max"), new AddCTE("Sum", 1), new End("module1"))).toString());
 	}
+
 }
