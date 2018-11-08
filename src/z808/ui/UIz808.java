@@ -38,8 +38,8 @@ public class UIz808 extends Application {
 		this.toolBar = new Button("toolBar");
 		this.srcCode = BeautyFactory.CodeArea("srcCode");
 		this.innCode = BeautyFactory.ReadArea("innCode");
-		this.mainMem = BeautyFactory.CodeArea("mainMem");
-		this.regBank = BeautyFactory.CodeArea("regBank");
+		this.mainMem = BeautyFactory.MemoryArea(10);
+		this.regBank = BeautyFactory.MemoryArea(10);
 		this.outArea = BeautyFactory.OutputArea("outArea");
 
 		this.mainPane.add(toolBar, 0, 0, 3, 1);
