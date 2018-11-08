@@ -40,10 +40,11 @@ FILES =\
 	z808/command/instruction/Hlt \
 	z808/Program \
 	z808/MacroProcessor \
-	z808/Assembler \
 	z808/Module \
+	z808/Assembler \
 	z808/Linker \
 	z808/Processor \
+	z808/command/directive/GenericDirectiveTester \
 	z808/MainTest \
 	z808/ui/UIz808
 
