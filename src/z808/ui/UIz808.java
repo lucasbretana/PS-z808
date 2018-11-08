@@ -22,6 +22,7 @@ public class UIz808 extends Application {
 	private Region srcCode;
 	private Region innCode;
 	private Region regBank;
+	private Region mainMem;
 	private Region outArea;
 
 	public static void main(String...args) throws NotImplementedException {
@@ -36,15 +37,17 @@ public class UIz808 extends Application {
 
 		this.toolBar = new Button("toolBar");
 		this.srcCode = BeautyFactory.CodeArea("srcCode");
-		this.innCode = BeautyFactory.CodeArea("innCode");
+		this.innCode = BeautyFactory.ReadArea("innCode");
+		this.mainMem = BeautyFactory.CodeArea("mainMem");
 		this.regBank = BeautyFactory.CodeArea("regBank");
 		this.outArea = BeautyFactory.OutputArea("outArea");
 
-		this.mainPane.add(toolBar, 0, 0, 1, 1);
-		this.mainPane.add(srcCode, 0, 1, 1, 1);
-		this.mainPane.add(innCode, 1, 1, 1, 1);
+		this.mainPane.add(toolBar, 0, 0, 3, 1);
+		this.mainPane.add(srcCode, 0, 1, 1, 2);
+		this.mainPane.add(innCode, 1, 1, 1, 2);
 		this.mainPane.add(regBank, 2, 1, 1, 1);
-		this.mainPane.add(outArea, 0, 2, 1, 1);
+		this.mainPane.add(mainMem, 2, 2, 1, 2);
+		this.mainPane.add(outArea, 0, 3, 2, 1);
 		
 		this.mainScene = new Scene(this.mainPane, 1024, 768);
 		stage.setScene(mainScene);
