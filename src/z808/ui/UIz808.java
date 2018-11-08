@@ -38,18 +38,18 @@ public class UIz808 extends Application {
 		this.toolBar = new Button("toolBar");
 		this.srcCode = BeautyFactory.CodeArea("srcCode");
 		this.innCode = BeautyFactory.ReadArea("innCode");
-		this.mainMem = BeautyFactory.MemoryArea(10);
-		this.regBank = BeautyFactory.MemoryArea(10);
+		this.mainMem = BeautyFactory.MemoryArea(36);
+		this.regBank = BeautyFactory.MemoryArea(36);
 		this.outArea = BeautyFactory.OutputArea("outArea");
 
 		this.mainPane.add(toolBar, 0, 0, 3, 1);
-		this.mainPane.add(srcCode, 0, 1, 1, 2);
-		this.mainPane.add(innCode, 1, 1, 1, 2);
+		this.mainPane.add(innCode, 0, 1, 1, 2);
+		this.mainPane.add(srcCode, 1, 1, 1, 2);
 		this.mainPane.add(regBank, 2, 1, 1, 1);
 		this.mainPane.add(mainMem, 2, 2, 1, 2);
 		this.mainPane.add(outArea, 0, 3, 2, 1);
 		
-		this.mainScene = new Scene(this.mainPane, 1024, 768);
+		this.mainScene = new Scene(this.mainPane, BeautyFactory.SCREEN_WIDTH, BeautyFactory.SCREEN_HEIGHT);
 		stage.setScene(mainScene);
 		stage.show();
 	}
