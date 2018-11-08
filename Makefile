@@ -13,6 +13,7 @@ DOC = doc
 FILES =\
 	util/TestFaliedException \
 	util/ExecutionException \
+	util/InvalidOperationException \
 	util/NotImplementedException \
 	util/SegmentationException \
 	util/TooLongValue \

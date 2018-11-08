@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import util.ExecutionException;
+import util.InvalidOperationException;
 import util.SegmentationException;
 
 import z808.memory.Address;
@@ -18,14 +19,14 @@ public class Program extends TreeMap<Address, Command> {
 
 	/**
 	 * Adds a  new command the current program;
-	 * @parameter addr Address of where the command should be loaded;
-	 * @parameter cmd  The command to be inserted;
-	 * @exception ExecutionException thrown if the addr already contains any command.
+	 * @param addr Address of where the command should be loaded;
+	 * @param cmd  The command to be inserted;
+	 * @throws InvalidOperationException thrown if the addr already contains any command.
 	 */
-	public void add(Address addr, Command cmd) throws ExecutionException {
+	public void add(Address addr, Command cmd) throws InvalidOperationException {
 		Command v = super.putIfAbsent(addr, cmd);
 		if (v != null)
-			throw new ExecutionException("\nTrying set instruction to an occupied memory location.\n"
+			throw new InvalidOperationException("\nTrying set instruction to an occupied memory location.\n"
 																	 + "Memory location: " + addr
 																	 + "Current instruction: " + v
 																	 + "Trying to insert: " + cmd);
