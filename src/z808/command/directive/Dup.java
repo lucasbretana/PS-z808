@@ -31,7 +31,7 @@ public class Dup extends Directive {
 	 * Example in z808: DW 13 Dup ?
 	 * @param count how many spaces to save
 	 */
-	public Dup(int count) { this(count, null, null); }
+	public Dup(int count) { this(count, '?', Character.class); }
 	/**
 	 * Creaes a variable with an int
 	 * Example in z808: DW 13 Dup 13
@@ -61,6 +61,10 @@ public class Dup extends Directive {
 
 	@Override
 	public String toString() {
+		return this.value.toString();
+	}
+
+	public String toCode() {
 		String ret = this.count + " " + Dup.MNEMONIC + " ";
 		if (this.value == null)
 			ret += "313"; //empty memory, "random" values
