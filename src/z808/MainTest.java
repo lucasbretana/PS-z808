@@ -13,7 +13,7 @@ import z808.command.directive.*;
 import z808.command.instruction.*;
 
 public class MainTest {
-	public static void main(String...args)
+	public static void main(final String...args)
 		throws ExecutionException, NotImplementedException, FinishedException {
 	  System.out.println("-- Running Processor Tests --");
 		try {
@@ -32,6 +32,8 @@ public class MainTest {
 		}
 
 		// Implement try to other tests here.
+		
+		Linker.LinkerTests();
 	}
 
 	private static void ProcessorTests()
