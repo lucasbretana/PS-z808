@@ -3,12 +3,8 @@ package z808.ui;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-
 import javafx.scene.layout.GridPane;
-
 import javafx.scene.layout.Region;
-
-import javafx.scene.control.Button;
 
 import util.NotImplementedException;
 
@@ -25,7 +21,7 @@ public class UIz808 extends Application {
 	private Region mainMem;
 	private Region outArea;
 
-	public static void main(String...args) throws NotImplementedException {
+	public static void main(String...args) {
 		UIz808.launch(args);
 	}
 
@@ -35,12 +31,17 @@ public class UIz808 extends Application {
 
 		this.mainPane = new GridPane();
 
-		this.toolBar = new Button("toolBar");
-		this.srcCode = BeautyFactory.CodeArea("srcCode");
-		this.innCode = BeautyFactory.ReadArea("innCode");
+		this.toolBar = BeautyFactory.ToolBar();
+		this.srcCode = BeautyFactory.CodeArea("* Código fonte\n"
+																					+ "* Com labels, diretivas\n"
+																					+ "* Da forma que entra para o processador de macros");
+		this.innCode = BeautyFactory.ReadArea("* Código processado atual\n"
+																					+ "* Marcos expandidos\n"
+																					+ "* Endereço trocads ou indefinidos\n"
+																					+ "* Depende do que já foi executado sobre o código");
 		this.mainMem = BeautyFactory.MemoryArea(36);
-		this.regBank = BeautyFactory.MemoryArea(36);
-		this.outArea = BeautyFactory.OutputArea("outArea");
+		this.regBank = BeautyFactory.RegistersArea();
+		this.outArea = BeautyFactory.OutputArea("Saída");
 
 		this.mainPane.add(toolBar, 0, 0, 3, 1);
 		this.mainPane.add(innCode, 0, 1, 1, 2);
