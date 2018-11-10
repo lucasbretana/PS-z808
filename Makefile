@@ -45,6 +45,12 @@ FILES =\
 	z808/Processor \
 	z808/MainTest \
 	z808/ui/BeautyFactory \
+	z808/ui/ToolBar \
+	z808/ui/CodeArea \
+	z808/ui/ProcessedCodeArea \
+	z808/ui/RegistersArea \
+	z808/ui/MemoryArea \
+	z808/ui/OutputArea \
 	z808/ui/UIz808
 
 PACKAGES =\
