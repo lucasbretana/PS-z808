@@ -2,6 +2,7 @@ package z808.memory;
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.ArrayList;
 
 import util.NotImplementedException;
 import util.ExecutionException;
@@ -73,6 +74,21 @@ public class Memory {
 			"AX:"  + AX  + "\n" +
 			"DX:"  + DX  + "\n";
 		return ret;
+	}
+
+	/**
+	 * Gets a list of registers values to be displayed.
+	 * @returns a list of registers values as Strings
+	 */
+	public ArrayList<String> getRegisters () {
+		ArrayList<String> l = new ArrayList<String>(6); // Number of registers to avoid dinamic alocation
+		l.add(CL.toString());
+		l.add(RI.toString());
+		l.add(REM.toString());
+		l.add(RBM.toString());
+		l.add(AX.toString());
+		l.add(DX.toString());
+		return l;
 	}
 
 	public String memoryToString() {
