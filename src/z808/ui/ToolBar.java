@@ -29,4 +29,7 @@ public class ToolBar extends HBox {
 		getChildren().add(step);
 		getChildren().add(run);
 	}
+
+	public void updateScreen () {
+	}
 }

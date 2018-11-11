@@ -5,12 +5,15 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.control.Label;
 import javafx.geometry.NodeOrientation;
 import z808.ui.BeautyFactory;
+import z808.memory.Address;
+import z808.Processor;
 
 public class MemoryArea extends ScrollPane {
 	public static final double NODE_WIDTH = 62;
 	public static final double NODE_HIGHT = 24;
 
 	private TilePane mem;
+	private Processor machine;
 
 	public MemoryArea (int size) {
 		super();
@@ -28,9 +31,14 @@ public class MemoryArea extends ScrollPane {
 		this.addInfoLabel("+1");
 		for (int i = 0; i < size/2; ++i) {
 			this.addInfoLabel(String.format("%04X", i*2));
-			this.addRegister("313", i%2 == 0);
-			this.addRegister("313", i%2 != 0);
+			this.addRegister("XX", i%2 == 0);
+			this.addRegister("XX", i%2 != 0);
 		}
+	}
+
+	public void setProcessor(Processor p) { this.machine = p; }
+
+	public void updateScreen () {
 	}
 
 	private void addInfoLabel(String v) {

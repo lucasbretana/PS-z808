@@ -6,12 +6,15 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.control.Label;
 import javafx.geometry.NodeOrientation;
 import z808.ui.BeautyFactory;
+import z808.memory.Address;
+import z808.Processor;
 
 public class RegistersArea extends ScrollPane {
 	public static final double NODE_WIDTH = 93;
 	public static final double NODE_HIGHT = 24;
 
 	private TilePane regBox;
+	private Processor machine;
 
 	public RegistersArea () {
 		super();
@@ -29,22 +32,27 @@ public class RegistersArea extends ScrollPane {
 		this.addInfoLabel("Value");
 
 		this.addInfoLabel("CL");
-		this.addRegister("0", b);
+		this.addRegister("XX", b);
 		
 		this.addInfoLabel("RI");
-		this.addRegister("0", b=!b);
+		this.addRegister("XX", b=!b);
 		
 		this.addInfoLabel("REM");
-		this.addRegister("0", b=!b);
+		this.addRegister("XX", b=!b);
 		
 		this.addInfoLabel("RBM");
-		this.addRegister("0", b=!b);
+		this.addRegister("XX", b=!b);
 		
 		this.addInfoLabel("AX");
-		this.addRegister("0", b=!b);
+		this.addRegister("XX", b=!b);
 		
 		this.addInfoLabel("DX");
-		this.addRegister("0", b=!b);
+		this.addRegister("XX", b=!b);
+	}
+
+	public void setProcessor(Processor p) { this.machine = p; }
+
+	public void updateScreen () {
 	}
 
 	private void addInfoLabel(String v) {
