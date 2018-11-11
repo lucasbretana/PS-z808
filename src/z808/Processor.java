@@ -1,15 +1,15 @@
 package z808;
 
+import java.util.List;
+
 import util.ExecutionException;
 import util.NotImplementedException;
 import util.FinishedException;
 
 import z808.Program;
-
 import z808.memory.Memory;
 import z808.memory.Address;
 import z808.memory.Register;
-
 import z808.command.Command;
 
 /**
@@ -71,6 +71,14 @@ public class Processor {
 			throw new NotImplementedException ("Load of different programs has not been implemented");
 		this.commands = cmds;
 		return;
+	}
+
+	/**
+	 * Gets a list of registers values to be displayed.
+	 * @returns a list of registers values as Strings
+	 */
+	public List<String> getRegisters () {
+		return this.memory.getRegisters();
 	}
 
 	public String codeToString() {
