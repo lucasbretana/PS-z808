@@ -75,9 +75,9 @@ public class Processor {
 
 	/**
 	 * Gets a list of registers values to be displayed.
-	 * @returns a list of registers values as Strings
+	 * @returns a list of registers
 	 */
-	public List<String> getRegisters () {
+	public List<Register> getRegisters () {
 		return this.memory.getRegisters();
 	}
 

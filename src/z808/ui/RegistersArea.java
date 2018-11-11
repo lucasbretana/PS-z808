@@ -5,7 +5,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.control.Label;
 import javafx.geometry.NodeOrientation;
+
+import java.util.List;
+
 import z808.ui.BeautyFactory;
+import z808.memory.Register;
 import z808.memory.Address;
 import z808.Processor;
 
@@ -50,11 +54,19 @@ public class RegistersArea extends ScrollPane {
 		this.addRegister("XX", b=!b);
 	}
 
-	public void setProcessor(Processor p) { this.machine = p; }
-
-	public void updateScreen () {
+	public void setProcessor(Processor p) {
+		this.machine = p;
+		List<Register> l = this.machine.getRegisters();
+		for (int i = 0; i < 6; ++i) {
+			this.getLabel(i).textProperty().bind(l.get(i).getProperty());
+		}
 	}
 
+	public void updateScreen () {}
+
+	private Label getLabel (int idx) {
+		return (Label) this.regBox.getChildren().get(idx * 2 + 3);
+	}
 	private void addInfoLabel(String v) {
 		Label l = new Label(v);
 		l.setStyle(BeautyFactory.GetStyle()

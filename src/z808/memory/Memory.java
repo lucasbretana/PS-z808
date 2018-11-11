@@ -78,16 +78,16 @@ public class Memory {
 
 	/**
 	 * Gets a list of registers values to be displayed.
-	 * @returns a list of registers values as Strings
+	 * @returns a list of registers
 	 */
-	public ArrayList<String> getRegisters () {
-		ArrayList<String> l = new ArrayList<String>(6); // Number of registers to avoid dinamic alocation
-		l.add(CL.toString());
-		l.add(RI.toString());
-		l.add(REM.toString());
-		l.add(RBM.toString());
-		l.add(AX.toString());
-		l.add(DX.toString());
+	public ArrayList<Register> getRegisters () {
+		ArrayList<Register> l = new ArrayList<Register>(6); // Number of registers to avoid dinamic alocation
+		l.add(CL);
+		l.add(RI);
+		l.add(REM);
+		l.add(RBM);
+		l.add(AX);
+		l.add(DX);
 		return l;
 	}
 
