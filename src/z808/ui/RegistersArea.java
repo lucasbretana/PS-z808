@@ -57,8 +57,10 @@ public class RegistersArea extends ScrollPane {
 	public void setProcessor(Processor p) {
 		this.machine = p;
 		List<Register> l = this.machine.getRegisters();
-		for (int i = 0; i < 6; ++i) {
-			this.getLabel(i).textProperty().bind(l.get(i).getProperty());
+		int i = 0;
+		for (Register r: l) {
+			this.getLabel(i).textProperty().bind(r.getProperty());
+			++i;
 		}
 	}
 
