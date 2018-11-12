@@ -80,6 +80,7 @@ public class UIz808 extends Application {
 			this.innCode.setProcessor(this.machine);
 			this.mainMem.setProcessor(this.machine);
 			this.regBank.setProcessor(this.machine);
+			this.toolBar.setProcessor(this.machine, this.outArea);
 
 			// TODO: @Jonathas
 			// Source code and processor iniciation, this will be changed until final release

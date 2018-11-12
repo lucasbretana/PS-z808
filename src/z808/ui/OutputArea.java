@@ -9,10 +9,10 @@ public class OutputArea extends TextArea {
 		super();
 		setPrefSize(BeautyFactory.SCREEN_WIDTH  * 0.8,
 								BeautyFactory.SCREEN_HEIGHT * 0.2);
-		setDisable(true);
+		// setDisable(true);
 		setWrapText(true);
 		setStyle(BeautyFactory.GetStyle()
-						 + "-fx-font-size: 20px;"
+						 + "-fx-font-size: 12px;"
 						 + "-fx-opacity: 1;"
 						 );
 	}
