@@ -30,9 +30,13 @@ public class Address extends Number implements Comparable<Number> {
 
 	@Override
 	public int hashCode() {
-		return super.hashCode();
+		 // according with java doc, if two objects are equals by the .equals()
+		 // then they should have the same hashCode
+		 return this.longValue();
+		 //return super.hashCode();
 	}
 
+		return this.intValue();
 	@Override
 	public boolean equals(Object o) {
 		return (o == null) ? false : this.getClass().cast(o).intValue() == this.intValue();
