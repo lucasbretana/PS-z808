@@ -4,9 +4,9 @@ import java.util.List;
 import util.NotImplementedException;
 import z808.command.Command;
 
-/*
+/**
  * @author Alana Schwendler
- */ 
+ */
 public class MacroProcessor {
   public MacroProcessor() throws NotImplementedException {
     throw new NotImplementedException("TODO");
