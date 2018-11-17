@@ -40,6 +40,7 @@ FILES =\
 	z808/command/instruction/SubCTE \
 	z808/command/instruction/Hlt \
 	z808/Program \
+	z808/Translator \
 	z808/MacroProcessor \
 	z808/Module \
 	z808/Assembler \
