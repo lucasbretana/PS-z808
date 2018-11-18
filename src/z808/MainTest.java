@@ -61,5 +61,9 @@ public class MainTest {
 		return;
 	}
 
+	private static void MacroProcessorTests() {
+		MacroProcessor mProc = new MacroProcessor();
+	}
+
 }
 

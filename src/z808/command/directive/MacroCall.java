@@ -10,31 +10,35 @@ import java.util.ArrayList;
 /**
  * @author Alana Schwendler
  */
-public class Macro extends Directive {
-	public static String MNEMONIC = "MACRO";
+public class MacroCall extends Directive {
+	public String label = null;
 	public List<String> parameters = null;
-	public List<String> commands = null;
 
 	/**
-	 * Creates a new Macro
-	 * @param name Macro name
+	 * Creates a new MacroCall
+	 * @param label Macro name
 	 * @param params List of received parameters
-	 * @param cmds List of future macro commands
 	 */
-	public Macro(String name, List<String> params, List<String> cmds) {
+	public MacroCall(String name, List<String> params) {
 		this.label = new String(name);
-		this.parameters = new ArrayList(params);
-		this.commands = new ArrayList(cmds);
+		this.parameters = new ArrayList<String>(params);
 	}
 
 	@Override
 	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");
+		//change parameters [?]
 	}
 
 	@Override
 	public String toString() {
-		return this.label + " " + Macro.MNEMONIC + " " + this.parameters;
+		String ret = this.label;
+		
+		for(String param : parameters) {
+			ret += " " + param;
+		}
+		
+		return ret;
 	}
 
 }
