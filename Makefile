@@ -11,6 +11,7 @@ SRC = src
 DOC = doc
 
 FILES =\
+	util/AZMRegexCommon \
 	util/TestFaliedException \
 	util/ExecutionException \
 	util/InvalidOperationException \
