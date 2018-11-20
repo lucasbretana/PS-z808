@@ -20,13 +20,18 @@ public class Module {
 
 	// .:here are the symbol that are used, undefined and extern in this module:.
 	// | -=command=- | -=plus_value=- | -- the command have the label to match and changeValue function to change the info
-	public ArrayList<Tuple<Command,Integer>> use_table = null;
+	public ArrayList<Command> use_table = null;
 
 	public Module() {
 		this.m_code = new Program();
 		this.global_symbol_table = new ArrayList<Triple<String, Number, Boolean>>();
 	}
 
+	public Module(Program prog) {
+		this.m_code = prog;
+		this.global_symbol_table = new ArrayList<Triple<String, Number, Boolean>>();
+	}
+	
 	// TODO @Bretana this method may be changed to receive just the label|name insted of the whole command
 	/**
 	 * Adds a new symbols the global symbol table
@@ -44,13 +49,19 @@ public class Module {
 	public void addGlobalSymbol(Command c, Integer value) throws NotImplementedException { this.addGlobalSymbol(c, value, false); }
 
 	public void addUseSymbol(Command c) throws NotImplementedException {
-		System.err.printf("Current command: <%s, %s>\n", c.getLabel(), c);
-		throw new NotImplementedException("TODO");
+		if (this.use_table == null)
+			this.use_table = new ArrayList<Command>();
+		
+		use_table.add(c);
 	}
 
 	public void addLocalSymbol(Command c) throws NotImplementedException {
 		System.err.printf("Current command: <%s, %s>\n", c.getLabel(), c);
 		throw new NotImplementedException("TODO");
+	}
+	
+	public int getCodeSize() {
+		return m_code.size();
 	}
 }
 

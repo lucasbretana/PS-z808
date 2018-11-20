@@ -24,4 +24,17 @@ public abstract class Instruction extends Command {
 		}
 		return ret;
 	}
+	
+	private static int fixAddress(int code, int addr) {
+		return ((code & ~0xFFFF) | (addr << 8));
+	}
+	
+	public void fixSymbol(int addr) {
+		if (this instanceof MovAXMEM)
+			code = fixAddress(code, addr);
+		else if (this instanceof MovMEMAX)
+			code = fixAddress(code, addr);
+		else if (this instanceof Jump)
+			code = fixAddress(code, addr);
+	}
 }
