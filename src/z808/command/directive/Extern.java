@@ -8,15 +8,16 @@ import java.util.stream.Collectors;
 
 import z808.memory.Memory;
 import z808.command.directive.Directive;
-import util.NotImplementedException;
 import util.ExecutionException;
+import util.NotImplementedException;
+import util.Tuple;
 
 public class Extern extends Directive {
 	public static String MNEMONIC = "EXTERN";
 
-	public static String WORD = "WORD";
-	public static String NEAR = "NEAR";
-	public static String ABS  = "ABS";
+	public static String WORD = "WORD";	// a sub routine name
+	public static String NEAR = "NEAR"; // for an external variable's name
+	public static String ABS  = "ABS";	// for absolute values
 
 	private ArrayList<Tuple<String,String>> names = null;
 
@@ -51,11 +52,4 @@ public class Extern extends Directive {
 			ret += t.a + ":" + t.b + " ";
 		return ret;
 	}
-}
-
-class Tuple<A,B>{
-	A a; B b;
-	Tuple(A a, B b){ this.a=a; this.b=b; }
-	@Override
-	public String toString() { return this.a + " " + this.b; }
 }
