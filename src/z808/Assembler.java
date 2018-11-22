@@ -23,32 +23,37 @@ public class Assembler {
 	public static Module assembleCode(List<Command> code) throws ExecutionException {
 		Module mod = new Module();
 
-		List<?> extern_names = new ArrayList<String>();
-		List<?> public_names = new ArrayList<String>();
+		List<?> extern_names = null;
+		ArrayList<String> public_names = null;
 
 		// TODO: @Bretana remove this
-		extern_names = Arrays.asList("vet", "v_sz"); // extern_names = ( code.stream().findFirst(x -> (x instanceof z808.command.directive.Extern)) // some magic cast).asList();
-		public_names = Arrays.asList("one", "max"); // public_names = ( code.stream().findFirst(x -> (x instanceof z808.command.directive.Public)) // some magic cast).asList();
+		extern_names = Arrays.asList("evet", "ev_sz"); // extern_names = ( code.stream().findFirst(x -> (x instanceof z808.command.directive.Extern)) // some magic cast).asList();
 
 		int lst_sz = 0;
 		Address curAddr = new Address(0x0);
 		// FIRST STEP
 		for (Command cmd : code) {
+			System.out.println("> " + cmd.getClass().getSimpleName());
 			// 1. every commnad has its address, based on previous command's size n' address
 			curAddr = new Address(curAddr.intValue() + lst_sz);
 			lst_sz = cmd.getSize();
 
-			// 2. commands with label become a local/global symol
+			// 2. check for linkage directives
+			if (cmd instanceof Public)
+				public_names = Public.class.cast(cmd).getNames();
+			//else if (cmd instanceof Extern)
+			//	extern_names = Extern.class.cast(cmd).getSymbols();
+
+			// 3. commands with label become a local/global symol
 			if ( ( cmd.getLabel() != null) && !cmd.getLabel().trim().equalsIgnoreCase("") ) {
-				// 2.a global symbol
-				if ( public_names.contains(cmd.getLabel()) ){
+				// 3.a global symbol
+				if ( public_names.contains(cmd.getLabel().trim()) )
 					mod.addGlobalSymbol(cmd, curAddr);
-				}
-				// 2.b for now, every global symbol is also a local one
+				// 3.b for now, every global symbol is also a local one
 				mod.addLocalSymbol(cmd, curAddr);
 			}
 
-			// 3. some commands modifie the internal state of the assembler
+			// 4. some commands modifie the internal state of the assembler
 			if ( cmd instanceof z808.command.directive.End ) {
 				z808.command.directive.End cmd_end = z808.command.directive.End.class.cast(cmd);
 				mod.setName(cmd_end.getEntryPoint());
@@ -57,7 +62,7 @@ public class Assembler {
 			}
 
 			try {
-				// 4. only commands that ocupies some memory go to the program
+				// 5. only commands that ocupies some memory go to the program
 				if ( cmd.getSize() != 0 )
 					mod.m_code.add(curAddr, cmd);
 				mod.incSize(cmd.getSize());
@@ -105,7 +110,7 @@ public class Assembler {
 	}
 
 	public static void fakeModule() throws ExecutionException {
-		System.out.println(Assembler.assembleCode(Arrays.asList(new DW("one", 1), new DW("max"), new AddCTE("Sum", 1), new End("module1"))).toString());
+		System.out.println(Assembler.assembleCode(Arrays.asList(new Public("pone, pmax".split(",")), new DW("pone", 1), new DW("pmax"), new AddCTE("sum", 1), new End("module1"))).toString());
 	}
 
 }

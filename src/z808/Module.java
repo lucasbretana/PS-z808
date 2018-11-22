@@ -111,10 +111,12 @@ public class Module {
 		ret += "Seg. size " + this.m_size+ "B\n";
 
 		ret += "## global table\n";
+		if (this.global_symbol_table.isEmpty()) ret += "<empty>\n";
 		for (Triple<String,Number,Boolean> t3 : this.global_symbol_table)
 			ret += t3.a + " at 0x" + t3.b + ((t3.c) ? " a" : " r") + "\n"; 
 
 		ret += "## local table\n";
+		if (this.local_symbol_table.isEmpty()) ret += "<empty>\n";
 		for (Triple<String,Number,Boolean> t3 : this.local_symbol_table)
 			ret += t3.a + " at 0x" + t3.b + ((t3.c) ? " a" : " r") + "\n"; 
 
