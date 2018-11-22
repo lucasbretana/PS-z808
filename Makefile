@@ -12,6 +12,7 @@ DOC = doc
 
 FILES =\
 	util/AZMRegexCommon \
+	util/Tuple \
 	util/TestFaliedException \
 	util/ExecutionException \
 	util/InvalidOperationException \
