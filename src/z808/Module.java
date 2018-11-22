@@ -9,6 +9,7 @@ import z808.command.Command;
 
 import util.ExecutionException;
 import util.NotImplementedException;
+import util.Tuple;
 
 public class Module {
 	private String m_name = null;
@@ -122,21 +123,17 @@ public class Module {
 
 		ret += "## use table\n";
 		for (Tuple<Command,Address> t2 : this.use_table)
-			ret += "0x" + t2.b + " cmd " + t2.a + " is extern\n";
+			ret += t2.a.getUndefValue() + " at 0x" + t2.b + "\n";
 
+		ret += "## code\n";
+		ret += this.m_code;
 		ret += "-- end module --";
+
 		return ret;
 	}
 }
 
 // TODO @Bretana make those n-uple into a Symbol if possible
-
-class Tuple<A, B> {
-	A a = null; B b = null;
-	Tuple(A a, B b) {
-		this.a = a; this.b = b;
-	}
-}
 
 class Triple<A, B, C> {
 	A a = null; B b = null; C c = null;

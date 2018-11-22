@@ -29,8 +29,8 @@ public class MainTest {
 		// @Bretana tests
 		try {
 		  z808.command.directive.GenericDirectiveTester.all();
-		  //z808.Assembler.fakeModule();
-			//translatorTests(args);
+		  z808.Assembler.fakeModule();
+			translatorTests(args);
 		} catch (ExecutionException ex) {
 		  ex.printStackTrace();
 		}

@@ -8,6 +8,7 @@ import java.util.Map;
 import util.ExecutionException;
 import util.InvalidOperationException;
 import util.NotImplementedException;
+import util.Tuple;
 
 import z808.command.Command;
 import z808.command.directive.*;
@@ -25,17 +26,13 @@ public class Assembler {
 	public Module assembleCode(List<Command> code) throws ExecutionException {
 		Module mod = new Module();
 
-		List<?> extern_names = null;
+		List<Tuple<String,String>> extern_names = null;
 		ArrayList<String> public_names = null;
-
-		// TODO: @Bretana remove this
-		extern_names = Arrays.asList("evet", "ev_sz"); // extern_names = ( code.stream().findFirst(x -> (x instanceof z808.command.directive.Extern)) // some magic cast).asList();
 
 		int lst_sz = 0;
 		Address curAddr = new Address(0x0);
 		// FIRST STEP
 		for (Command cmd : code) {
-			System.out.println("> " + cmd.getClass().getSimpleName());
 			// 1. every commnad has its address, based on previous command's size n' address
 			curAddr = new Address(curAddr.intValue() + lst_sz);
 			lst_sz = cmd.getSize();
@@ -43,8 +40,8 @@ public class Assembler {
 			// 2. check for linkage directives
 			if (cmd instanceof Public)
 				public_names = Public.class.cast(cmd).getNames();
-			//else if (cmd instanceof Extern)
-			//	extern_names = Extern.class.cast(cmd).getSymbols();
+			else if (cmd instanceof Extern)
+				extern_names = Extern.class.cast(cmd).getNames();
 
 			// 3. commands with label become a local/global symol
 			if ( ( cmd.getLabel() != null) && !cmd.getLabel().trim().equalsIgnoreCase("") ) {
@@ -56,8 +53,8 @@ public class Assembler {
 			}
 
 			// 4. some commands modifie the internal state of the assembler
-			if ( cmd instanceof z808.command.directive.End ) {
-				z808.command.directive.End cmd_end = z808.command.directive.End.class.cast(cmd);
+			if ( cmd instanceof End ) {
+				End cmd_end = End.class.cast(cmd);
 				mod.setName(cmd_end.getEntryPoint());
 			// } else if ( cmd instanceof z808.command.directive.Org ) {
 			// ORG changes the curAddr
@@ -73,6 +70,7 @@ public class Assembler {
 			}
 		}
 		// SECOND STEP
+		//
 		lst_sz = 0;
 		curAddr = new Address(0x0);
 		for (Map.Entry<Address,Command> entry : mod.m_code.entrySet()) {
@@ -91,15 +89,16 @@ public class Assembler {
 
 			// deal with undefined symbols
 			if ( !cmd.isDefined() ){
-				Number new_value = mod.findInGlobalByName(cmd.getLabel());
+				Number new_value = mod.findInGlobalByName(cmd.getUndefValue());
 				if (new_value == null)
-					new_value = mod.findInLocalByName(cmd.getLabel());
+					new_value = mod.findInLocalByName(cmd.getUndefValue());
 
 				if (new_value == null) {
-					if ( extern_names.contains( cmd.getLabel() ) )
-						mod.addUseSymbol(cmd, addr);
-					else
-						throw new ExecutionException("Undefined symbols not present in extern directive");
+
+					Tuple<String,String> present = extern_names.stream().filter(t -> t.a.equals(cmd.getUndefValue())).findAny().orElseThrow(() -> { return new ExecutionException("Undefined symbol not present in extern directive");});
+
+				mod.addUseSymbol(cmd, addr);
+
 				} else {
 						// redefine the command value
 						// TODO @Bretana as soon as the directive have a changedUndefinedValue method
@@ -111,9 +110,11 @@ public class Assembler {
 		return mod;
 	}
 
+
+
 	public static void fakeModule() throws ExecutionException {
 
-		System.out.println(new Assembler().assembleCode(Arrays.asList(new Public("pone, pmax".split(",")), new DW("pone", 1), new DW("pmax"), new AddCTE("sum", 1), new End("module1"))).toString());
+		System.err.println(new Assembler().assembleCode(Arrays.asList(new Public("pone, pmax".split(",")), new Extern("etwo ".split(" "), (Extern.WORD+" ").split(" ")), new DW("pone", 1), new DW("pmax"), new AddCTE("sum", "etwo"), new End("module1"))).toString());
 	}
 
 }
