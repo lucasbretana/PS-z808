@@ -26,15 +26,15 @@ public class MainTest {
 		//  System.err.println("Failed Processor Tests:" + e);
 		//}
 
-		//// @Bretana tests
-		//try {
-		//  z808.command.directive.GenericDirectiveTester.all();
-		//  z808.Assembler.fakeModule();
-		//} catch (ExecutionException ex) {
-		//  ex.printStackTrace();
-		//}
+		// @Bretana tests
+		try {
+		  z808.command.directive.GenericDirectiveTester.all();
+		  //z808.Assembler.fakeModule();
+			//translatorTests(args);
+		} catch (ExecutionException ex) {
+		  ex.printStackTrace();
+		}
 
-		translatorTests(args);
 		// Implement try to other tests here.
 	}
 
@@ -76,6 +76,7 @@ public class MainTest {
 
 
 	private static void translatorTests(String...args) throws Exception {
+		if ((args == null) || (args.length < 2)) return;
 		try {
 			List<String> l = Arrays.asList(args);
 			System.out.println(new Translator(l).convert().toString());
