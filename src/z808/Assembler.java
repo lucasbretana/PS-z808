@@ -17,9 +17,13 @@ import z808.memory.Address;
 import z808.Module;
 
 public class Assembler {
+	/**
+	 * Creates a module
+	 */
 	public Assembler() { }
 
-	/** Creates a module with the given commands
+	/** 
+	 * Creates a new module from the list of commands
 	 * @param code the code the assemble
 	 * @return a new module
 	 */
@@ -112,6 +116,7 @@ public class Assembler {
 
 
 
+	// TODO @Bretana: move this
 	public static void fakeModule() throws ExecutionException {
 
 		System.err.println(new Assembler().assembleCode(Arrays.asList(new Public("pone, pmax".split(",")), new Extern("etwo ".split(" "), (Extern.WORD+" ").split(" ")), new DW("pone", 1), new DW("pmax"), new AddCTE("sum", "etwo"), new End("module1"))).toString());

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 import z808.Program;
+import z808.Symbol;
 import z808.memory.Address;
 import z808.command.Command;
 
@@ -20,19 +21,19 @@ public class Module {
 
 	// .:here are symbols that are public and defined in this module:.
 	// | -=name=- | -=value|address=- | -=absolute=- |
-	public ArrayList<Triple<String, Number, Boolean>> global_symbol_table = null;
+	public ArrayList<Symbol> global_symbol_table = null;
 	// .:here are symbols that are defined and used only in this module:.
 	// | -=name=- | -=value|address=- | -=absolute=- |
-	public ArrayList<Triple<String, Number, Boolean>> local_symbol_table = null;
+	public ArrayList<Symbol> local_symbol_table = null;
 	// .:here are the symbol that are used, undefined and extern in this module:.
 	// | -=command=- | -=plus_value=- | -- the command have the label to match and changeValue function to change the info
 	public ArrayList<Tuple<Command,Address>> use_table = null;
 
 	public Module() {
 		this.m_code = new Program();
-		this.global_symbol_table = new ArrayList<Triple<String, Number, Boolean>>();
-		this.local_symbol_table = new ArrayList<Triple<String, Number, Boolean>>();
-		this.use_table = new ArrayList<Tuple<Command,Address>>();
+		this.global_symbol_table = new ArrayList<Symbol>();
+		this.local_symbol_table = new ArrayList<Symbol>();
+		this.use_table = new ArrayList<>();
 	}
 
 	// TODO @Bretana those "add symbols functions to some table" (except use table) should verify for symbols redefinition
@@ -43,14 +44,14 @@ public class Module {
 	 * @param cmd the command that generate the Symbol
 	 * @param value either an integer or an address that represent that symbol value
 	 */
-	public void addGlobalSymbol(Command cmd, Number value) {
-		Triple<String,Number,Boolean> t3 = new Triple<String,Number,Boolean>(cmd.getLabel(), value, ( cmd instanceof z808.command.directive.Equ) );
-		this.global_symbol_table.add(t3);
+	public void addGlobalSymbol(Command cmd, Number value) throws ExecutionException {
+		Symbol s = new Symbol(cmd.getLabel(), value, ( cmd instanceof z808.command.directive.Equ) );
+		this.global_symbol_table.add(s);
 	}
 
 	public Number findInGlobalByName(String name) {
-		Triple <?,Number,?> t = this.findInTable(t3 -> t3.a.equalsIgnoreCase(name), this.global_symbol_table);
-		return (t == null) ? null : t.b;
+		Symbol t = this.findInTable(s -> s.getName().equalsIgnoreCase(name), this.global_symbol_table);
+		return (t == null) ? null : new Integer(t.getValue());
 	}
 
 	/**
@@ -59,17 +60,17 @@ public class Module {
 	 * @param cmd the command that generate the Symbol
 	 * @param value either an integer or an address that represent that symbol value
 	 */
-	public void addLocalSymbol(Command cmd, Number value) {
-		Triple<String,Number,Boolean> t3 = new Triple<String,Number,Boolean>(cmd.getLabel(), value, ( cmd instanceof z808.command.directive.Equ) );
-		this.local_symbol_table.add(t3);
+	public void addLocalSymbol(Command cmd, Number value) throws ExecutionException {
+		Symbol s = new Symbol(cmd.getLabel(), value, ( cmd instanceof z808.command.directive.Equ) );
+		this.local_symbol_table.add(s);
 	}
 
 	public Number findInLocalByName(String name) {
-		Triple <?,Number,?> t = this.findInTable(t3 -> t3.a.equalsIgnoreCase(name), this.local_symbol_table);
-		return (t == null) ? null : t.b;
+		Symbol t = this.findInTable(s -> s.getName().equalsIgnoreCase(name), this.local_symbol_table);
+		return (t == null) ? null : new Integer(t.getValue());
 	}
 
-	// TODO @Bretana one of those parameter is desnecessary, this will be used by the linker to replace values in undefined commands
+	// TODO @Bretana one of those parameter is unnecessary, this will be used by the linker to replace values in undefined commands
 	/**
 	 * Adds a new symbols the use table
 	 * Which means those symbol must be defined elsewhere
@@ -113,13 +114,13 @@ public class Module {
 
 		ret += "## global table\n";
 		if (this.global_symbol_table.isEmpty()) ret += "<empty>\n";
-		for (Triple<String,Number,Boolean> t3 : this.global_symbol_table)
-			ret += t3.a + " at 0x" + t3.b + ((t3.c) ? " a" : " r") + "\n"; 
+		for (Symbol s : this.global_symbol_table)
+			ret += s.getName() + " at 0x" + s.getValue() + ((s.isAbs()) ? " a" : " r") + "\n"; 
 
 		ret += "## local table\n";
 		if (this.local_symbol_table.isEmpty()) ret += "<empty>\n";
-		for (Triple<String,Number,Boolean> t3 : this.local_symbol_table)
-			ret += t3.a + " at 0x" + t3.b + ((t3.c) ? " a" : " r") + "\n"; 
+		for (Symbol s : this.local_symbol_table)
+			ret += s.getName() + " at 0x" + s.getValue() + ((s.isAbs()) ? " a" : " r") + "\n"; 
 
 		ret += "## use table\n";
 		for (Tuple<Command,Address> t2 : this.use_table)
@@ -132,20 +133,3 @@ public class Module {
 		return ret;
 	}
 }
-
-// TODO @Bretana make those n-uple into a Symbol if possible
-
-class Triple<A, B, C> {
-	A a = null; B b = null; C c = null;
-	Triple(A a, B b, C c) {
-		this.a = a; this.b = b; this.c = c;
-	}
-}
-
-class Quadruple<A, B, C, D> {
-	A a = null; B b = null; C c = null; D d = null;
-	Quadruple(A a, B b, C c, D d) {
-		this.a = a; this.b = b; this.c = c; this.d = d;
-	}
-}
-
