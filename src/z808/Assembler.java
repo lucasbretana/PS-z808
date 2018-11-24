@@ -116,10 +116,30 @@ public class Assembler {
 
 
 
-	// TODO @Bretana: move this
-	public static void fakeModule() throws ExecutionException {
+	// Test
+	/**
+	 * Tests some modules
+	 * @param verb is true for most output, false for start/end messages and null for only afirmative messages
+	 */
+	public static void testModules(Boolean verb) throws ExecutionException { testM1(verb); }
+	public static void testM1(Boolean verb) throws ExecutionException {
+		if (verb) System.err.println("-- M1 test --"); // debug output
+		Assembler azm = new Assembler();
+		
+		Module m = azm.assembleCode(Arrays.asList(
+			new Public("pone,pmax,ppow".split(",")), 
+			new Extern("etwo,eresult,epow".split(","), (Extern.ABS + "," + Extern.WORD + "," + Extern.NEAR).split(",")), 
+			new DW("pone", 1), 
+			new DW("pmax"), 
+			new DW("ppow"), 
+			new AddCTE("sum1", "etwo"), 
+			new AddCTE("sum2", "eresult"), 
+			new End("module1")
+		));
 
-		System.err.println(new Assembler().assembleCode(Arrays.asList(new Public("pone, pmax".split(",")), new Extern("etwo ".split(" "), (Extern.WORD+" ").split(" ")), new DW("pone", 1), new DW("pmax"), new AddCTE("sum", "etwo"), new End("module1"))).toString());
+		if (verb == null) return; // no output
+		if (verb) //verbose output
+			System.err.println(m.toString());
+		if (verb != null) System.err.println("-- M1 test OK --"); // debug output
 	}
-
 }

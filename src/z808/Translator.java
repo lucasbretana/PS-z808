@@ -17,38 +17,31 @@ import z808.command.instruction.*;
  * Translates a expanded code to internal representation
  */
 public class Translator {
-	private ArrayList<String> code = null;
-	// Equ regex
+	private static final String DwRegEx = AZMRegexCommon.NAME_RGX + "\\s" + Equ.MNEMONIC + ".*";
 	private static final String EquRegEx = AZMRegexCommon.NAME_RGX + "\\s" + Equ.MNEMONIC + ".*";
+	/**
+	 * Creates a translator
+	 */
+	public Translator() throws Exception { }
 
 	/**
-	 * Creates a translator for a given list code
-	 * @param expanded_code the code the translated
+	 * Converets the given list of string to commands
+	 * @param raw_code the code the translated
 	 */
-	public Translator(List<String> expanded_code) throws Exception {
-		this.code = new ArrayList<String>(expanded_code);
-	}
-
-	/**
-	 * Converets the internal commands list to a new list
-	 */
-	public List<Command> convert() throws ExecutionException {
+	public List<Command> convertCode(List<String> raw_code) throws ExecutionException {
 		ArrayList<Command> output = new ArrayList<Command>();
 
-
 		Command c = null;
-		for (String cmd : this.code) {
+		for (String cmd : raw_code) {
 			if (cmd.matches(EquRegEx)) {
 				c = makeEqu(cmd);
 			} else {
-				throw new ExecutionException("\"" + cmd + "\" didn't match any know regular expression");
+				throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
 			}
 
-			System.out.println("Added " + c.toString());
 			output.add(c);
 		}
 
-		//throw new NotImplementedException("TODO");
 		return output;
 	}
 
@@ -108,5 +101,9 @@ public class Translator {
 		}
 
 		return new Integer(val);
+	}
+
+	public static void testTranslator(Boolean verb) throws ExecutionException {
+			 //Translator(l).convert().toString())
 	}
 }

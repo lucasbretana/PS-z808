@@ -18,20 +18,24 @@ import z808.command.instruction.*;
 public class MainTest {
 	public static void main(String...args)
 		throws Exception {
-	  //System.out.println("-- Running Processor Tests --");
-		//try {
-		//	MainTest.ProcessorTests();
-		//	System.out.println("Processor is Ok!");
-		//} catch (TestFaliedException e) {
-		//  System.err.println("Failed Processor Tests:" + e);
-		//}
+		Boolean debug = false;
+		if (args.length > 0) debug = Boolean.parseBoolean(args[0]);
+		if (args.length >= 1)
+	  System.out.println("-- Running Processor Tests --");
+		try {
+			MainTest.ProcessorTests();
+			System.out.println("Processor is Ok!");
+		} catch (TestFaliedException e) {
+		  System.err.println("Failed Processor Tests:" + e);
+		}
 
 		// @Bretana tests
 		try {
-		  z808.command.directive.GenericDirectiveTester.all();
-		  z808.Assembler.fakeModule();
-			translatorTests(args);
+		  z808.command.directive.GenericDirectiveTester.all(debug);
+		  z808.Assembler.testModules(debug);
+			// TODO add translator tests
 		} catch (ExecutionException ex) {
+			System.err.println("Something went wront on Bretana's tests");
 		  ex.printStackTrace();
 		}
 
@@ -72,18 +76,6 @@ public class MainTest {
 		if (expected.compareTo(p.registersToString()) != 0)
 			throw new TestFaliedException(-2, p.registersToString());
 		return;
-	}
-
-
-	private static void translatorTests(String...args) throws Exception {
-		if ((args == null) || (args.length < 2)) return;
-		try {
-			List<String> l = Arrays.asList(args);
-			System.out.println(new Translator(l).convert().toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("\n" + e.getMessage());
-		}
 	}
 
 }
