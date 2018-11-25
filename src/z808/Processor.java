@@ -81,6 +81,15 @@ public class Processor {
 		return this.memory.getRegisters();
 	}
 
+	/**
+	 * Gets a list of memory locations to be displayed.
+	 * @returns a list of registers
+	 */
+	public List<Register> getMemoryRegisters () {
+		return this.memory.getMemoryRegisters();
+	}
+
+	
 	public String codeToString() {
 		return this.commands.toString();
 	}
