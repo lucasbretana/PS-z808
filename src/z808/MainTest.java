@@ -62,7 +62,38 @@ public class MainTest {
 	}
 
 	private static void MacroProcessorTests() {
-		MacroProcessor mProc = new MacroProcessor();
+		MacroProcessor mProc = null;
+
+		List<Command> prog = new ArrayList<>;
+		ArrayList<String> params = new ArrayList<>;
+		ArrayList<String> cmds = new ArrayList<>;
+
+		ArrayList<String> pCall = new ArrayList<>;
+
+		params.add("P1");
+		params.add("P2");
+		cmds.add("ADD P1, P2");
+		cmds.add("ENDM");
+
+		pCall.add("Val1");
+		pCall.add("Val2");
+
+		prog.add(new MacroDef("Shitface", params, cmds); //Shitface MACRO P1 P2 
+
+		prog.add(new AddAx());							 //ADD AX, AX 
+		prog.add(new AddAx());							 //ADD AX, AX
+		prog.add(new MacroCall("Shitface", pCall));	  	 //Shitface Val1, Val2
+		prog.add(new Hlt());							 //HLT
+		
+		mProc = new MacroProcessor(prog);
+
+		//mProc.process(prog);
+
+		for(Command cmd : prog) {
+			if(cmd instanceof MacroDef) {
+				System.out.println(cmd.toString());
+			}
+		}
 	}
 
 }
