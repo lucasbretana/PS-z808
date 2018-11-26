@@ -106,6 +106,10 @@ public class Module {
 		this.m_size += plus;
 	}
 
+	public Program getProgram() {
+		return this.m_code;
+	}
+
 	@Override
 	public String toString() {
 		String ret = "-- begin module --\n";
