@@ -20,8 +20,8 @@ public class MainTest {
 		throws Exception {
 		Boolean debug = false;
 		if (args.length > 0) debug = Boolean.parseBoolean(args[0]);
-		if (args.length >= 1)
-	  System.out.println("-- Running Processor Tests --");
+
+		System.out.println("-- Running Processor Tests --");
 		try {
 			MainTest.ProcessorTests();
 			System.out.println("Processor is Ok!");
