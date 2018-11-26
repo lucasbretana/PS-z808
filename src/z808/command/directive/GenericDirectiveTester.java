@@ -4,12 +4,9 @@ import util.ExecutionException;
 import util.NotImplementedException;
 import util.FinishedException;
 
-import z808.Program;
-import z808.Processor;
 import z808.memory.Address;
 import z808.command.Command;
 import z808.command.directive.*;
-import z808.command.instruction.*;
 
 
 public class GenericDirectiveTester {
