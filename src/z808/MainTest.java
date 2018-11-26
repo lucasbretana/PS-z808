@@ -21,19 +21,20 @@ public class MainTest {
 		Boolean debug = false;
 		if (args.length > 0) debug = Boolean.parseBoolean(args[0]);
 
-		System.out.println("-- Running Processor Tests --");
-		try {
-			MainTest.ProcessorTests();
-			System.out.println("Processor is Ok!");
-		} catch (TestFaliedException e) {
-		  System.err.println("Failed Processor Tests:" + e);
-		}
+		//System.out.println("-- Running Processor Tests --");
+		//try {
+		//	MainTest.ProcessorTests();
+		//	System.out.println("Processor is Ok!");
+		//} catch (TestFaliedException e) {
+		//  System.err.println("Failed Processor Tests:" + e);
+		//}
 
 		// @Bretana tests
 		try {
-		  z808.command.directive.GenericDirectiveTester.all(debug);
-		  z808.Assembler.testModules(debug);
+		  //z808.command.directive.GenericDirectiveTester.all(debug);
+		  //z808.Assembler.testModules(debug);
 			// TODO add translator tests
+			z808.Translator.testTranslator(debug);
 		} catch (ExecutionException ex) {
 			System.err.println("Something went wront on Bretana's tests");
 		  ex.printStackTrace();

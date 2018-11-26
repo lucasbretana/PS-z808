@@ -9,6 +9,8 @@ import util.ExecutionException;
 import util.InvalidOperationException;
 import util.NotImplementedException;
 
+import z808.Translator;
+
 import z808.command.Command;
 import z808.command.directive.*;
 import z808.command.instruction.*;
@@ -17,24 +19,23 @@ import z808.command.instruction.*;
  * Translates a expanded code to internal representation
  */
 public class Translator {
-	private static final String DwRegEx = AZMRegexCommon.NAME_RGX + "\\s" + Equ.MNEMONIC + ".*";
-	private static final String EquRegEx = AZMRegexCommon.NAME_RGX + "\\s" + Equ.MNEMONIC + ".*";
 	/**
 	 * Creates a translator
 	 */
-	public Translator() throws Exception { }
+	public Translator() { }
 
 	/**
 	 * Converets the given list of string to commands
 	 * @param raw_code the code the translated
 	 */
 	public List<Command> convertCode(List<String> raw_code) throws ExecutionException {
-		ArrayList<Command> output = new ArrayList<Command>();
+		ArrayList<Command> output = new ArrayList<>();
 
 		Command c = null;
 		for (String cmd : raw_code) {
-			if (cmd.matches(EquRegEx)) {
-				c = makeEqu(cmd);
+			if (cmd.matches(Equ.REGEX)) {
+				System.out.println("DEBUG Match! \"" + cmd + "\" matched as " + Equ.MNEMONIC);
+				//c = makeEqu(cmd);
 			} else {
 				throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
 			}
@@ -104,6 +105,26 @@ public class Translator {
 	}
 
 	public static void testTranslator(Boolean verb) throws ExecutionException {
-			 //Translator(l).convert().toString())
+		testCode1(verb);
+	}
+
+	public static void testCode1(Boolean verb) throws ExecutionException {
+		if (verb) System.err.println("-- Code#1 test --"); // debug output
+		Translator t = new Translator();
+		
+		List<Command> res = t.convertCode(Arrays.asList(
+			"five EQU", // TODO remove
+			"EQU", // TODO remove
+			"EQU 5",
+			"add AX 0x0",
+			"add AX AX",
+			"add AX AX",
+			"sub AX 0x0",
+			"hlt"
+		));
+
+		if (verb) System.err.println(t.toString());
+		if (verb) System.err.println(res.toString());
+		System.err.println("-- Code#1 test OK --"); // debug output
 	}
 }
