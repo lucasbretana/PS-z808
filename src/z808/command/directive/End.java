@@ -29,6 +29,10 @@ public class End extends Directive {
 		this.entry_point = entry_point;
 	}
 
+	public String getEntryPoint() {
+		return this.entry_point;
+	}
+
 	@Override
 	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");

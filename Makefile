@@ -11,6 +11,8 @@ SRC = src
 DOC = doc
 
 FILES =\
+	util/AZMRegexCommon \
+	util/Tuple \
 	util/TestFaliedException \
 	util/ExecutionException \
 	util/InvalidOperationException \
@@ -23,6 +25,8 @@ FILES =\
 	z808/memory/Memory \
 	z808/command/Command \
 	z808/command/directive/Directive \
+	z808/command/directive/Extern \
+	z808/command/directive/Public \
 	z808/command/directive/End \
 	z808/command/directive/Ends \
 	z808/command/directive/Segment \
@@ -40,7 +44,9 @@ FILES =\
 	z808/command/instruction/SubCTE \
 	z808/command/instruction/Hlt \
 	z808/Program \
+	z808/Translator \
 	z808/MacroProcessor \
+	z808/Symbol \
 	z808/Module \
 	z808/Assembler \
 	z808/Linker \
