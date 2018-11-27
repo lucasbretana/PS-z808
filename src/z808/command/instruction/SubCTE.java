@@ -2,15 +2,18 @@ package z808.command.instruction;
 
 import java.lang.Math;
 
+import util.AZMRegexCommon;
+import util.ExecutionException;
+import util.NotImplementedException;
+import util.TooLongValue;
+
 import z808.memory.Memory;
 import z808.memory.Address;
 import z808.command.instruction.Instruction;
 
-import util.NotImplementedException;
-import util.ExecutionException;
-import util.TooLongValue;
-
 public class SubCTE extends Instruction {
+	public static final String MNEMONIC = "sub";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " AX (" + AZMRegexCommon.NAME_RGX + "|" + AZMRegexCommon.INTEGER_RGX + ")$";
 	public static final int OPCODE = 0X2B;
 	public static final int SIZE   = 3;
 

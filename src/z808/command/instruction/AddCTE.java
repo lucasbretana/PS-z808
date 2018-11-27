@@ -1,15 +1,17 @@
 package z808.command.instruction;
 
+import util.AZMRegexCommon;
+import util.ExecutionException;
+import util.NotImplementedException;
+import util.TooLongValue;
+
 import z808.memory.Memory;
 import z808.memory.Address;
 import z808.command.instruction.Instruction;
 
-import util.NotImplementedException;
-import util.ExecutionException;
-import util.TooLongValue;
-
 public class AddCTE extends Instruction {
-	public static final String MNEMONIC = "AddCTE";
+	public static final String MNEMONIC = "add";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " AX (" + AZMRegexCommon.NAME_RGX + "|" + AZMRegexCommon.INTEGER_RGX + ")$";
 	public static final int OPCODE = 0X05;
 	public static final int SIZE   = 3;
 
@@ -71,6 +73,28 @@ public class AddCTE extends Instruction {
 		// 8. Write back
 		// 9. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
+	}
+
+	static public AddCTE makeAddCTE(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		if (tokens.length < 3) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+
+		if (tokens.length == 4) {
+			if ( (!tokens[1].equals(MNEMONIC)) || (!tokens[2].equals("AX")) ) 
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic or parameter");
+
+			if ( tokens[3].matches(AZMRegexCommon.INTEGER_RGX) )
+				return new AddCTE(tokens[0], AZMRegexCommon.convertZ808Int(tokens[3]));
+			else if ( tokens[3].matches(AZMRegexCommon.NAME_RGX) )
+				return new AddCTE(tokens[0], tokens[3]);
+
+		} else if (tokens.length == 3) {
+			if ( (!tokens[0].equals(MNEMONIC)) || (!tokens[1].equals("AX")) ) 
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic or parameter");
+			return new AddCTE(tokens[2]);
+		}
+
+		throw new ExecutionException("This doesn't make any sense..mismatching expression");
 	}
 
 	@Override

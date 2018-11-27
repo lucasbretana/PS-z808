@@ -1,13 +1,16 @@
 package z808.command.instruction;
 
+import util.AZMRegexCommon;
+import util.ExecutionException;
+import util.NotImplementedException;
+
 import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
-import util.NotImplementedException;
-import util.ExecutionException;
-
 public class SubDX extends Instruction {
 	public static final int OPCODE = 0X2BC4;
+	public static final String MNEMONIC = "sub";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " AX DX$";
 	public static final int SIZE   = 2;
 	
 	public SubDX () {
@@ -40,5 +43,22 @@ public class SubDX extends Instruction {
 		// 8. Write back
 		// 9. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
+	}
+
+	static public SubDX makeSubDX(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		if (tokens.length < 3) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+
+		if (tokens.length == 4) {
+			if ( (!tokens[1].equals(MNEMONIC)) || (!tokens[2].equals("AX")) || (!tokens[3].equals("DX")) ) 
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic or parameter");
+			return new SubDX(tokens[0]);
+		} else if (tokens.length == 3) {
+			if ( (!tokens[0].equals(MNEMONIC)) || (!tokens[1].equals("AX")) || (!tokens[2].equals("DX")) ) 
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic or parameter");
+			return new SubDX();
+		}
+
+		throw new ExecutionException("This doesn't make any sense..mismatching expression");
 	}
 }
