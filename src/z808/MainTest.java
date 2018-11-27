@@ -21,13 +21,13 @@ public class MainTest {
 		Boolean debug = false;
 		if (args.length > 0) debug = Boolean.parseBoolean(args[0]);
 
-		//System.out.println("-- Running Processor Tests --");
-		//try {
-		//	MainTest.ProcessorTests();
-		//	System.out.println("Processor is Ok!");
-		//} catch (TestFaliedException e) {
-		//  System.err.println("Failed Processor Tests:" + e);
-		//}
+		System.out.println("-- Running Processor Tests --");
+		try {
+			MainTest.ProcessorTests();
+			System.out.println("Processor is Ok!");
+		} catch (TestFaliedException e) {
+		  System.err.println("Failed Processor Tests:" + e);
+		}
 
 		// @Bretana tests
 		try {

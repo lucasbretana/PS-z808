@@ -14,8 +14,7 @@ import z808.memory.Address;
 public class Equ extends Directive {
 	// name EQU
 	public static final String MNEMONIC = "EQU";
-	// name? equ value
-	public static final String REGEX = "(" + AZMRegexCommon.NAME_RGX + ")?\\s?" +  MNEMONIC;// + "[" + AZMRegexCommon.EXPRESSION + "]|[" + AZMRegexCommon.CHAR_RGX + "]";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " " + "([a-zA-Z]|"  + AZMRegexCommon.INTEGER_RGX + ")"+ "$";
 	public static final int SIZE = 1;
 
 	private int arg;
