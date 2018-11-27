@@ -6,6 +6,7 @@ import util.ExecutionException;
 import util.InvalidOperationException;
 import util.SymbolNotFound;
 import util.TooLongValue;
+import util.Tuple;
 import z808.Module;
 import z808.command.Command;
 import z808.command.directive.DW;
@@ -20,7 +21,7 @@ import z808.command.instruction.SubCTE;
 import z808.memory.Address;
 
 public class Linker {
-	private ArrayList<Triple<String, Number, Boolean>> m_GlobalSymbolTable;
+	private ArrayList<Symbol> m_GlobalSymbolTable;
 	
 	private ArrayList<Module> m_Module;
 	private int m_ModuleAlign;
@@ -32,17 +33,19 @@ public class Linker {
 		m_ModuleAlign = 0;
 	}
 	
-	public void InsertModule(Module module) {
+	public void InsertModule(Module module) throws ExecutionException {
 		m_Module.add(module);
 
-		for (Triple<String, Number, Boolean> symbol : module.global_symbol_table) {
-			if (symbol.c) // relative
-				symbol.b = ((int)symbol.b + m_ModuleAlign);
+		for (Symbol symbol : module.global_symbol_table) {
+			Number addr = symbol.getValue();
 			
-			m_GlobalSymbolTable.add(symbol);
+			if (symbol.isRelative())
+				addr = ((int)addr + m_ModuleAlign);
+			
+			m_GlobalSymbolTable.add(new Symbol(symbol.getName(), addr, symbol.isAbs()));
 		}
 		
-		m_ModuleAlign += module.getCodeSize();
+		m_ModuleAlign += module.getSize();
 	}
 	
 	public void LinkModules() throws SymbolNotFound {
@@ -64,14 +67,14 @@ public class Linker {
 		code.add(new Address(0xf), new DW ("varTest", 5));      // DW 5
 		
 		Module[] mod = new Module[2];
-		
-		mod[0] = new Module(code);
-		mod[0].addGlobalSymbol(code.get(new Address(0xf)), 0xf, true);
-		mod[0].addGlobalSymbol(code.get(new Address(0x6)), 0x6, true);
-		mod[0].addUseSymbol(code.get(new Address(0x4)));
-		mod[0].addUseSymbol(code.get(new Address(0xb)));
-		
+		mod[0] = new Module();
 		mod[1] = new Module();
+		
+		//mod[0] = new Module(code);
+		//mod[0].addGlobalSymbol(code.get(new Address(0xf)), 0xf, true);
+		//mod[0].addGlobalSymbol(code.get(new Address(0x6)), 0x6, true);
+		//mod[0].addUseSymbol(code.get(new Address(0x4)));
+		//mod[0].addUseSymbol(code.get(new Address(0xb)));
 		
 		Linker l = new Linker();
 		l.InsertModule(mod[0]);
@@ -91,13 +94,13 @@ public class Linker {
 			if (module.use_table == null)
 				continue;
 			
-			for (Command useTable : module.use_table) {
-				String symbolName = useTable.getLabel();
+			for (Tuple<Command,Address> useTable : module.use_table) {
+				String symbolName = useTable.a.getLabel();
 				
 				Boolean fixed = false;
 				
-				for (Triple<String, Number, Boolean> symbol : m_GlobalSymbolTable) {
-					if (symbolName.equals(symbol.a)) {
+				for (Symbol symbol : m_GlobalSymbolTable) {
+					if (symbolName.equals(symbol.getName())) {
 						fixCommand(useTable, symbol);
 						
 						fixed = true;
@@ -116,9 +119,9 @@ public class Linker {
 		//TODO: Link Modules.
 	}
 	
-	private void fixCommand(Command command, Triple<String, Number, Boolean> symbol) {
-		Instruction inst = (Instruction)command;
-		inst.fixSymbol((int)symbol.b);
+	private void fixCommand(Tuple<Command,Address> command, Symbol symbol) {
+		Instruction inst = (Instruction)command.a;
+		inst.fixSymbol((int)symbol.getValue());
 		
 		System.out.println("CMD FIXED: " + inst.toString());
 	}

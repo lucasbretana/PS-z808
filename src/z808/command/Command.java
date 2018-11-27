@@ -24,5 +24,9 @@ public abstract class Command {
 	public boolean isDefined() {
 		return true;
 	}
+
+	public String getUndefValue() {
+		return null;
+	}
 }
 

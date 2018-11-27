@@ -1,5 +1,7 @@
 package z808;
 
+import java.util.*;
+
 import util.TestFaliedException;
 import util.ExecutionException;
 import util.NotImplementedException;
@@ -7,15 +9,19 @@ import util.FinishedException;
 
 import z808.Program;
 import z808.Processor;
+import z808.Translator;
 import z808.memory.Address;
 import z808.command.Command;
 import z808.command.directive.*;
 import z808.command.instruction.*;
 
 public class MainTest {
-	public static void main(final String...args)
-		throws ExecutionException, NotImplementedException, FinishedException {
-	  System.out.println("-- Running Processor Tests --");
+	public static void main(String...args)
+		throws Exception {
+		Boolean debug = false;
+		if (args.length > 0) debug = Boolean.parseBoolean(args[0]);
+
+		System.out.println("-- Running Processor Tests --");
 		try {
 			MainTest.ProcessorTests();
 			System.out.println("Processor is Ok!");
@@ -25,9 +31,11 @@ public class MainTest {
 
 		// @Bretana tests
 		try {
-		  z808.command.directive.GenericDirectiveTester.all();
-		  z808.Assembler.fakeModule();
+		  z808.command.directive.GenericDirectiveTester.all(debug);
+		  z808.Assembler.testModules(debug);
+			// TODO add translator tests
 		} catch (ExecutionException ex) {
+			System.err.println("Something went wront on Bretana's tests");
 		  ex.printStackTrace();
 		}
 
