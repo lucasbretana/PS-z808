@@ -26,7 +26,12 @@ public abstract class Command {
 	}
 
 	public String getUndefValue() {
-		return null;
+		throw new RuntimeException("Value is already defined");
 	}
+
+	public void setUndefValue(int val) {
+		throw new RuntimeException("Cannot set a new value for an already defined command");
+	}
+
 }
 
