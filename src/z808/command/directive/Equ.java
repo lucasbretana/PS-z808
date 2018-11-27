@@ -2,6 +2,7 @@ package z808.command.directive;
 
 import java.lang.Math;
 
+import util.AZMRegexCommon;
 import util.ExecutionException;
 import util.NotImplementedException;
 import util.TooLongValue;
@@ -12,6 +13,7 @@ import z808.memory.Address;
 
 public class Equ extends Directive {
 	public static final String MNEMONIC = "EQU";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " " + "([a-zA-Z]|"  + AZMRegexCommon.INTEGER_RGX + ")"+ "$";
 	public static final int SIZE = 1;
 
 	private int arg;

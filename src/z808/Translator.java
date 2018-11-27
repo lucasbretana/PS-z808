@@ -17,12 +17,10 @@ import z808.command.instruction.*;
  * Translates a expanded code to internal representation
  */
 public class Translator {
-	private static final String DwRegEx = AZMRegexCommon.NAME_RGX + "\\s" + Equ.MNEMONIC + ".*";
-	private static final String EquRegEx = AZMRegexCommon.NAME_RGX + "\\s" + Equ.MNEMONIC + ".*";
 	/**
 	 * Creates a translator
 	 */
-	public Translator() throws Exception { }
+	public Translator() { }
 
 	/**
 	 * Converets the given list of string to commands
@@ -33,13 +31,16 @@ public class Translator {
 
 		Command c = null;
 		for (String cmd : raw_code) {
-			if (cmd.matches(EquRegEx)) {
+			if (cmd.matches(Equ.REGEX)) {
+				System.out.println("DEBUG, matched an Equ with \"" + cmd + "\"");
 				c = makeEqu(cmd);
 			} else {
-				throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
+				System.out.println("TODO: command string \"" + cmd + "\"");
+				//throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
 			}
 
 			output.add(c);
+			c = null;
 		}
 
 		return output;
@@ -51,6 +52,14 @@ public class Translator {
 	 * @throws ExecutionException if there is an unexpected error
 	 */
 	private Equ makeEqu(String s_cmd) throws ExecutionException {
+		// TODO @Bretana finish to add support to stuff like
+		// <expression> + <expression>
+		// -<expression>
+
+		// only support
+		// <int>
+		// <char>
+
 		String lbl = null;
 		Integer val = null;
 		Equ e = null;
@@ -59,24 +68,35 @@ public class Translator {
 		String tokens[] = s_cmd.split("\\s");
 
 		// sanity check
-		if ( (tokens.length < 3) || (!tokens[1].equals(Equ.MNEMONIC)) )
-			throw new ExecutionException("This doesn't make any sense..mismatching expression");
+		if ( tokens.length == 2 ) {
+			if (!tokens[0].equals(Equ.MNEMONIC) )
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, missing mnemonic");
+			
+			if ( tokens[1].matches(AZMRegexCommon.INTEGER_RGX) )
+				val = convertZ808Int(tokens[1]);
+			else if ( tokens[1].matches(AZMRegexCommon.CHAR_RGX) )
+				val = Character.digit(tokens[1].charAt(0), 10);
+			else
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid parameter");
 
-		lbl = tokens[0];
+			return new Equ(val);
+		}
 
-		// TODO @Bretana finish to add support to stuff like
-		// <expression> + <expression>
-		// -<expression>
+		if ( tokens.length == 3 ) {
+			if ( !tokens[1].equals(Equ.MNEMONIC) )
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, missing mnemonic");
 
-		// only support
-		// <int>
-		// <char>
-		if (tokens[2].matches(AZMRegexCommon.INTEGER_RGX))
-			val = this.convertZ808Int(tokens[2]);
-		else if (tokens[2].matches("[a-zA-Z]"))
-			val = Character.digit(tokens[2].charAt(0), 10);
+			if ( tokens[2].matches(AZMRegexCommon.INTEGER_RGX) )
+				val = convertZ808Int(tokens[2]);
+			else if ( tokens[2].matches(AZMRegexCommon.CHAR_RGX) )
+				val = Character.digit(tokens[2].charAt(0), 10);
+			else
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid parameter");
 
-		return new Equ(lbl, val);
+			return new Equ(tokens[0], val);
+		}
+
+		throw new ExecutionException("Invalid string for makeEqu, this doesn't make any sense");
 	}
 
 
@@ -104,6 +124,47 @@ public class Translator {
 	}
 
 	public static void testTranslator(Boolean verb) throws ExecutionException {
-			 //Translator(l).convert().toString())
+		testCode1(verb);
+		//regexTest(verb);
+	}
+
+	public static void testCode1(Boolean verb) throws ExecutionException {
+		if (verb) System.err.println("-- Starting code #1 test --");
+		Translator t = new Translator();
+
+		List<Command> res = t.convertCode(Arrays.asList(
+			"EQU 5",
+			"add AX 0x0",
+			"add AX AX",
+			"add AX AX",
+			"sub AX 0x0",
+			"hlt"
+		));
+
+		if (verb) System.err.println("Resulting transaltor: " + t);
+		if (verb) System.err.println("Resulting code: " + res);
+
+		res = null;
+		t = null;
+		System.gc();
+		System.err.println("-- Code#1 tests are OK --");
+	}
+
+	public static void regexTest(Boolean verb) throws ExecutionException {
+		if (verb) System.err.println("-- Starting regex test --");
+		Translator t = new Translator();
+
+		if (verb) System.err.println(new Translator().convertCode(Arrays.asList(
+			"five EQU 10",
+			"five EQU a",
+			"EQU 5",
+			"add AX 0x0",
+			"add AX AX",
+			"add AX AX",
+			"sub AX 0x0",
+			"hlt"
+		)));
+
+		System.err.println("-- Regex tests are OK --");
 	}
 }
