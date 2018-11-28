@@ -99,7 +99,7 @@ public class Assembler {
 
 				if (new_value == null) {
 
-					Tuple<String,String> present = extern_names.stream().filter(t -> t.a.equals(cmd.getUndefValue())).findAny().orElseThrow(() -> { return new ExecutionException("Undefined symbol not present in extern directive");});
+					//Tuple<String,String> present = extern_names.stream().filter(t -> t.a.equals(cmd.getUndefValue())).findAny().orElseThrow(() -> { return new ExecutionException("Undefined symbol not present in extern directive");});
 
 				mod.addUseSymbol(cmd, addr);
 

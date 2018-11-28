@@ -6,19 +6,19 @@ import z808.command.instruction.Instruction;
 import util.NotImplementedException;
 import util.ExecutionException;
 
-public class MovAXMEM extends Instruction {
-	public static final int OPCODE = 0xB80000;
+public class Call extends Instruction {
+	public static final int OPCODE = 0xE80000;
 	public static final int SIZE   = 3;
 	
-	public MovAXMEM () {
+	public Call () {
 		this(null);
 	}
 
-	public MovAXMEM (String label) {
-		this.size = MovAXMEM.SIZE;
+	public Call (String label) {
+		this.size = SIZE;
 		this.label = label;
 
-		this.code = MovAXMEM.OPCODE;
+		this.code = OPCODE;
 		return;
 	}
 

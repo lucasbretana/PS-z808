@@ -1,6 +1,8 @@
 package z808;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Predicate;
 
 import z808.Program;
@@ -106,6 +108,18 @@ public class Module {
 		this.m_size += plus;
 	}
 
+	public void setModuleAlign(int align) throws ExecutionException {
+		TreeMap<Address, Command> newcode = new TreeMap<>();
+		
+		for (Map.Entry<Address,Command> entry : m_code.entrySet()) {
+			Address addr = new Address(entry.getKey().intValue() + align);
+			newcode.put(addr, entry.getValue());
+		}
+		
+		m_code.clear();
+		m_code.putAll(newcode);
+	}
+	
 	@Override
 	public String toString() {
 		String ret = "-- begin module --\n";

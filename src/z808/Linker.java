@@ -9,15 +9,17 @@ import util.TooLongValue;
 import util.Tuple;
 import z808.Module;
 import z808.command.Command;
-import z808.command.directive.DW;
-import z808.command.directive.Equ;
+import z808.command.directive.Extern;
+import z808.command.directive.Public;
 import z808.command.instruction.AddAX;
-import z808.command.instruction.AddCTE;
+import z808.command.instruction.AddDX;
+import z808.command.instruction.Call;
 import z808.command.instruction.Hlt;
 import z808.command.instruction.Instruction;
-import z808.command.instruction.Jump;
 import z808.command.instruction.MovAXMEM;
-import z808.command.instruction.SubCTE;
+import z808.command.instruction.MovMEMAX;
+import z808.command.instruction.Retn;
+import z808.command.instruction.SubAX;
 import z808.memory.Address;
 
 public class Linker {
@@ -34,8 +36,9 @@ public class Linker {
 	}
 	
 	public void InsertModule(Module module) throws ExecutionException {
+		module.setModuleAlign(m_ModuleAlign);
 		m_Module.add(module);
-
+		
 		for (Symbol symbol : module.global_symbol_table) {
 			Number addr = symbol.getValue();
 			
@@ -48,33 +51,68 @@ public class Linker {
 		m_ModuleAlign += module.getSize();
 	}
 	
-	public void LinkModules() throws SymbolNotFound {
+	public ArrayList<Module> LinkModules() throws SymbolNotFound {
 		fixSymbols();
-		linkModules();
+		
+		return m_Module;
 	}
 	
 	public static void LinkerTests() throws InvalidOperationException, TooLongValue, ExecutionException {
 		System.out.println("-- Running Linker Tests --");
 		
-		Program code = new Program();
-		code.add(new Address(0x0), new Equ (5));       			// EQU 5
-		code.add(new Address(0x1), new AddCTE (0x0));  			// ADD AX, 0x0
-		code.add(new Address(0x4), new MovAXMEM ("varTest"));   // MOV AX, varTest
-		code.add(new Address(0x6), new AddAX ("labelJmp"));     // labelJmp: ADD AX, AX
-		code.add(new Address(0x8), new SubCTE (0x0));  			// SUB AX, 0x0
-		code.add(new Address(0xb), new Jump ("labelJmp"));  	// JMP labelJmp
-		code.add(new Address(0xe), new Hlt ());        			// HLT
-		code.add(new Address(0xf), new DW ("varTest", 5));      // DW 5
+		ArrayList<Command> code = new ArrayList<>();
+		
+		code.add(new Public(
+				new String[] { "Function1", "Function2", "Function3", "Function4", "externData1" }
+		));
+		code.add(new Extern(
+				new String[] { "Function1", "Function2", "Function3", "Function4", "externData1" } ,
+				new String[] { "WORD", "WORD", "WORD", "WORD", "NEAR" }
+		));
+		
+		code.add(new AddAX("Function1"));
+		code.add(new AddDX());
+		code.add(new SubAX());
+		code.add(new Retn());
+		
+		code.add(new AddAX("Function2"));
+		code.add(new AddAX());
+		code.add(new AddAX());
+		code.add(new Retn());
+		
+		code.add(new AddAX("Function3"));
+		code.add(new Call("Function1"));
+		code.add(new AddAX());
+		code.add(new Call("Function2"));
+		code.add(new AddAX());
+		code.add(new AddAX());
+		code.add(new Retn());
+
+		code.add(new AddAX("Function4"));
+		code.add(new Call("Function3"));
+		code.add(new AddAX());
+		code.add(new MovAXMEM("externData1"));
+		code.add(new AddAX());
+		code.add(new MovMEMAX("externData1"));
+		code.add(new Retn());
+		
+		ArrayList<Command> code2 = new ArrayList<>();
+		
+		code2.add(new Public(new String[] { "Function4", "externData1" }));
+		code2.add(new Extern(
+				new String[] { "Function4", "externData1" } ,
+				new String[] { "WORD", "NEAR" }
+		));
+		
+		code2.add(new Call("Function4"));
+		code2.add(new MovAXMEM("externData1"));
+		code2.add(new Hlt());
 		
 		Module[] mod = new Module[2];
-		mod[0] = new Module();
-		mod[1] = new Module();
-		
-		//mod[0] = new Module(code);
-		//mod[0].addGlobalSymbol(code.get(new Address(0xf)), 0xf, true);
-		//mod[0].addGlobalSymbol(code.get(new Address(0x6)), 0x6, true);
-		//mod[0].addUseSymbol(code.get(new Address(0x4)));
-		//mod[0].addUseSymbol(code.get(new Address(0xb)));
+
+		Assembler asm = new Assembler();
+		mod[0] = asm.assembleCode(code);
+		mod[1] = asm.assembleCode(code2);
 		
 		Linker l = new Linker();
 		l.InsertModule(mod[0]);
@@ -87,6 +125,9 @@ public class Linker {
 		} finally {
 			System.out.println("-- Linker Tests Finished --");
 		}
+		
+		System.out.println(mod[0].m_code.toString());
+		System.out.println(mod[1].m_code.toString());
 	}
 	
 	private void fixSymbols() throws SymbolNotFound {
@@ -100,7 +141,7 @@ public class Linker {
 				Boolean fixed = false;
 				
 				for (Symbol symbol : m_GlobalSymbolTable) {
-					if (symbolName.equals(symbol.getName())) {
+					if (symbolName.equalsIgnoreCase(symbol.getName())) {
 						fixCommand(useTable, symbol);
 						
 						fixed = true;
@@ -115,13 +156,9 @@ public class Linker {
 		}
 	}
 	
-	private void linkModules() {
-		//TODO: Link Modules.
-	}
-	
 	private void fixCommand(Tuple<Command,Address> command, Symbol symbol) {
 		Instruction inst = (Instruction)command.a;
-		inst.fixSymbol((int)symbol.getValue());
+		inst.fixSymbol(symbol.getValue());
 		
 		System.out.println("CMD FIXED: " + inst.toString());
 	}

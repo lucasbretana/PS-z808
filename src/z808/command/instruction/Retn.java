@@ -6,26 +6,22 @@ import z808.command.instruction.Instruction;
 import util.NotImplementedException;
 import util.ExecutionException;
 
-public class MovAXMEM extends Instruction {
-	public static final int OPCODE = 0xB80000;
-	public static final int SIZE   = 3;
+public class Retn extends Instruction {
+	public static final int OPCODE = 0xC3;
+	public static final int SIZE   = 1;
 	
-	public MovAXMEM () {
+	public Retn () {
 		this(null);
 	}
 
-	public MovAXMEM (String label) {
-		this.size = MovAXMEM.SIZE;
+	public Retn (String label) {
+		this.size = SIZE;
 		this.label = label;
 
-		this.code = MovAXMEM.OPCODE;
+		this.code = OPCODE;
 		return;
 	}
 
 	public void exec (Memory mem) throws NotImplementedException, ExecutionException {
-	}
-	
-	public boolean isDefined() {
-		return false;
 	}
 }

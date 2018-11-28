@@ -24,4 +24,8 @@ public class Jump extends Instruction {
 
 	public void exec (Memory mem) throws NotImplementedException, ExecutionException {
 	}
+	
+	public boolean isDefined() {
+		return false;
+	}
 }

@@ -1,6 +1,7 @@
 package z808.command.instruction;
 
 import z808.command.Command;
+import z808.memory.Address;
 import util.NotImplementedException;
 
 public abstract class Instruction extends Command {
@@ -25,16 +26,18 @@ public abstract class Instruction extends Command {
 		return ret;
 	}
 	
-	private static int fixAddress(int code, int addr) {
-		return ((code & ~0xFFFF) | (addr << 8));
+	private static int fixAddress(int code, int i) {
+		return ((code & ~0xFFFF) | (i << 8));
 	}
 	
-	public void fixSymbol(int addr) {
+	public void fixSymbol(int i) {
 		if (this instanceof MovAXMEM)
-			code = fixAddress(code, addr);
+			code = fixAddress(code, i);
 		else if (this instanceof MovMEMAX)
-			code = fixAddress(code, addr);
+			code = fixAddress(code, i);
 		else if (this instanceof Jump)
-			code = fixAddress(code, addr);
+			code = fixAddress(code, i);
+		else if (this instanceof Call)
+			code = fixAddress(code, i);
 	}
 }
