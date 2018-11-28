@@ -120,6 +120,10 @@ public class Module {
 		m_code.putAll(newcode);
 	}
 	
+	public Program getProgram() {
+		return this.m_code;
+	}
+
 	@Override
 	public String toString() {
 		String ret = "-- begin module --\n";

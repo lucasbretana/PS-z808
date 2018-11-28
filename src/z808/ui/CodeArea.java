@@ -1,5 +1,7 @@
 package z808.ui;
 
+import java.util.Arrays;
+import java.util.ArrayList;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
@@ -24,6 +26,12 @@ public class CodeArea extends TabPane {
 		CodeBox b = ((CodeBox) this.selection.getSelectedItem().getContent());
 		b.clear();
 		b.appendText(txt);
+	}
+
+	public ArrayList<String> getCode () {
+		CodeBox b = ((CodeBox) this.selection.getSelectedItem().getContent());
+		String[] lines = b.getText().split("\n");
+		return new ArrayList<String>(Arrays.asList(lines));
 	}
 
 	private class CodeBox extends TextArea {
