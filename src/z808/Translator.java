@@ -46,6 +46,16 @@ public class Translator {
 	}
 
 	/**
+	 * TODO @alanaschwendler
+	 * remove this, only for tests
+	 */
+	public Command convertCode1(String raw_code) throws ExecutionException {
+		List<String> l = new ArrayList<>(1);
+		l.add(raw_code);
+		return this.convertCode(l).get(0);
+	}
+
+	/**
 	 * Creates a new Equ
 	 * @param s_cmd the string representation
 	 * @throws ExecutionException if there is an unexpected error

@@ -97,7 +97,7 @@ public class MainTest {
 		pCall.add("Val1");
 		pCall.add("Val2");
 
-		prog.add(new MacroDef("Shitface", params, cmds); //Shitface MACRO P1 P2 
+		prog.add(new MacroDef("Shitface", params, cmds)); //Shitface MACRO P1 P2 
 
 		prog.add(new AddAx());							 //ADD AX, AX 
 		prog.add(new AddAx());							 //ADD AX, AX

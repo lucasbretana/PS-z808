@@ -27,7 +27,6 @@ public class MacroCall extends Directive {
 	@Override
 	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");
-		//change parameters [?]
 	}
 
 	@Override
