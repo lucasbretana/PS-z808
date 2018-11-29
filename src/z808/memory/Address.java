@@ -27,4 +27,16 @@ public class Address extends Number implements Comparable<Number> {
 	public String toString() {
 		return String.format("%04X", this.value);
 	}
+
+	@Override
+	public int hashCode() {
+		 // according with java doc, if two objects are equals by the .equals()
+		 // then they should have the same hashCode
+		return this.intValue();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return (o == null) ? false : this.getClass().cast(o).intValue() == this.intValue();
+	}
 }

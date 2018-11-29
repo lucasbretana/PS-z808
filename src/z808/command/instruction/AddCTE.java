@@ -9,12 +9,17 @@ import util.ExecutionException;
 import util.TooLongValue;
 
 public class AddCTE extends Instruction {
+	public static final String MNEMONIC = "AddCTE";
 	public static final int OPCODE = 0X05;
 	public static final int SIZE   = 3;
 
-	private Address arg ;
+	private Address arg;
+	private String u_arg = null;
 	private boolean defined = false;
 
+	public AddCTE (String value) {
+		this(null, value);
+	}
 	public AddCTE (Address value) throws TooLongValue {
 		this(null, value);
 	}
@@ -27,6 +32,13 @@ public class AddCTE extends Instruction {
 		this(label, new Address(value));
 	}
 
+	public AddCTE (String label, String value) {
+		this.size = AddCTE.SIZE;
+		this.label = label;
+
+		this.u_arg = value;
+		this.code = AddCTE.OPCODE;
+	}
 	public AddCTE (String label, Address value) throws TooLongValue {
 		if (value.intValue() >= 0xFFFF)
 			throw new TooLongValue (value);
@@ -35,6 +47,7 @@ public class AddCTE extends Instruction {
 
 		this.arg = value;
 		this.code = AddCTE.OPCODE;
+		this.defined = true;
 		return;
 	}
 
@@ -61,12 +74,20 @@ public class AddCTE extends Instruction {
 	}
 
 	@Override
+	public String getUndefValue() {
+		return this.u_arg;
+	}
+
+	@Override
 	public boolean isDefined() {
 		return this.defined;
 	}
 
 	@Override
 	public String toString() {
-		return "05 " + arg;
+		if (this.defined)
+			return "05 " + arg;
+		else
+			return AddCTE.MNEMONIC + " " + this.u_arg;
 	}
 }
