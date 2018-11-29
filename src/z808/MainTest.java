@@ -22,6 +22,15 @@ public class MainTest {
 		} catch (TestFaliedException e) {
 		  System.err.println("Failed Processor Tests:" + e);
 		}
+
+		// @Bretana tests
+		try {
+		  z808.command.directive.GenericDirectiveTester.all();
+		  z808.Assembler.fakeModule();
+		} catch (ExecutionException ex) {
+		  ex.printStackTrace();
+		}
+
 		// Implement try to other tests here.
 	}
 

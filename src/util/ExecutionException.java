@@ -9,4 +9,7 @@ public class ExecutionException extends Exception {
 	public ExecutionException(String msg) {
 		super("Execution halted: " + msg);
 	}
+	public ExecutionException(String msg, Throwable cause) {
+		super("Execution halted: " + msg, cause);
+	}
 }
