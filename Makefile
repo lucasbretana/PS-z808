@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 JC = javac
-JFLAGS = -g -Xlint:all
+JFLAGS = -g -Xlint:all -Xdiags:verbose
 
 JD = javadoc
 JDFLAG = -Xdoclint:all

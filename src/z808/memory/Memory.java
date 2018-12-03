@@ -66,6 +66,16 @@ public class Memory {
 		return new Address(this.CL.intValue());
 	}
 
+	/**
+	 * Load Registers into corresponding memory addresses.
+	 * @param p Map of Address to Register to be loaded
+	 */
+	public void load(Map<Address, Register> p) throws ExecutionException {
+		for (Map.Entry<Address, Register> entry : p.entrySet()) {
+			this.modifyMemory(entry.getKey(), entry.getValue());
+		}
+	}
+
 	public String registersToString () {
 		String ret =
 			"CL:"  + CL  + "\n" +

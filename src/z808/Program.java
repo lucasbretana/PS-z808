@@ -8,6 +8,7 @@ import util.InvalidOperationException;
 import util.SegmentationException;
 
 import z808.memory.Address;
+import z808.memory.Register;
 import z808.command.Command;
 
 /**
@@ -42,6 +43,32 @@ public class Program extends TreeMap<Address, Command> {
 		Command c = super.get(addr);
 		if (c != null) return c;
 		throw new SegmentationException ("Trying to fetch instruction from outside code segment:" + addr);
+	}
+
+	public TreeMap<Address, Register> memoryView() throws ExecutionException {
+		TreeMap<Address, Register> mv = new TreeMap<Address, Register>();
+		for (Map.Entry<Address, Command> entry : entrySet()) {
+			Address addr = entry.getKey();
+			Command cmd = entry.getValue();
+			int i = 0;
+			for (Register rg : cmd.asRegisters()) {
+				Address crr = new Address(addr.intValue() + i);
+				Register v  = mv.putIfAbsent(crr, rg);
+				if (v != null)
+					throw new InvalidOperationException("\nFailed to generate memory view.\n"
+																							+ "Memory location: " + crr
+																							+ "Reg value: " + v
+																							+ "Trying to insert: " + rg);
+				i++;
+			}
+		}
+		return mv;
+	}
+
+	public void merge(Program p) throws ExecutionException {
+		for (Map.Entry<Address, Command> entry : p.entrySet()) {
+			this.add(entry.getKey(), entry.getValue());
+		}
 	}
 
 	public String toString() {

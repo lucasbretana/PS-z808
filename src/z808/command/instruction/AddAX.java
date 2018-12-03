@@ -1,5 +1,9 @@
 package z808.command.instruction;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import z808.memory.Register;
 import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
@@ -40,5 +44,13 @@ public class AddAX extends Instruction {
 		// 8. Write back
 		// 9. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
+	}
+
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(AddAX.SIZE);
+		l.add(new Register(0x03));
+		l.add(new Register(0xc0));
+		return l;
 	}
 }

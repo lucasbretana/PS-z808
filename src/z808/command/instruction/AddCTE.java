@@ -1,7 +1,10 @@
 package z808.command.instruction;
 
+import java.util.ArrayList;
+
 import z808.memory.Memory;
 import z808.memory.Address;
+import z808.memory.Register;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -39,6 +42,7 @@ public class AddCTE extends Instruction {
 		this.u_arg = value;
 		this.code = AddCTE.OPCODE;
 	}
+
 	public AddCTE (String label, Address value) throws TooLongValue {
 		if (value.intValue() >= 0xFFFF)
 			throw new TooLongValue (value);
@@ -89,5 +93,14 @@ public class AddCTE extends Instruction {
 			return "05 " + arg;
 		else
 			return AddCTE.MNEMONIC + " " + this.u_arg;
+	}
+
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(AddCTE.SIZE);
+		l.add(new Register(0x05));
+		l.add(new Register(this.arg.intValue() >> 16));
+		l.add(new Register((this.arg.intValue() << 16) >> 16));
+		return l;
 	}
 }
