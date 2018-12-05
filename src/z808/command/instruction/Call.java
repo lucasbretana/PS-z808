@@ -11,21 +11,26 @@ public class Call extends Instruction {
 	public static final int OPCODE = 0xE80000;
 	public static final int SIZE   = 3;
 
-	private Address arg = null;  // the linker will substitute the function name for an address that will be in some module's global symbol table
+	public Address arg = null;  // the linker will substitute the function name for an address that will be in some module's global symbol table
 	private String u_arg = null; // the function name
 
-	public Call (String label, String call) {
+	public Call (String label, String call, Address _arg) {
 		this.size = SIZE;
 		this.code = OPCODE;
 
 		this.label = label;
 		this.u_arg = call;
+		this.arg = _arg;
 	}
 
 	public Call (String call) {
-		this(null, call);
+		this(null, call, null);
 	}
 
+	public Call (String call, Address _arg) {
+		this(null, call, _arg);
+	}
+	
 	@Override
 	public void exec (Memory mem) throws NotImplementedException, ExecutionException {
 	}
