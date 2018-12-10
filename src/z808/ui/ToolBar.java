@@ -16,6 +16,7 @@ import z808.Module;
 
 
 public class ToolBar extends HBox {
+	private Button addSource;
 	private Button macroProcess;
 	private Button assemble;
 	private Button loadAndGo;
@@ -32,17 +33,28 @@ public class ToolBar extends HBox {
 		setStyle(BeautyFactory.GetStyle()
 						 );
 
+		this.addSource = new Button(" + ");
 		this.macroProcess = new Button("MP");
 		this.assemble = new Button("A");
 		this.loadAndGo = new Button("LG");
-		this.step = new Button(">");
-		this.run = new Button(">>");
+		this.step = new Button(" > ");
 
-		getChildren().add(macroProcess);
-		getChildren().add(assemble);
-		getChildren().add(loadAndGo);
-		getChildren().add(step);
-		getChildren().add(run);
+		this.addSource.setMaxHeight(Double.MAX_VALUE);
+		this.addSource.prefWidth(this.addSource.getHeight());
+		this.macroProcess.setMaxHeight(Double.MAX_VALUE);
+		this.macroProcess.prefWidth(this.macroProcess.getHeight());
+		this.assemble.setMaxHeight(Double.MAX_VALUE);
+		this.assemble.prefWidth(this.assemble.getHeight());
+		this.loadAndGo.setMaxHeight(Double.MAX_VALUE);
+		this.loadAndGo.prefWidth(this.loadAndGo.getHeight());
+		this.step.setMaxHeight(Double.MAX_VALUE);
+		this.step.prefWidth(this.step.getHeight());
+
+		getChildren().addAll(addSource,
+												 macroProcess,
+												 assemble,
+												 loadAndGo,
+												 step);
 	}
 
 	public void setProcessor(Processor p, OutputArea oArea, CodeArea cArea) {
@@ -72,6 +84,10 @@ public class ToolBar extends HBox {
 					e.printStackTrace(pw);
 					oArea.updateScreen(sw.toString());
 				}
+			});
+
+		this.addSource.setOnAction((event) -> {
+				cArea.addSourceFile();
 			});
 	}
 

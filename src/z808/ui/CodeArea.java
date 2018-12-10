@@ -10,18 +10,25 @@ import z808.ui.BeautyFactory;
 
 public class CodeArea extends TabPane {
 	SingleSelectionModel<Tab> selection;
+	private int srcCount;
 
 	public CodeArea () {
 		super();
 		setPrefSize(BeautyFactory.SCREEN_WIDTH  * 0.5,
 								BeautyFactory.SCREEN_HEIGHT * 0.85);
-		Tab ftab = new Tab();
 		this.selection = getSelectionModel();
-		ftab.setText("fileX");
+		this.srcCount = 0;
+		addSourceFile();
+	}
+
+	public void addSourceFile() {
+		Tab ftab = new Tab();
+		ftab.setText("Src " + ++srcCount);
 		CodeBox fbox = new CodeBox();
 		ftab.setContent(fbox);
 		getTabs().add(ftab);
 	}
+
 	public void updateScreen (String txt) {
 		CodeBox b = ((CodeBox) this.selection.getSelectedItem().getContent());
 		b.clear();
