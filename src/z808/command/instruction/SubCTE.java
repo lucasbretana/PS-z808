@@ -1,9 +1,11 @@
 package z808.command.instruction;
 
 import java.lang.Math;
+import java.util.ArrayList;
 
 import z808.memory.Memory;
 import z808.memory.Address;
+import z808.memory.Register;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -64,5 +66,14 @@ public class SubCTE extends Instruction {
 	@Override
 	public String toString() {
 		return "2B " + arg;
+	}
+
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(SubCTE.SIZE);
+		l.add(new Register(0x2b));
+		l.add(new Register(this.arg.intValue() >> 16));
+		l.add(new Register((this.arg.intValue() << 16) >> 16));
+		return l;
 	}
 }

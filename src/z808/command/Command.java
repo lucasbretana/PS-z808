@@ -1,6 +1,10 @@
 package z808.command;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import z808.memory.Memory;
+import z808.memory.Register;
 
 import util.NotImplementedException;
 import util.ExecutionException;
@@ -18,6 +22,11 @@ public abstract class Command {
 
 	public String getLabel() {
 		return this.label;
+	}
+
+	// to be override by instructions to generate memory view
+	public ArrayList<Register> asRegisters() {
+		return new ArrayList<Register>(0);
 	}
 
 	// to be overrite command that access the memory (like AddCTE)

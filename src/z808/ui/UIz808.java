@@ -51,7 +51,7 @@ public class UIz808 extends Application {
 		this.toolBar = new ToolBar();
 		this.srcCode = new CodeArea();
 		this.innCode = new ProcessedCodeArea();
-		this.mainMem = new MemoryArea(0);
+		this.mainMem = new MemoryArea();
 		this.regBank = new RegistersArea();
 		this.outArea = new OutputArea();
 
