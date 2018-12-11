@@ -4,16 +4,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
 
 import java.util.List;
-import java.io.StringWriter;
-import java.io.PrintWriter;
 import z808.command.Command;
 import z808.ui.OutputArea;
 import z808.ui.CodeArea;
 import z808.Translator;
-import z808.Processor;
+import z808.MacroProcessor;
 import z808.Assembler;
 import z808.Module;
-
+import z808.Linker;
+import z808.Processor;
 
 public class ToolBar extends HBox {
 	private Button addSource;
@@ -30,8 +29,7 @@ public class ToolBar extends HBox {
 		super(2);
 		setPrefSize(BeautyFactory.SCREEN_WIDTH  * 1,
 										BeautyFactory.SCREEN_HEIGHT * 0.05);
-		setStyle(BeautyFactory.GetStyle()
-						 );
+		setStyle(BeautyFactory.GetStyle());
 
 		this.addSource = new Button(" + ");
 		this.macroProcess = new Button("MP");
@@ -59,35 +57,57 @@ public class ToolBar extends HBox {
 
 	public void setProcessor(Processor p, OutputArea oArea, CodeArea cArea) {
 		this.machine = p;
-		this.step.setOnAction((event) -> {
+		MacroProcessor mcrPr = null;
+		Translator trans = new Translator();
+		Assembler assmb = new Assembler();
+
+		this.addSource.setOnAction((event) -> {
+				cArea.addSourceFile();
+			});
+
+		this.macroProcess.setOnAction((event) -> {
 				try {
-					this.machine.step();
+					List<String> lines = cArea.getCode();
+					List<Command> code = trans.convertCode(lines);
+					// mcrPr.process(code); // TODO use real MP method
+					oArea.updateScreen(code.toString());
 				} catch (Exception e) {
-					StringWriter sw = new StringWriter();
-					PrintWriter pw = new PrintWriter(sw);
-					e.printStackTrace(pw);
-					oArea.updateScreen(sw.toString());
+					oArea.updateScreen(e.getMessage());
 				}
 			});
 
 		this.assemble.setOnAction((event) -> {
 				try {
-					Translator trans = new Translator();
-					Assembler assmb = new Assembler();
 					List<String> lines = cArea.getCode();
 					List<Command> code = trans.convertCode(lines);
+					// mcrPr.process(code); // TODO use real MP method
 					Module mod = assmb.assembleCode(code);
-					this.machine.load(mod.getProgram());
+					oArea.updateScreen(mod.toString());
 				} catch (Exception e) {
-					StringWriter sw = new StringWriter();
-					PrintWriter pw = new PrintWriter(sw);
-					e.printStackTrace(pw);
-					oArea.updateScreen(sw.toString());
+					oArea.updateScreen(e.getMessage());
 				}
 			});
 
-		this.addSource.setOnAction((event) -> {
-				cArea.addSourceFile();
+		this.loadAndGo.setOnAction((event) -> {
+				try {
+					Linker lng = new Linker();
+					for (List<String> src : cArea.getAllCode()) {
+						List<Command> code = trans.convertCode(src);
+						// mcrPr.process(code); // TODO use real MP method
+						Module mod = assmb.assembleCode(code);
+						lng.InsertModule(mod);
+					}
+					List<Module> something = lng.LinkModules(); // TODO: findout what to do with a ArrayList of modules
+					this.machine.load(something.get(0).getProgram());
+				} catch (Exception e) {
+					oArea.updateScreen(e.getMessage());
+				}
+			});
+
+		this.step.setOnAction((event) -> {
+				try { this.machine.step(); } catch (Exception e) {
+					oArea.updateScreen(e.getMessage());
+				}
 			});
 	}
 

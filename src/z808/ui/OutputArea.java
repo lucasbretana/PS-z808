@@ -19,5 +19,6 @@ public class OutputArea extends TextArea {
 
 	public void updateScreen (String txt) {
 		appendText(txt);
+		appendText("\n");
 	}
 }
