@@ -73,7 +73,7 @@ public class MemoryArea extends ScrollPane {
 		l.textProperty().bind(r.getProperty());
 
 		if (this.insertIndex % 2 == 0) {
-			this.addInfoLabel(String.format("%04X", this.insertIndex*2));
+			this.addInfoLabel(String.format("%04X", this.insertIndex));
 		}
 		this.mem.getChildren().add(l);
 		this.insertIndex += 1;
