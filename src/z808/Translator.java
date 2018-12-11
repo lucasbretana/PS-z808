@@ -22,7 +22,7 @@ public class Translator {
 	/**
 	 * Creates a translator
 	 */
-	public Translator() throws Exception { }
+	public Translator() { }
 
 	/**
 	 * Converets the given list of string to commands
