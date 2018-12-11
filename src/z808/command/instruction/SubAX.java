@@ -1,6 +1,9 @@
 package z808.command.instruction;
 
+import java.util.ArrayList;
+
 import z808.memory.Memory;
+import z808.memory.Register;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -40,5 +43,13 @@ public class SubAX extends Instruction {
 		// 8. Write back
 		// 9. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
+	}
+
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(SubAX.SIZE);
+		l.add(new Register(0x2B));
+		l.add(new Register(0xc0));
+		return l;
 	}
 }
