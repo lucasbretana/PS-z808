@@ -13,6 +13,7 @@ import z808.Assembler;
 import z808.Module;
 import z808.Linker;
 import z808.Processor;
+import z808.Program;
 
 public class ToolBar extends HBox {
 	private Button addSource;
@@ -97,8 +98,8 @@ public class ToolBar extends HBox {
 						Module mod = assmb.assembleCode(code);
 						lng.InsertModule(mod);
 					}
-					List<Module> something = lng.LinkModules(); // TODO: findout what to do with a ArrayList of modules
-					this.machine.load(something.get(0).getProgram());
+					Program finalProgram = lng.LinkModules();
+					this.machine.load(finalProgram);
 				} catch (Exception e) {
 					oArea.updateScreen(e.getMessage());
 				}
