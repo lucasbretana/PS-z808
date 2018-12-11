@@ -35,10 +35,22 @@ public class CodeArea extends TabPane {
 		b.appendText(txt);
 	}
 
+	/**
+	 * Gets a list of all sources files
+	 */
+	public ArrayList<ArrayList<String>> getAllCode() {
+		ArrayList<ArrayList<String>> r = new ArrayList<ArrayList<String>>(getTabs().size());
+		getTabs().forEach((tab) -> {
+				r.add( ((CodeBox) tab.getContent()).lines() );
+			});
+		return r;
+	}
+
+	/**
+	 * Gets source code for the current tab.
+	 */
 	public ArrayList<String> getCode () {
-		CodeBox b = ((CodeBox) this.selection.getSelectedItem().getContent());
-		String[] lines = b.getText().split("\n");
-		return new ArrayList<String>(Arrays.asList(lines));
+		return ((CodeBox) this.selection.getSelectedItem().getContent()).lines();
 	}
 
 	private class CodeBox extends TextArea {
@@ -49,6 +61,10 @@ public class CodeArea extends TabPane {
 							 + "-fx-background-color: antiquewhite;"
 							 + "-fx-font-size: 20px;"
 							 );
+		}
+		public ArrayList<String> lines() {
+			String[] lines = getText().split("\n");
+			return new ArrayList<String>(Arrays.asList(lines));
 		}
 	}
 }
