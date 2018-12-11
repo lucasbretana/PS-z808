@@ -1,6 +1,8 @@
 package z808;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 import util.ExecutionException;
 import util.InvalidOperationException;
@@ -53,10 +55,16 @@ public class Linker {
 		m_ModuleAlign += module.getSize();
 	}
 	
-	public ArrayList<Module> LinkModules() throws SymbolNotFound, ExecutionException {
+	public Program LinkModules() throws SymbolNotFound, ExecutionException {
 		fixSymbols();
 		
-		return m_Module;
+		Program program = new Program();
+		
+		for (Module module : m_Module)
+			for (Map.Entry<Address, Command> entry : module.getProgram().entrySet())
+				program.add(entry.getKey(), entry.getValue());
+		
+		return program;
 	}
 	
 	public static void LinkerTests() throws InvalidOperationException, TooLongValue, ExecutionException {
