@@ -33,7 +33,7 @@ public class Equ extends Directive {
 	public void exec (Memory mem)
 		throws ExecutionException {
 		// 1. Create Memory entry
-		mem.newMemoryEntry(mem.CL, this.arg);
+		mem.modifyMemory(mem.CL, this.arg);
 
 		// 2. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );

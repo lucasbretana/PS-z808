@@ -1,10 +1,13 @@
 package z808.command.instruction;
 
+import java.util.ArrayList;
+
 import util.AZMRegexCommon;
 import util.NotImplementedException;
 import util.ExecutionException;
 
 import z808.memory.Memory;
+import z808.memory.Register;
 import z808.command.instruction.Instruction;
 
 public class SubAX extends Instruction {
@@ -60,5 +63,13 @@ public class SubAX extends Instruction {
 		}
 
 		throw new ExecutionException("This doesn't make any sense..mismatching expression");
+	}
+
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(SubAX.SIZE);
+		l.add(new Register(0x2B));
+		l.add(new Register(0xc0));
+		return l;
 	}
 }

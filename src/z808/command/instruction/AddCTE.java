@@ -5,8 +5,11 @@ import util.ExecutionException;
 import util.NotImplementedException;
 import util.TooLongValue;
 
+import java.util.ArrayList;
+
 import z808.memory.Memory;
 import z808.memory.Address;
+import z808.memory.Register;
 import z808.command.instruction.Instruction;
 
 public class AddCTE extends Instruction {
@@ -115,4 +118,12 @@ public class AddCTE extends Instruction {
 		throw new ExecutionException("This doesn't make any sense..mismatching expression");
 	}
 
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(AddCTE.SIZE);
+		l.add(new Register(0x05));
+		l.add(new Register(this.arg >> 16));
+		l.add(new Register((this.arg << 16) >> 16));
+		return l;
+	}
 }

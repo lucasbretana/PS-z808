@@ -1,11 +1,13 @@
 package z808.ui;
 
+import java.util.List;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.control.Label;
 import javafx.geometry.NodeOrientation;
 import z808.ui.BeautyFactory;
 import z808.memory.Address;
+import z808.memory.Register;
 import z808.Processor;
 
 public class MemoryArea extends ScrollPane {
@@ -14,8 +16,10 @@ public class MemoryArea extends ScrollPane {
 
 	private TilePane mem;
 	private Processor machine;
+	private int insertIndex;
+	private int colourIndex;
 
-	public MemoryArea (int size) {
+	public MemoryArea () {
 		super();
 		setPrefSize(BeautyFactory.SCREEN_WIDTH  * 0.2,
 								BeautyFactory.SCREEN_HEIGHT * 0.3);
@@ -29,14 +33,18 @@ public class MemoryArea extends ScrollPane {
 		this.addInfoLabel("Address");
 		this.addInfoLabel("+0");
 		this.addInfoLabel("+1");
-		for (int i = 0; i < size/2; ++i) {
-			this.addInfoLabel(String.format("%04X", i*2));
-			this.addRegister("XX", i%2 == 0);
-			this.addRegister("XX", i%2 != 0);
-		}
+		this.insertIndex = 0;
+		this.colourIndex = 0;
 	}
 
-	public void setProcessor(Processor p) { this.machine = p; }
+	public void setProcessor(Processor p) {
+		this.machine = p;
+		List<Register> l = this.machine.getMemoryRegisters();
+		for (Register r: l) {
+			if (this.insertIndex >= 256) break; // TODO: @JONATHAS small memory to avoid slowdown on UI
+			this.addRegister(r);
+		}
+	}
 
 	public void updateScreen () {
 	}
@@ -53,15 +61,23 @@ public class MemoryArea extends ScrollPane {
 		return;
 	}
 
-	private void addRegister(String v, boolean blue) {
-		Label l = new Label(v);
+	private void addRegister(Register r) {
+		Label l = new Label();
+		boolean blue = this.colourIndex < 2;
 		l.setStyle(BeautyFactory.GetStyle()
 							 + "-fx-background-color: " + (blue ? "lightsteelblue" : "lightgray") + ";"
 							 + "-fx-font-size: 16px;");
 		l.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 		l.setMinSize(NODE_WIDTH, NODE_HIGHT);
 		l.setMaxSize(NODE_WIDTH, NODE_HIGHT);
+		l.textProperty().bind(r.getProperty());
+
+		if (this.insertIndex % 2 == 0) {
+			this.addInfoLabel(String.format("%04X", this.insertIndex));
+		}
 		this.mem.getChildren().add(l);
+		this.insertIndex += 1;
+		this.colourIndex = (this.colourIndex + 1) % 4;
 		return;
 	}
 }

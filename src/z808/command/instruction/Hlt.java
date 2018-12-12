@@ -1,6 +1,9 @@
 package z808.command.instruction;
 
+import java.util.ArrayList;
+
 import z808.memory.Memory;
+import z808.memory.Register;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
@@ -42,5 +45,12 @@ public class Hlt extends Instruction {
 		mem.CL.set( mem.CL.get() + this.getSize() );
 
 		throw new FinishedException("HLT INSTRUCTION");
+	}
+
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(Hlt.SIZE);
+		l.add(new Register(0XF4));
+		return l;
 	}
 }

@@ -13,8 +13,6 @@ import z808.ui.RegistersArea;
 import z808.ui.MemoryArea;
 import z808.ui.OutputArea;
 
-import java.io.StringWriter;
-import java.io.PrintWriter;
 import util.TestFaliedException;
 import util.ExecutionException;
 import util.NotImplementedException;
@@ -51,7 +49,7 @@ public class UIz808 extends Application {
 		this.toolBar = new ToolBar();
 		this.srcCode = new CodeArea();
 		this.innCode = new ProcessedCodeArea();
-		this.mainMem = new MemoryArea(0);
+		this.mainMem = new MemoryArea();
 		this.regBank = new RegistersArea();
 		this.outArea = new OutputArea();
 
@@ -70,17 +68,17 @@ public class UIz808 extends Application {
 		stage.show();
 
 		// Call for screen update
-		this.configMachine(512);
+		this.configMachine();
 		this.updateScreen();
 	}
 
-	public void configMachine (int memorySize) {
+	public void configMachine () {
 		try {
 			this.machine = new Processor();
 			this.innCode.setProcessor(this.machine);
 			this.mainMem.setProcessor(this.machine);
 			this.regBank.setProcessor(this.machine);
-			this.toolBar.setProcessor(this.machine, this.outArea);
+			this.toolBar.setProcessor(this, this.machine, this.outArea, this.srcCode);
 
 			// TODO: @Jonathas
 			// Source code and processor iniciation, this will be changed until final release
@@ -93,7 +91,7 @@ public class UIz808 extends Application {
 			code.add(new Address(0xb), new Hlt ());        // hlt
 			this.machine.load(code);
 		} catch (ExecutionException e) {
-			this.reportError(exceptionToString(e));
+			this.reportError(e.getMessage());
 		}
 	}
 
@@ -110,17 +108,11 @@ public class UIz808 extends Application {
 			this.mainMem.updateScreen();
 			this.regBank.updateScreen();
 		} catch (Exception e) {
-			reportError(exceptionToString(e));
+			reportError(e.getMessage());
 		}
 	}
 
 	private void reportError(String e) {
 		this.outArea.updateScreen(e);
-	}
-  private String exceptionToString (Exception e) {
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		e.printStackTrace(pw);
-		return sw.toString();
 	}
 }

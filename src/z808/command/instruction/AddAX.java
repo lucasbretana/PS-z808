@@ -4,6 +4,10 @@ import util.AZMRegexCommon;
 import util.NotImplementedException;
 import util.ExecutionException;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import z808.memory.Register;
 import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
@@ -60,5 +64,13 @@ public class AddAX extends Instruction {
 		}
 
 		throw new ExecutionException("This doesn't make any sense..mismatching expression");
+	}
+
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(AddAX.SIZE);
+		l.add(new Register(0x03));
+		l.add(new Register(0xc0));
+		return l;
 	}
 }

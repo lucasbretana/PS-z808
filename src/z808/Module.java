@@ -1,6 +1,8 @@
 package z808;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Predicate;
 
 import z808.Program;
@@ -104,6 +106,22 @@ public class Module {
 		if (plus < 0)
 			throw new ExecutionException("Cannot decrease module size");
 		this.m_size += plus;
+	}
+
+	public void setModuleAlign(int align) throws ExecutionException {
+		TreeMap<Address, Command> newcode = new TreeMap<>();
+		
+		for (Map.Entry<Address,Command> entry : m_code.entrySet()) {
+			Address addr = new Address(entry.getKey().intValue() + align);
+			newcode.put(addr, entry.getValue());
+		}
+		
+		m_code.clear();
+		m_code.putAll(newcode);
+	}
+	
+	public Program getProgram() {
+		return this.m_code;
 	}
 
 	@Override

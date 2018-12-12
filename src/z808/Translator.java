@@ -34,29 +34,29 @@ public class Translator {
 		Command c = null;
 		for (String cmd : raw_code) {
 			if (cmd.matches(Equ.REGEX)) {
-				System.out.println("TOREMOVE, Equ \"" + cmd + "\"");
+
 				c = Equ.makeEqu(cmd);
 			} else if (cmd.matches(AddAX.REGEX)) {
-				System.out.println("TOREMOVE, AddAX \"" + cmd + "\"");
+
 				c = AddAX.makeAddAX(cmd);
 			} else if (cmd.matches(AddDX.REGEX)) {
-				System.out.println("TOREMOVE, AddDX \"" + cmd + "\"");
+
 				c = AddDX.makeAddDX(cmd);
 			} else if (cmd.matches(AddCTE.REGEX)) {
-				System.out.println("TOREMOVE, AddCTE \"" + cmd + "\"");
+
 				c = AddCTE.makeAddCTE(cmd);
 			} else if (cmd.matches(SubAX.REGEX)) {
-				System.out.println("TOREMOVE, SubAX \"" + cmd + "\"");
-				//c = SubAX.makeSubAX(cmd);
+
+				c = SubAX.makeSubAX(cmd);
 			} else if (cmd.matches(SubDX.REGEX)) {
-				System.out.println("TOREMOVE, SubDX \"" + cmd + "\"");
-				//c = SubDX.makeSubDX(cmd);
+
+				c = SubDX.makeSubDX(cmd);
 			} else if (cmd.matches(SubCTE.REGEX)) {
-				System.out.println("TOREMOVE, SubCTE \"" + cmd + "\"");
-				//c = SubCTE.makeSubCTE(cmd);
+
+				c = SubCTE.makeSubCTE(cmd);
 			} else {
 				System.out.println("TODO: command string \"" + cmd + "\"");
-				//throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
+				throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
 			}
 
 			output.add(c);
@@ -81,8 +81,7 @@ public class Translator {
 			"add AX 0",
 			"add AX AX",
 			"add AX AX",
-			"sub AX 0",
-			"hlt"
+			"sub AX 0"
 		));
 
 		if (verb) System.err.println("Resulting transaltor: " + t);
@@ -117,8 +116,7 @@ public class Translator {
 			"dif3 sub AX 10",
 			"sub AX 10",
 			"dif4 sub AX five",
-			"sub AX five",
-			"hlt"
+			"sub AX five"
 		)));
 
 		System.err.println("-- Regex tests are OK --");
