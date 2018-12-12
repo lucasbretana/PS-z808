@@ -7,11 +7,14 @@ import z808.memory.Address;
 import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
+import util.AZMRegexCommon;
 import util.NotImplementedException;
 import util.ExecutionException;
 
 public class MovAXMEM extends Instruction {
 	public static final int OPCODE = 0xB8;
+	public static final String MNEMONIC = "mov";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " AX (" + AZMRegexCommon.NAME_RGX + "|" + AZMRegexCommon.INTEGER_RGX + ")$";
 	public static final int SIZE   = 3;
 
 	public Address arg = null;
@@ -32,6 +35,14 @@ public class MovAXMEM extends Instruction {
 
 	public MovAXMEM (String call, Address _arg) {
 		this(null, call, _arg);
+	}
+
+	public MovAXMEM (String label, String call) {
+		this(label, call, null);
+	}
+
+	public MovAXMEM (String call, int _arg) throws ExecutionException {
+		this(null, call, new Address(_arg));
 	}
 
 	public MovAXMEM (int _arg) throws ExecutionException {
@@ -73,6 +84,25 @@ public class MovAXMEM extends Instruction {
 	@Override
 	public String toString() {
 		return "B8 " + ((this.isDefined()) ? arg : this.u_arg);
+	}
+
+	static public MovAXMEM makeMovAXMEM(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		if (tokens.length < 3) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+		String label;
+		String arg;
+
+		if (tokens.length == 4) {
+			label = tokens[0];
+			arg = tokens[3];
+		} else {
+			label = null;
+			arg = tokens[2];
+		}
+
+		if ( arg.matches(AZMRegexCommon.INTEGER_RGX) )
+			return new MovAXMEM(label, AZMRegexCommon.convertZ808Int(arg));
+		return new MovAXMEM(label, arg);
 	}
 
 	@Override

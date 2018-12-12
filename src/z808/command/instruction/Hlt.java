@@ -6,13 +6,16 @@ import z808.memory.Memory;
 import z808.memory.Register;
 import z808.command.instruction.Instruction;
 
+import util.AZMRegexCommon;
 import util.NotImplementedException;
 import util.ExecutionException;
 import util.FinishedException;
 
 public class Hlt extends Instruction {
 	public static final int OPCODE = 0XF4;
-	public static final int SIZE   = 1;
+	public static final String MNEMONIC = "hlt";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + "$";
+	public static final int SIZE = 1;
 	
 	public Hlt () {
 		this(null);
@@ -45,6 +48,14 @@ public class Hlt extends Instruction {
 		mem.CL.set( mem.CL.get() + this.getSize() );
 
 		throw new FinishedException("HLT INSTRUCTION");
+	}
+
+	static public Hlt makeHlt(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		if (tokens.length < 1) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+		String label = (tokens.length == 2) ? tokens[0] : null;
+
+		return new Hlt(label);
 	}
 
 	@Override

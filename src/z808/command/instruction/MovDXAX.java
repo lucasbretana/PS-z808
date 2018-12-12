@@ -7,12 +7,15 @@ import z808.memory.Address;
 import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
+import util.AZMRegexCommon;
 import util.NotImplementedException;
 import util.ExecutionException;
 
 public class MovDXAX extends Instruction {
 	public static final int OPCODE = 0x8BD0;
-	public static final int SIZE   = 2;
+	public static final String MNEMONIC = "mov";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " DX AX$";
+	public static final int SIZE = 2;
 
 	public MovDXAX () {
 		this(null);
@@ -44,6 +47,14 @@ public class MovDXAX extends Instruction {
 		// 8. Write back
 		// 9. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
+	}
+
+	static public MovDXAX makeMovDXAX(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		if (tokens.length < 3) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+		String label = (tokens.length == 4) ? tokens[0] : null;
+
+		return new MovDXAX(label);
 	}
 
 	@Override

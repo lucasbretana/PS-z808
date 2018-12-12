@@ -7,12 +7,15 @@ import z808.memory.Address;
 import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
+import util.AZMRegexCommon;
 import util.NotImplementedException;
 import util.ExecutionException;
 
 public class PushAX extends Instruction {
 	public static final int OPCODE = 0x50;
-	public static final int SIZE   = 1;
+	public static final String MNEMONIC = "push";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " AX$";
+	public static final int SIZE = 1;
 
 	public PushAX () {
 		this(null);
@@ -46,6 +49,14 @@ public class PushAX extends Instruction {
 		// 8. Write back
 		// 9. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
+	}
+
+	static public PushAX makePushAX(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		if (tokens.length < 2) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+		String label = (tokens.length == 3) ? tokens[0] : null;
+
+		return new PushAX(label);
 	}
 
 	@Override

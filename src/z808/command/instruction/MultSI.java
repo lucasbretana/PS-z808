@@ -6,12 +6,15 @@ import z808.memory.Memory;
 import z808.memory.Register;
 import z808.command.instruction.Instruction;
 
+import util.AZMRegexCommon;
 import util.NotImplementedException;
 import util.ExecutionException;
 
 public class MultSI extends Instruction {
 	public static final int OPCODE = 0XF7E6;
-	public static final int SIZE   = 2;
+	public static final String MNEMONIC = "mul";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " SI$";
+	public static final int SIZE = 2;
 
 	public MultSI () {
 		this(null);
@@ -43,6 +46,14 @@ public class MultSI extends Instruction {
 		// 8. Write back
 		// 9. Program Counter increment
 		mem.CL.set( mem.CL.get() + this.getSize() );
+	}
+
+	static public MultAX makeMultAX(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		if (tokens.length < 2) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+		String label = (tokens.length == 3) ? tokens[0] : null;
+
+		return new MultAX(label);
 	}
 
 	@Override

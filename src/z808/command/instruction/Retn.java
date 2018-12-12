@@ -7,12 +7,15 @@ import z808.memory.Address;
 import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
+import util.AZMRegexCommon;
 import util.NotImplementedException;
 import util.ExecutionException;
 
 public class Retn extends Instruction {
 	public static final int OPCODE = 0xC3;
-	public static final int SIZE   = 1;
+	public static final String MNEMONIC = "hlt";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + "$";
+	public static final int SIZE = 1;
 	
 	public Retn () {
 		this(null);
@@ -46,6 +49,14 @@ public class Retn extends Instruction {
 
 		// 8. Write back
 		// 9. Program Counter increment
+	}
+
+	static public Retn makeRetn(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		if (tokens.length < 1) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+		String label = (tokens.length == 2) ? tokens[0] : null;
+
+		return new Retn(label);
 	}
 
 	@Override
