@@ -3,25 +3,26 @@ package z808.command.instruction;
 import java.util.ArrayList;
 
 import z808.memory.Register;
+import z808.memory.Address;
 import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
 import util.NotImplementedException;
 import util.ExecutionException;
 
-public class DivSI extends Instruction {
-	public static final int OPCODE = 0XF7F6;
-	public static final int SIZE   = 2;
+public class PopAX extends Instruction {
+	public static final int OPCODE = 0x58;
+	public static final int SIZE   = 1;
 
-	public DivSI () {
+	public PopAX () {
 		this(null);
 	}
 
-	public DivSI (String label) {
-		this.size = DivSI.SIZE;
+	public PopAX (String label) {
+		this.size = PopAX.SIZE;
 		this.label = label;
 
-		this.code = DivSI.OPCODE;
+		this.code = PopAX.OPCODE;
 		return;
 	}
 
@@ -35,14 +36,11 @@ public class DivSI extends Instruction {
 		// 3. Arg fetch
 		// 4. Value fetch in case of address
 		// 5. Second arg fetch
-		// 6. Second value fetch in case of address
+		// 6. Second Value fetch in case of address
 
 		// 7. Execution
-		int divisor = Register.stack(mem.DX, mem.AX);
-		if (divisor != 0) {
-			mem.AX.set( mem.AX.get() / divisor);
-			mem.AX.set( mem.AX.get() % divisor);
-		}
+		mem.AX.set(mem.get( mem.SP ));
+		mem.SP.set( mem.SP.get() - 1 );
 
 		// 8. Write back
 		// 9. Program Counter increment
@@ -52,8 +50,7 @@ public class DivSI extends Instruction {
 	@Override
 	public ArrayList<Register> asRegisters() {
 		ArrayList<Register> l = new ArrayList<Register>(SIZE);
-		l.add(new Register(0xF7));
-		l.add(new Register(0xF6));
+		l.add(new Register(0x58));
 		return l;
 	}
 }

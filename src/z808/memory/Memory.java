@@ -20,9 +20,12 @@ public class Memory {
 	public Register RI;  // Instruction Register
 	public Register REM; // Memory Address Register
 	public Register RBM; // Memory Buffer Register
-	
+	public Register SP;  // Stack Pointer
+	public Register SR;  // Status Register
+
 	public Register AX;
 	public Register DX;
+	public Register SI;
 
 	private TreeMap<Address, Register> mainMemory;
 
@@ -35,9 +38,12 @@ public class Memory {
 		this.RI  = new Register(0);
 		this.REM = new Register();
 		this.RBM = new Register();
+		this.SP  = new Register();
+		this.SR  = new Register();
 
 		this.AX  = new Register(0);
 		this.DX  = new Register(0);
+		this.SI  = new Register(0);
 
 		this.mainMemory = new TreeMap<Address, Register>();
 		for (int i = 0; i < memorySizeInK * 1024; ++i) {
@@ -82,8 +88,12 @@ public class Memory {
 			"RI:"  + RI  + "\n" +
 			"REM:" + REM + "\n" +
 			"RBM:" + RBM + "\n" +
+			"SP:"  + SP  + "\n" +
+			"SR:"  + SR + "\n"  +
 			"AX:"  + AX  + "\n" +
-			"DX:"  + DX  + "\n";
+			"DX:"  + DX  + "\n" +
+			"SI:"  + SI  + "\n" +
+			"";
 		return ret;
 	}
 
@@ -92,13 +102,16 @@ public class Memory {
 	 * @returns a list of registers
 	 */
 	public ArrayList<Register> getRegisters () {
-		ArrayList<Register> l = new ArrayList<Register>(6); // Number of registers to avoid dinamic alocation
+		ArrayList<Register> l = new ArrayList<Register>();
 		l.add(CL);
 		l.add(RI);
 		l.add(REM);
 		l.add(RBM);
+		l.add(SP);
+		l.add(SR);
 		l.add(AX);
 		l.add(DX);
+		l.add(SI);
 		return l;
 	}
 

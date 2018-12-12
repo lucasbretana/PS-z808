@@ -46,11 +46,20 @@ public class RegistersArea extends ScrollPane {
 		
 		this.addInfoLabel("RBM");
 		this.addRegister("XX", b=!b);
-		
+
+		this.addInfoLabel("SP");
+		this.addRegister("XX", b=!b);
+
+		this.addInfoLabel("SR");
+		this.addRegister("XX", b=!b);
+
 		this.addInfoLabel("AX");
 		this.addRegister("XX", b=!b);
 		
 		this.addInfoLabel("DX");
+		this.addRegister("XX", b=!b);
+
+		this.addInfoLabel("SI");
 		this.addRegister("XX", b=!b);
 	}
 

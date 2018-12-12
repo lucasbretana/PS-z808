@@ -1,5 +1,9 @@
 package z808.command.instruction;
 
+import java.util.ArrayList;
+
+import z808.memory.Register;
+import z808.memory.Address;
 import z808.memory.Memory;
 import z808.command.instruction.Instruction;
 
@@ -22,6 +26,33 @@ public class Retn extends Instruction {
 		return;
 	}
 
-	public void exec (Memory mem) throws NotImplementedException, ExecutionException {
+	public void exec (Memory mem)
+		throws NotImplementedException, ExecutionException {
+		// 1. Intruction Fetch
+		mem.REM.set(mem.CL);
+		// 2. Decode
+		mem.RBM.set(this.code % 0x100);
+		mem.RI.set(mem.RBM);
+		// 3. Arg fetch
+		// 4. Value fetch in case of address
+		// 5. Second arg fetch
+		// 6. Second Value fetch in case of address
+
+		// 7. Execution
+		// 7.1 Set next instruction
+		mem.CL.set( mem.SP.get() );
+		// 7.2 Set next instruction
+		mem.SP.set( mem.SP.get() - 1 );
+
+		// 8. Write back
+		// 9. Program Counter increment
 	}
+
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(SIZE);
+		l.add(new Register(0xC3));
+		return l;
+	}
+
 }
