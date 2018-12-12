@@ -10,6 +10,7 @@ import z808.command.directive.Directive;
 
 public class Dup extends Directive {
 	public static final String MNEMONIC = "DUP";
+	public static final String REGEX = "DUP";
 
 	private Object value  = null;
 	private Class<?> type = null;

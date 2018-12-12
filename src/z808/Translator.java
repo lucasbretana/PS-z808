@@ -35,34 +35,38 @@ public class Translator {
 	 * @param raw_code the code the translated
 	 */
 	public List<Command> convertCode(List<String> raw_code) throws ExecutionException {
+		boolean verb = !true;
 		ArrayList<Command> output = new ArrayList<>();
 
 		Command c = null;
 		for (String cmd : raw_code) {
 			if (cmd.matches(Equ.REGEX)) {
-
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "Equ", cmd);
 				c = Equ.makeEqu(cmd);
+			} else if (cmd.matches(DW.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "DW", cmd);
+				c = DW.makeDW(cmd);
 			} else if (cmd.matches(AddAX.REGEX)) {
-
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "AddAX", cmd);
 				c = AddAX.makeAddAX(cmd);
 			} else if (cmd.matches(AddDX.REGEX)) {
-
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "AddDX", cmd);
 				c = AddDX.makeAddDX(cmd);
 			} else if (cmd.matches(AddCTE.REGEX)) {
-
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "AddCTE", cmd);
 				c = AddCTE.makeAddCTE(cmd);
 			} else if (cmd.matches(SubAX.REGEX)) {
-
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "SubAX", cmd);
 				c = SubAX.makeSubAX(cmd);
 			} else if (cmd.matches(SubDX.REGEX)) {
-
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "SubDX", cmd);
 				c = SubDX.makeSubDX(cmd);
 			} else if (cmd.matches(SubCTE.REGEX)) {
-
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "SubCTE", cmd);
 				c = SubCTE.makeSubCTE(cmd);
 			} else {
-				System.out.println("TODO: command string \"" + cmd + "\"");
-				throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
+				if (verb) System.out.println("TODO: command string \"" + cmd + "\"");
+				else throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
 			}
 
 			output.add(c);
@@ -73,7 +77,7 @@ public class Translator {
 
 	public static void testTranslator(Boolean verb) throws ExecutionException {
 		testCode1(verb);
-		regexTest(verb);
+		testCode2(verb);
 	}
 
 	public static void testCode1(Boolean verb) throws ExecutionException {
@@ -96,8 +100,8 @@ public class Translator {
 		System.err.println("-- Code#1 tests are OK --");
 	}
 
-	public static void regexTest(Boolean verb) throws ExecutionException {
-		if (verb) System.err.println("-- Starting regex test --");
+	public static void testCode2(Boolean verb) throws ExecutionException {
+		if (verb) System.err.println("-- Starting code #2 test --");
 		Translator t = new Translator();
 
 		try {
@@ -106,6 +110,6 @@ public class Translator {
 			throw new ExecutionException("Some error reading the code2.asm file", ioE);
 		}
 
-		System.err.println("-- Regex tests are OK --");
+		System.err.println("-- Code#2 tests are OK --");
 	}
 }

@@ -1,5 +1,12 @@
 five EQU 10
-five EQU a
+five1 EQU a
+four DW 4
+DW 4
+char DW c
+DW c
+ques DW ?
+DW ?
+DW 10 Dup 10
 EQU 5
 sum1 add AX AX
 add AX AX

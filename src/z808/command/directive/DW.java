@@ -10,7 +10,7 @@ import z808.memory.Address;
 
 public class DW extends Directive {
 	public static final String MNEMONIC = "DW";
-
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " (" + AZMRegexCommon.CHAR_RGX + "|" + AZMRegexCommon.INTEGER_RGX + "|([\\?]))$";
 	private Object value  = null;
 	private Class<?> type = null;
 
@@ -68,8 +68,62 @@ public class DW extends Directive {
 	public DW(String lbl, Dup dup) {this(lbl, dup, dup.getClass());}
 	public DW(Dup dup) {this("", dup, dup.getClass());}
 
-	public void exec (Memory mem) throws NotImplementedException, ExecutionException {
+	public void exec(Memory mem) throws NotImplementedException, ExecutionException {
 		throw new NotImplementedException("TODO");
+	}
+
+	static public DW makeDW(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		if (tokens.length < 2) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+
+		// label DW int|char|?
+		if (tokens.length == 3) {
+			if (!tokens[1].equals(MNEMONIC))
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic");
+
+			if ( tokens[2].matches("\\?") )
+				return new DW(tokens[0]);
+			else if ( tokens[2].matches(AZMRegexCommon.CHAR_RGX) )
+				return new DW(tokens[0], tokens[2].charAt(0));
+			else if ( tokens[2].matches(AZMRegexCommon.INTEGER_RGX) )
+				return new DW(tokens[0], AZMRegexCommon.convertZ808Int(tokens[2]));
+		} else if (tokens.length == 2) {
+			// label DW int|char|?
+			if (!tokens[0].equals(MNEMONIC))
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic");
+
+			if ( tokens[1].matches("\\?") )
+				return new DW();
+			else if ( tokens[1].matches(AZMRegexCommon.CHAR_RGX) )
+				return new DW(tokens[1]);
+			else if ( tokens[1].matches(AZMRegexCommon.INTEGER_RGX) )
+				return new DW(AZMRegexCommon.convertZ808Int(tokens[1]));
+		} else if (tokens.length == 4){
+			// DW 10 Dup int|char|?
+			if ( (!tokens[0].equals(MNEMONIC)) || (!tokens[2].equals(Dup.MNEMONIC)) )
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic or Dup");
+
+			if ( tokens[3].matches("\\?") )
+				return new DW(new Dup(Integer.parseInt(tokens[1])));
+			else if ( tokens[3].matches(AZMRegexCommon.CHAR_RGX) )
+				return new DW(new Dup(Integer.parseInt(tokens[1]), tokens[3].charAt(0)));
+			else if ( tokens[3].matches(AZMRegexCommon.INTEGER_RGX) )
+				return new DW(new Dup(Integer.parseInt(tokens[1]), AZMRegexCommon.convertZ808Int(tokens[3])));
+		} else if (tokens.length == 5){
+			// label DW 10 Dup int|char|?
+			if ( (!tokens[1].equals(MNEMONIC)) || (!tokens[3].equals(Dup.MNEMONIC)) )
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic or Dup");
+
+			if ( tokens[4].matches("\\?") )
+				return new DW(tokens[0], new Dup(Integer.parseInt(tokens[2])));
+			else if ( tokens[4].matches(AZMRegexCommon.CHAR_RGX) )
+				return new DW(tokens[0], new Dup(Integer.parseInt(tokens[2]), tokens[4].charAt(0)));
+			else if ( tokens[4].matches(AZMRegexCommon.INTEGER_RGX) )
+				return new DW(tokens[0], new Dup(Integer.parseInt(tokens[2]), AZMRegexCommon.convertZ808Int(tokens[4])));
+		}
+
+
+		throw new ExecutionException("This doesn't make any sense..mismatching expression");
 	}
 
 	@Override
