@@ -39,6 +39,13 @@ public class MainTest {
 		  ex.printStackTrace();
 		}
 
+		try {
+			MainTest.MacroProcessorTests();
+			System.out.println("--- Macro Processor Tests ---");
+		} catch (TestFaliedException e) {
+			System.out.println("Failed Macro Tests: " + e);
+		}
+
 		// Implement try to other tests here.
 		
 		Linker.LinkerTests();
@@ -83,21 +90,22 @@ public class MainTest {
 	private static void MacroProcessorTests() {
 		MacroProcessor mProc = null;
 
-		List<Command> prog = new ArrayList<>;
-		ArrayList<String> params = new ArrayList<>;
-		ArrayList<String> cmds = new ArrayList<>;
+		List<Command> prog = new ArrayList<Command>(prog);
+		ArrayList<String> params = new ArrayList<String>(params);
+		ArrayList<String> cmds = new ArrayList<String>(cmds);
 
-		ArrayList<String> pCall = new ArrayList<>;
+		ArrayList<String> pCall = new ArrayList<String>(pCall);
 
 		params.add("P1");
 		params.add("P2");
-		cmds.add("ADD P1, P2");
+		cmds.add("ADD P1 P2");
 		cmds.add("ENDM");
 
 		pCall.add("Val1");
 		pCall.add("Val2");
 
 		prog.add(new MacroDef("Shitface", params, cmds)); //Shitface MACRO P1 P2 
+
 
 		prog.add(new AddAx());							 //ADD AX, AX 
 		prog.add(new AddAx());							 //ADD AX, AX

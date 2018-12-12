@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import util.Tuple;
 import util.NotImplementedException;
 import util.ExecutionException;
+
+import z808.Translator;
 import z808.command.Command;
 import z808.command.directive.MacroDef;
 import z808.command.directive.MacroCall;
+import z808.command.directive.Endm;
 
 /**
  * @author Alana Schwendler
@@ -31,13 +34,13 @@ public class MacroProcessor {
   public ArrayList<Command> process(ArrayList<Command> commands) {
     ArrayList<Command> modifiedCmds = null; 
     ArrayList<Tuple<String, MacroDef>> macroDefinitions = null;
-    Translator t = new Translator();
     
     for(Command cmd : commands) {
+      System.out.println(cmd.getClass().getName());
       if(cmd instanceof MacroDef) {
-        definitionMode(cmd, macroDefinitions);
+        definitionMode((MacroDef) cmd, macroDefinitions);
       } else if(cmd instanceof MacroCall) {
-        expansionMode(cmd, modifiedCmds, macroDefinitions);
+        expansionMode((MacroCall) cmd, modifiedCmds, macroDefinitions);
       } else {
         modifiedCmds.add(cmd);
       }
@@ -53,7 +56,8 @@ public class MacroProcessor {
    * @param macroNames Macro Definitions Table
    */
   private void definitionMode(Command cmd, ArrayList<Tuple<String, MacroDef>> macroNames) {
-    macroNames.add(cmd.getLabel(), MacroDef.class.cast(cmd));
+    Tuple<String, MacroDef> t = new Tuple<String, MacroDef>(cmd.getLabel(), MacroDef.class.cast(cmd));
+    macroNames.add(t);
   }
 
   /**
@@ -63,34 +67,37 @@ public class MacroProcessor {
    * @param defs Macro Definitions Table
    * @return modCmds expanded code
    */
-  private ArrayList<Command> expansionMode (MacroCall call, ArrayList<Command> modCmds, ArrayList<Tuple<String, MacroDef>> defs) {
-    changeParameters(call, defs);
-    for(Tuple<String, MacroDef> t : defs) {
-      if(t.a.equals(call.getLabel())) {
-        while(!t.b instanceof Endm) { //enquanto não acabar a macro, adiciona os comandos equivalentes na lista
-          modCmds.add(t.b);
-        }
-      }
-    }
-    return modCmds;
-  }
+  private void expansionMode (MacroCall call, ArrayList<Command> modCmds, ArrayList<Tuple<String, MacroDef>> defs) {
+    Translator transl = new Translator();
+    int i = 0;
 
-  private void changeParameters(MacroCall call, ArrayList<Tuple<String, MacroDef>> macroDefinitions) {
-    int i = 0; 
-    for(Tuple<String, MacroDef> md : macroDefinitions) {
-      if(md.getLabel().equals(call.getLabel())) {
-        for(String s : md.b.commands) {
-          md.b.parameters.set(i, call.parameters.get(i));
-          i++;
+    //changeParameters(call, defs);
+    for(Tuple<String, MacroDef> md : defs) {
+      if(md.a.equals(call.getLabel())) {
+        for(Command cmd : md.b.commands) {
+          for(String curParam : md.b.parameters) {
+            transl.
+          }
         }
       }
-      i = 0;
     }
+    i = 0;
   }
 
 }
 
-    /*if(m.getLabel().equals(cmd.getLabel())) {
+/*
+
+private void changeParameters(MacroCall call, ArrayList<Tuple<String, MacroDef>> macroDefinitions) {
+  for(String curParam : md.b.parameters) { //formal
+    //troca curParam call.parameters.get(idx_param)
+                 
+  md.b.parameters.get(idx_param).replace(curParam, call.parameters.get(idx_param));
+  idx_param++;
+}
+
+    
+    if(m.getLabel().equals(cmd.getLabel())) {
        //translator has to make string become code
     } else {
        //not t
