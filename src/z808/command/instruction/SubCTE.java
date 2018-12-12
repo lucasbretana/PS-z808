@@ -84,8 +84,7 @@ public class SubCTE extends Instruction {
 
 	@Override
 	public String toString() {
-		//return "2B" + String.format("%04X", this.arg);
-		return "2B " + arg;
+		return "2B " + String.format("%04X", this.arg);
 	}
 
 	static public SubCTE makeSubCTE(String from) throws ExecutionException {

@@ -88,7 +88,7 @@ public class AddCTE extends Instruction {
 	@Override
 	public String toString() {
 		if (this.defined)
-			return "05 " + arg;
+			return "05 " + String.format("%04X", arg);
 		else
 			return AddCTE.MNEMONIC + " " + this.u_arg;
 	}
