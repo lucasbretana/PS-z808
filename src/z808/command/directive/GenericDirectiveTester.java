@@ -9,6 +9,7 @@ import z808.command.Command;
 import z808.command.directive.*;
 
 
+
 public class GenericDirectiveTester {
 	static public void all(Boolean verb) throws ExecutionException {
 		if (verb) System.err.println("## -- begin directives tests -- ##");

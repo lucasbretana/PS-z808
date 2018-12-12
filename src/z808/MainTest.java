@@ -31,9 +31,10 @@ public class MainTest {
 
 		// @Bretana tests
 		try {
-		  z808.command.directive.GenericDirectiveTester.all(debug);
-		  z808.Assembler.testModules(debug);
+			//z808.command.directive.GenericDirectiveTester.all(debug);
+			//z808.Assembler.testModules(debug);
 			// TODO add translator tests
+			z808.Translator.testTranslator(debug);
 		} catch (ExecutionException ex) {
 			System.err.println("Something went wront on Bretana's tests");
 		  ex.printStackTrace();
