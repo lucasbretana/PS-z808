@@ -1,5 +1,11 @@
 package z808;
 
+import java.io.IOException;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.charset.Charset;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,10 +68,8 @@ public class Translator {
 			output.add(c);
 			c = null;
 		}
-
 		return output;
 	}
-
 
 	public static void testTranslator(Boolean verb) throws ExecutionException {
 		testCode1(verb);
@@ -76,13 +80,12 @@ public class Translator {
 		if (verb) System.err.println("-- Starting code #1 test --");
 		Translator t = new Translator();
 
-		List<Command> res = t.convertCode(Arrays.asList(
-			"EQU 5",
-			"add AX 0",
-			"add AX AX",
-			"add AX AX",
-			"sub AX 0"
-		));
+		List<Command> res = null;
+		try {
+			res = t.convertCode(Files.readAllLines(Paths.get("sample/", "code1.asm"), Charset.forName("UTF-8")));
+		} catch (IOException ioE) {
+			throw new ExecutionException("Some error reading the code1.asm file", ioE);
+		}
 
 		if (verb) System.err.println("Resulting transaltor: " + t);
 		if (verb) System.err.println("Resulting code: " + res);
@@ -97,27 +100,11 @@ public class Translator {
 		if (verb) System.err.println("-- Starting regex test --");
 		Translator t = new Translator();
 
-		if (verb) System.err.println(new Translator().convertCode(Arrays.asList(
-			"five EQU 10",
-			"five EQU a",
-			"EQU 5",
-			"sum1 add AX AX",
-			"add AX AX",
-			"sum2 add AX DX",
-			"add AX DX",
-			"sum3 add AX 10",
-			"add AX 10",
-			"sum4 add AX five",
-			"add AX five",
-			"dif1 sub AX AX",
-			"sub AX AX",
-			"dif2 sub AX DX",
-			"sub AX DX",
-			"dif3 sub AX 10",
-			"sub AX 10",
-			"dif4 sub AX five",
-			"sub AX five"
-		)));
+		try {
+			if (verb) System.err.println(new Translator().convertCode(Files.readAllLines(Paths.get("sample/", "code2.asm"), Charset.forName("UTF-8"))));
+		} catch (IOException ioE) {
+			throw new ExecutionException("Some error reading the code2.asm file", ioE);
+		}
 
 		System.err.println("-- Regex tests are OK --");
 	}
