@@ -16,6 +16,7 @@ import z808.Processor;
 import z808.Program;
 
 public class ToolBar extends HBox {
+	private Button reset;
 	private Button addSource;
 	private Button macroProcess;
 	private Button assemble;
@@ -32,12 +33,15 @@ public class ToolBar extends HBox {
 										BeautyFactory.SCREEN_HEIGHT * 0.05);
 		setStyle(BeautyFactory.GetStyle());
 
+		this.reset = new Button("<->");
 		this.addSource = new Button(" + ");
 		this.macroProcess = new Button("MP");
 		this.assemble = new Button("A");
 		this.loadAndGo = new Button("LG");
 		this.step = new Button(" > ");
 
+		this.reset.setMaxHeight(Double.MAX_VALUE);
+		this.reset.prefWidth(this.reset.getHeight());
 		this.addSource.setMaxHeight(Double.MAX_VALUE);
 		this.addSource.prefWidth(this.addSource.getHeight());
 		this.macroProcess.setMaxHeight(Double.MAX_VALUE);
@@ -49,21 +53,28 @@ public class ToolBar extends HBox {
 		this.step.setMaxHeight(Double.MAX_VALUE);
 		this.step.prefWidth(this.step.getHeight());
 
-		getChildren().addAll(addSource,
+		getChildren().addAll(reset,
+												 addSource,
 												 macroProcess,
 												 assemble,
 												 loadAndGo,
 												 step);
 	}
 
-	public void setProcessor(Processor p, OutputArea oArea, CodeArea cArea) {
+	public void setProcessor(UIz808 ui, Processor p, OutputArea oArea, CodeArea cArea) {
 		this.machine = p;
 		MacroProcessor mcrPr = null;
 		Translator trans = new Translator();
 		Assembler assmb = new Assembler();
 
+		this.reset.setOnAction((event) -> {
+				ui.configMachine();
+				ui.updateScreen();
+			});
+
 		this.addSource.setOnAction((event) -> {
 				cArea.addSourceFile();
+				ui.updateScreen();
 			});
 
 		this.macroProcess.setOnAction((event) -> {
@@ -72,6 +83,7 @@ public class ToolBar extends HBox {
 					List<Command> code = trans.convertCode(lines);
 					// mcrPr.process(code); // TODO use real MP method
 					oArea.updateScreen(code.toString());
+					ui.updateScreen();
 				} catch (Exception e) {
 					oArea.updateScreen(e.getMessage());
 				}
@@ -84,6 +96,7 @@ public class ToolBar extends HBox {
 					// mcrPr.process(code); // TODO use real MP method
 					Module mod = assmb.assembleCode(code);
 					oArea.updateScreen(mod.toString());
+					ui.updateScreen();
 				} catch (Exception e) {
 					oArea.updateScreen(e.getMessage());
 				}
@@ -97,6 +110,7 @@ public class ToolBar extends HBox {
 						// mcrPr.process(code); // TODO use real MP method
 						Module mod = assmb.assembleCode(code);
 						lng.InsertModule(mod);
+						ui.updateScreen();
 					}
 					Program finalProgram = lng.LinkModules();
 					this.machine.load(finalProgram);
@@ -106,7 +120,10 @@ public class ToolBar extends HBox {
 			});
 
 		this.step.setOnAction((event) -> {
-				try { this.machine.step(); } catch (Exception e) {
+				try {
+					this.machine.step();
+					ui.updateScreen();
+				} catch (Exception e) {
 					oArea.updateScreen(e.getMessage());
 				}
 			});

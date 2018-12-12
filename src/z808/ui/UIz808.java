@@ -68,17 +68,17 @@ public class UIz808 extends Application {
 		stage.show();
 
 		// Call for screen update
-		this.configMachine(512);
+		this.configMachine();
 		this.updateScreen();
 	}
 
-	public void configMachine (int memorySize) {
+	public void configMachine () {
 		try {
 			this.machine = new Processor();
 			this.innCode.setProcessor(this.machine);
 			this.mainMem.setProcessor(this.machine);
 			this.regBank.setProcessor(this.machine);
-			this.toolBar.setProcessor(this.machine, this.outArea, this.srcCode);
+			this.toolBar.setProcessor(this, this.machine, this.outArea, this.srcCode);
 
 			// TODO: @Jonathas
 			// Source code and processor iniciation, this will be changed until final release
