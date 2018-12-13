@@ -26,29 +26,30 @@ public class MainTest {
 			MainTest.ProcessorTests();
 			System.out.println("Processor is Ok!");
 		} catch (TestFaliedException e) {
-		  System.err.println("Failed Processor Tests:" + e);
+			System.err.println("Failed Processor Tests:" + e);
 		}
 
 		// @Bretana tests
 		try {
-		  z808.command.directive.GenericDirectiveTester.all(debug);
-		  z808.Assembler.testModules(debug);
+			//z808.command.directive.GenericDirectiveTester.all(debug);
+			//z808.Assembler.testModules(debug);
 			// TODO add translator tests
+			z808.Translator.testTranslator(debug);
 		} catch (ExecutionException ex) {
 			System.err.println("Something went wront on Bretana's tests");
 		  ex.printStackTrace();
 		}
 
 		try {
-			MainTest.MacroProcessorTests();
 			System.out.println("--- Macro Processor Tests ---");
-		} catch (TestFaliedException e) {
-			System.out.println("Failed Macro Tests: " + e);
+			MainTest.MacroProcessorTests();
+		} catch (ExecutionException e) {
+			System.out.println("Failed Macro Tests:  " + e);
 		}
 
 		// Implement try to other tests here.
 		
-		Linker.LinkerTests();
+		//Linker.LinkerTests();
 	}
 
 	private static void ProcessorTests()
@@ -56,70 +57,77 @@ public class MainTest {
 					 FinishedException, TestFaliedException {
 		String expected
 			= "0000 0005\n"
-			+ "0001 05 0000\n"
-			+ "0004 03 C0\n"
-			+ "0006 03 C0\n"
-			+ "0008 2B 0000\n"
-			+ "000B F4\n";
+			+ "0001 0002\n"
+			+ "0002 B8 0001\n"
+			+ "0005 8B F0\n"
+			+ "0007 B8 0000\n"
+			+ "000A F7 E6\n"
+			+ "000C A3 0000\n"
+			+ "000F F4\n";
 
 		Program code = new Program();
-		code.add(new Address(0x0), new Equ (5));       // EQU 5
-		code.add(new Address(0x1), new AddCTE (0x0));  // add AX 0x0
-		code.add(new Address(0x4), new AddAX ());      // add AX AX
-		code.add(new Address(0x6), new AddAX ());      // add AX AX
-		code.add(new Address(0x8), new SubCTE (0x0));  // sub AX 0x0
-		code.add(new Address(0xb), new Hlt ());        // hlt
+		code.add(new Address(0x0), new Equ(5));         // EQU 5
+		code.add(new Address(0x1), new Equ(2));         // EQU 2
+		code.add(new Address(0x2), new MovAXMEM(0x1));  // mov AX 1
+		code.add(new Address(0x5), new MovSIAX());      // mov SI AX
+		code.add(new Address(0x7), new MovAXMEM(0x0));  // mov AX 0
+		code.add(new Address(0xA), new MultSI());       // mul SI
+		code.add(new Address(0xC), new MovMEMAX(0x0));  // mov 0 AX
+		code.add(new Address(0xF), new Hlt());          // hlt
 
 		Processor p = new Processor();
 		p.load(code);
 		if (expected.compareTo(p.codeToString()) != 0)
 			throw new TestFaliedException(-1, p.codeToString());
 		expected
-			= "CL:0C\n"
+			= "CL:10\n"
 			+ "RI:F4\n"
-			+ "REM:0B\n"
+			+ "REM:0F\n"
 			+ "RBM:F4\n"
-			+ "AX:0F\n"
-			+ "DX:00\n";
+			+ "SP:XX\n"
+			+ "SR:XX\n"
+			+ "AX:0A\n"
+			+ "DX:00\n"
+			+ "SI:02\n";
 		p.process();
 		if (expected.compareTo(p.registersToString()) != 0)
 			throw new TestFaliedException(-2, p.registersToString());
 		return;
 	}
 
-	private static void MacroProcessorTests() {
-		MacroProcessor mProc = null;
+	private static void MacroProcessorTests() throws ExecutionException {
+		MacroProcessor macro_proc = null;
 
-		List<Command> prog = new ArrayList<Command>(prog);
-		ArrayList<String> params = new ArrayList<String>(params);
-		ArrayList<String> cmds = new ArrayList<String>(cmds);
+		String label = "Shitface";
+		ArrayList<Command> prog = new ArrayList<Command>();
+		ArrayList<String> params = new ArrayList<String>();
+		ArrayList<String> cmds = new ArrayList<String>();
 
-		ArrayList<String> pCall = new ArrayList<String>(pCall);
+		ArrayList<String> params_call = new ArrayList<String>();
 
 		params.add("P1");
 		params.add("P2");
 		cmds.add("ADD P1 P2");
-		cmds.add("ENDM");
+		cmds.add("SUB P2 P1");
 
-		pCall.add("Val1");
-		pCall.add("Val2");
+		params_call.add("Val1");
+		params_call.add("Val2");
 
-		prog.add(new MacroDef("Shitface", params, cmds)); //Shitface MACRO P1 P2 
+		prog.add(new MacroDef(label, params, cmds)); //Shitface MACRO P1 P2 
+		prog.add(new MacroCall(label, params_call));
+		macro_proc = new MacroProcessor(prog);
+		System.out.println("B4 process");
 
-
-		prog.add(new AddAx());							 //ADD AX, AX 
-		prog.add(new AddAx());							 //ADD AX, AX
-		prog.add(new MacroCall("Shitface", pCall));	  	 //Shitface Val1, Val2
-		prog.add(new Hlt());							 //HLT
-		
-		mProc = new MacroProcessor(prog);
-
-		//mProc.process(prog);
+		for(String str : cmds) {
+			System.out.print(str + " ");
+		}
+		macro_proc.process(prog);
+		System.out.println("After process");
 
 		for(Command cmd : prog) {
-			if(cmd instanceof MacroDef) {
+			//if(cmd instanceof MacroDef) {
 				System.out.println(cmd.toString());
-			}
+			//}
 		}
 	}
 

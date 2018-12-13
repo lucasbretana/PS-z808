@@ -1,7 +1,7 @@
 SHELL = /bin/bash
 
 JC = javac
-JFLAGS = -g -Xlint:all
+JFLAGS = -g -Xlint:all -Xdiags:verbose
 
 JD = javadoc
 JDFLAG = -Xdoclint:all
@@ -85,7 +85,7 @@ endef
 .PHONY: all build clean test doc
 all: build
 
-build: buildByClasses
+build: buildByPackage
 
 .PHONY: buildAll buildByClasses buildByPackage
 buildByPackage: $(PKS)

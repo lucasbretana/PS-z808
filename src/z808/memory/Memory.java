@@ -20,9 +20,12 @@ public class Memory {
 	public Register RI;  // Instruction Register
 	public Register REM; // Memory Address Register
 	public Register RBM; // Memory Buffer Register
-	
+	public Register SP;  // Stack Pointer
+	public Register SR;  // Status Register
+
 	public Register AX;
 	public Register DX;
+	public Register SI;
 
 	private TreeMap<Address, Register> mainMemory;
 
@@ -30,28 +33,32 @@ public class Memory {
 	 * Builds the memory with a specific memory size.
 	 * @param memorySizeInK memory size in Kilo Bytes.
 	 */
-	public Memory(int memorySizeInK) {
+	public Memory(int memorySizeInK) throws ExecutionException {
 		this.CL  = new Register(0);
 		this.RI  = new Register(0);
 		this.REM = new Register();
 		this.RBM = new Register();
+		this.SP  = new Register();
+		this.SR  = new Register();
 
 		this.AX  = new Register(0);
 		this.DX  = new Register(0);
+		this.SI  = new Register(0);
 
 		this.mainMemory = new TreeMap<Address, Register>();
+		for (int i = 0; i < memorySizeInK * 1024; ++i) {
+			this.newMemoryEntry(i);
+		}
 	}
 
-	public void newMemoryEntry(Number address)
-		throws ExecutionException {this.newMemoryEntry(new Address(address.intValue()), new Register());}
-	public void newMemoryEntry(Number address, int value)
-		throws ExecutionException {this.newMemoryEntry(new Address(address.intValue()), new Register(value));}
-	public void newMemoryEntry(Address address) {this.newMemoryEntry(address, new Register());}
-	public void newMemoryEntry(Address address, int value) {this.newMemoryEntry(address, new Register(value));}
-	public void newMemoryEntry(Address address, Register value) {
-		this.mainMemory.put(address, value);
+	private void newMemoryEntry(Number address) throws ExecutionException {
+		this.mainMemory.put(new Address(address.intValue()), new Register());
 	}
 
+	public void modifyMemory(Number addr, Number val) throws ExecutionException {
+		this.mainMemory.get(new Address(addr.intValue())).set(val.intValue());
+	}
+	
 	public int get(Number address) throws ExecutionException {
 		Register v = this.mainMemory.get(address);
 		if (v == null)
@@ -65,14 +72,28 @@ public class Memory {
 		return new Address(this.CL.intValue());
 	}
 
+	/**
+	 * Load Registers into corresponding memory addresses.
+	 * @param p Map of Address to Register to be loaded
+	 */
+	public void load(Map<Address, Register> p) throws ExecutionException {
+		for (Map.Entry<Address, Register> entry : p.entrySet()) {
+			this.modifyMemory(entry.getKey(), entry.getValue());
+		}
+	}
+
 	public String registersToString () {
 		String ret =
 			"CL:"  + CL  + "\n" +
 			"RI:"  + RI  + "\n" +
 			"REM:" + REM + "\n" +
 			"RBM:" + RBM + "\n" +
+			"SP:"  + SP  + "\n" +
+			"SR:"  + SR + "\n"  +
 			"AX:"  + AX  + "\n" +
-			"DX:"  + DX  + "\n";
+			"DX:"  + DX  + "\n" +
+			"SI:"  + SI  + "\n" +
+			"";
 		return ret;
 	}
 
@@ -81,13 +102,28 @@ public class Memory {
 	 * @returns a list of registers
 	 */
 	public ArrayList<Register> getRegisters () {
-		ArrayList<Register> l = new ArrayList<Register>(6); // Number of registers to avoid dinamic alocation
+		ArrayList<Register> l = new ArrayList<Register>();
 		l.add(CL);
 		l.add(RI);
 		l.add(REM);
 		l.add(RBM);
+		l.add(SP);
+		l.add(SR);
 		l.add(AX);
 		l.add(DX);
+		l.add(SI);
+		return l;
+	}
+
+	/**
+	 * Gets a list of memory locations to be displayed.
+	 * @returns a list of registers
+	 */
+	public ArrayList<Register> getMemoryRegisters () {
+		ArrayList<Register> l = new ArrayList<Register>(this.mainMemory.size());
+		for (Map.Entry<Address, Register> entry : this.mainMemory.entrySet()) {
+			l.add(entry.getValue());
+		}
 		return l;
 	}
 

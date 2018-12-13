@@ -32,15 +32,26 @@ public class MacroProcessor {
    * @return modifiedCmds a list of commands with expanded macros
    */
   public ArrayList<Command> process(ArrayList<Command> commands) {
-    ArrayList<Command> modifiedCmds = null; 
-    ArrayList<Tuple<String, MacroDef>> macroDefinitions = null;
+    ArrayList<Command> modifiedCmds = new ArrayList<Command>(); 
+    ArrayList<MacroDef> macroDefinitions = new ArrayList<MacroDef>();
     
     for(Command cmd : commands) {
       System.out.println(cmd.getClass().getName());
       if(cmd instanceof MacroDef) {
-        definitionMode((MacroDef) cmd, macroDefinitions);
+        try {
+          definitionMode((MacroDef) cmd, macroDefinitions);
+        } catch (ExecutionException e) {
+          System.out.println("Error: definition mode: " + e);
+        }
+
       } else if(cmd instanceof MacroCall) {
-        expansionMode((MacroCall) cmd, modifiedCmds, macroDefinitions);
+        
+        try {
+          expansionMode((MacroCall) cmd, modifiedCmds, macroDefinitions);
+        } catch (ExecutionException e) {
+          System.out.println("Error: expansion mode: " + e);
+        }
+
       } else {
         modifiedCmds.add(cmd);
       }
@@ -55,28 +66,29 @@ public class MacroProcessor {
    * @param cmd command to save at the table
    * @param macroNames Macro Definitions Table
    */
-  private void definitionMode(Command cmd, ArrayList<Tuple<String, MacroDef>> macroNames) {
-    Tuple<String, MacroDef> t = new Tuple<String, MacroDef>(cmd.getLabel(), MacroDef.class.cast(cmd));
-    macroNames.add(t);
+  private void definitionMode(MacroDef cmd, ArrayList<MacroDef> macroNames) throws ExecutionException {
+    //MacroDef md = new MacroDef(cmd.getLabel(), MacroDef.class.cast(cmd));
+    macroNames.add(cmd);
   }
 
   /**
    * Expansion mode substitute macro call with the actual code
    * @param call Macro Call command
-   * @param modCmds list of modissfied commands, will end up bigger then received
+   * @param modCmds list of modified commands, will end up bigger then received
    * @param defs Macro Definitions Table
-   * @return modCmds expanded code
    */
-  private void expansionMode (MacroCall call, ArrayList<Command> modCmds, ArrayList<Tuple<String, MacroDef>> defs) {
+  private void expansionMode (MacroCall call, ArrayList<Command> modCmds, ArrayList<MacroDef> defs) throws ExecutionException {
     Translator transl = new Translator();
+    Command c = null;
     int i = 0;
 
-    //changeParameters(call, defs);
-    for(Tuple<String, MacroDef> md : defs) {
-      if(md.a.equals(call.getLabel())) {
-        for(Command cmd : md.b.commands) {
-          for(String curParam : md.b.parameters) {
-            transl.
+    for(MacroDef md : defs) {
+      if(md.label.equals(call.getLabel())) { //compara o label
+        for(String cmd : md.commands) { //itera lista de comandos da macro definition
+          for(String curParam : md.parameters) { //pega lista de parametros do comando
+            c = transl.convertCode1(cmd.replace(curParam, call.parameters.get(i)));
+            modCmds.add(c);
+            i++;
           }
         }
       }

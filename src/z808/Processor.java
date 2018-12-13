@@ -1,5 +1,6 @@
 package z808;
 
+import java.util.Map;
 import java.util.List;
 
 import util.ExecutionException;
@@ -66,10 +67,11 @@ public class Processor {
 	/**
 	 * Loads the program to the memory
 	 */
-	public void load(Program cmds) throws NotImplementedException {
-		if (this.commands != null)
-			throw new NotImplementedException ("Load of different programs has not been implemented");
-		this.commands = cmds;
+	public void load(Program cmds) throws ExecutionException {
+		if (this.commands != null) this.commands.merge(cmds);
+		else this.commands = cmds;
+
+		this.memory.load(this.commands.memoryView());
 		return;
 	}
 
@@ -81,6 +83,15 @@ public class Processor {
 		return this.memory.getRegisters();
 	}
 
+	/**
+	 * Gets a list of memory locations to be displayed.
+	 * @returns a list of registers
+	 */
+	public List<Register> getMemoryRegisters () {
+		return this.memory.getMemoryRegisters();
+	}
+
+	
 	public String codeToString() {
 		return this.commands.toString();
 	}

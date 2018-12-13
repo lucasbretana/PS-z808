@@ -34,15 +34,19 @@ public class MacroDef extends Directive {
 	 * @param name Macro's name
 	 * @param cmds Macro's routine
 	 */
-	public MacroDef(String name, List<String> cmds) {
-		this.label = new String(name);
-		this.commands = new ArrayList<String>(cmds);
-	}
+	//public MacroDef(String name, List<String> cmds) {
+	//	this.label = new String(name);
+	//	this.commands = new ArrayList<String>(cmds);
+	//}
 
 	public List<String> getCommands() {
 		return this.commands;
 	}
 
+	public List<String> getParameters() {
+		return this.parameters;
+	}
+	
 	@Override
 	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");

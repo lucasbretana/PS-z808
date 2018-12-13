@@ -13,8 +13,6 @@ import z808.ui.RegistersArea;
 import z808.ui.MemoryArea;
 import z808.ui.OutputArea;
 
-import java.io.StringWriter;
-import java.io.PrintWriter;
 import util.TestFaliedException;
 import util.ExecutionException;
 import util.NotImplementedException;
@@ -51,7 +49,7 @@ public class UIz808 extends Application {
 		this.toolBar = new ToolBar();
 		this.srcCode = new CodeArea();
 		this.innCode = new ProcessedCodeArea();
-		this.mainMem = new MemoryArea(0);
+		this.mainMem = new MemoryArea();
 		this.regBank = new RegistersArea();
 		this.outArea = new OutputArea();
 
@@ -70,30 +68,32 @@ public class UIz808 extends Application {
 		stage.show();
 
 		// Call for screen update
-		this.configMachine(512);
+		this.configMachine();
 		this.updateScreen();
 	}
 
-	public void configMachine (int memorySize) {
+	public void configMachine () {
 		try {
 			this.machine = new Processor();
 			this.innCode.setProcessor(this.machine);
 			this.mainMem.setProcessor(this.machine);
 			this.regBank.setProcessor(this.machine);
-			this.toolBar.setProcessor(this.machine, this.outArea, this.srcCode);
+			this.toolBar.setProcessor(this, this.machine, this.outArea, this.srcCode);
 
 			// TODO: @Jonathas
 			// Source code and processor iniciation, this will be changed until final release
 			Program code = new Program();
-			code.add(new Address(0x0), new Equ (5));       // EQU 5
-			code.add(new Address(0x1), new AddCTE (0x0));  // add AX 0x0
-			code.add(new Address(0x4), new AddAX ());      // add AX AX
-			code.add(new Address(0x6), new AddAX ());      // add AX AX
-			code.add(new Address(0x8), new SubCTE (0x0));  // sub AX 0x0
-			code.add(new Address(0xb), new Hlt ());        // hlt
+			code.add(new Address(0x0), new Equ(5));         // EQU 5
+			code.add(new Address(0x1), new Equ(2));         // EQU 2
+			code.add(new Address(0x2), new MovAXMEM(0x1));  // mov AX 1
+			code.add(new Address(0x5), new MovSIAX());      // mov SI AX
+			code.add(new Address(0x7), new MovAXMEM(0x0));  // mov AX 0
+			code.add(new Address(0xA), new MultSI());       // mul SI
+			code.add(new Address(0xC), new MovMEMAX(0x0));  // mov 0 AX
+			code.add(new Address(0xF), new Hlt());          // hlt
 			this.machine.load(code);
 		} catch (ExecutionException e) {
-			this.reportError(exceptionToString(e));
+			this.reportError(e.getMessage());
 		}
 	}
 
@@ -101,26 +101,22 @@ public class UIz808 extends Application {
 		try {
 			this.toolBar.updateScreen();
 			this.srcCode.updateScreen("EQU 5\n" +
-																"add AX 0x0\n" +
-																"add AX AX\n" +
-																"add AX AX\n" +
-																"sub AX 0x0\n" +
+																"EQU 2\n" +
+																"mov AX 1\n" +
+																"mov SI AX\n" +
+																"mov AX 0\n" +
+																"mul SI\n" +
+																"mov 0 AX\n" +
 																"hlt\n");
 			this.innCode.updateScreen();
 			this.mainMem.updateScreen();
 			this.regBank.updateScreen();
 		} catch (Exception e) {
-			reportError(exceptionToString(e));
+			reportError(e.getMessage());
 		}
 	}
 
 	private void reportError(String e) {
 		this.outArea.updateScreen(e);
-	}
-  private String exceptionToString (Exception e) {
-		StringWriter sw = new StringWriter();
-		PrintWriter pw = new PrintWriter(sw);
-		e.printStackTrace(pw);
-		return sw.toString();
 	}
 }

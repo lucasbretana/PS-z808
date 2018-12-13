@@ -1,6 +1,8 @@
 package z808;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 import util.ExecutionException;
 import util.InvalidOperationException;
@@ -9,6 +11,7 @@ import util.TooLongValue;
 import util.Tuple;
 import z808.Module;
 import z808.command.Command;
+import z808.command.directive.DW;
 import z808.command.directive.Extern;
 import z808.command.directive.Public;
 import z808.command.instruction.AddAX;
@@ -16,6 +19,7 @@ import z808.command.instruction.AddDX;
 import z808.command.instruction.Call;
 import z808.command.instruction.Hlt;
 import z808.command.instruction.Instruction;
+import z808.command.instruction.Jump;
 import z808.command.instruction.MovAXMEM;
 import z808.command.instruction.MovMEMAX;
 import z808.command.instruction.Retn;
@@ -51,10 +55,16 @@ public class Linker {
 		m_ModuleAlign += module.getSize();
 	}
 	
-	public ArrayList<Module> LinkModules() throws SymbolNotFound {
+	public Program LinkModules() throws SymbolNotFound, ExecutionException {
 		fixSymbols();
 		
-		return m_Module;
+		Program program = new Program();
+		
+		for (Module module : m_Module)
+			for (Map.Entry<Address, Command> entry : module.getProgram().entrySet())
+				program.add(entry.getKey(), entry.getValue());
+		
+		return program;
 	}
 	
 	public static void LinkerTests() throws InvalidOperationException, TooLongValue, ExecutionException {
@@ -66,10 +76,11 @@ public class Linker {
 				new String[] { "Function1", "Function2", "Function3", "Function4", "externData1" }
 		));
 		code.add(new Extern(
-				new String[] { "Function1", "Function2", "Function3", "Function4", "externData1" } ,
-				new String[] { "WORD", "WORD", "WORD", "WORD", "NEAR" }
+				new String[] { } ,
+				new String[] { }
 		));
 		
+		code.add(new DW("externData1", new Address(100)));
 		code.add(new AddAX("Function1"));
 		code.add(new AddDX());
 		code.add(new SubAX());
@@ -81,15 +92,15 @@ public class Linker {
 		code.add(new Retn());
 		
 		code.add(new AddAX("Function3"));
-		code.add(new Call("Function1"));
+		code.add(new Call("Function1", new Address(0)));
 		code.add(new AddAX());
-		code.add(new Call("Function2"));
+		code.add(new Call("Function2", new Address(7)));
 		code.add(new AddAX());
 		code.add(new AddAX());
 		code.add(new Retn());
 
 		code.add(new AddAX("Function4"));
-		code.add(new Call("Function3"));
+		code.add(new Call("Function3", new Address(14)));
 		code.add(new AddAX());
 		code.add(new MovAXMEM("externData1"));
 		code.add(new AddAX());
@@ -98,10 +109,10 @@ public class Linker {
 		
 		ArrayList<Command> code2 = new ArrayList<>();
 		
-		code2.add(new Public(new String[] { "Function4", "externData1" }));
+		code2.add(new Public(new String[] { }));
 		code2.add(new Extern(
 				new String[] { "Function4", "externData1" } ,
-				new String[] { "WORD", "NEAR" }
+				new String[] { "NEAR", "DWORD" }
 		));
 		
 		code2.add(new Call("Function4"));
@@ -130,13 +141,13 @@ public class Linker {
 		System.out.println(mod[1].m_code.toString());
 	}
 	
-	private void fixSymbols() throws SymbolNotFound {
+	private void fixSymbols() throws SymbolNotFound, ExecutionException {
 		for (Module module : m_Module) {
 			if (module.use_table == null)
 				continue;
 			
 			for (Tuple<Command,Address> useTable : module.use_table) {
-				String symbolName = useTable.a.getLabel();
+				String symbolName = useTable.a.getUndefValue();
 				
 				Boolean fixed = false;
 				
@@ -156,9 +167,18 @@ public class Linker {
 		}
 	}
 	
-	private void fixCommand(Tuple<Command,Address> command, Symbol symbol) {
+	private void fixCommand(Tuple<Command,Address> command, Symbol symbol) throws ExecutionException {
 		Instruction inst = (Instruction)command.a;
 		inst.fixSymbol(symbol.getValue());
+		
+		if (command.a instanceof MovAXMEM)
+			((MovAXMEM)command.a).arg = new Address(symbol.getValue());
+		else if (command.a instanceof MovMEMAX)
+			((MovMEMAX)command.a).arg = new Address(symbol.getValue());
+		else if (command.a instanceof Jump)
+			((Jump)command.a).arg = new Address(symbol.getValue());
+		else if (command.a instanceof Call)
+			((Call)command.a).arg = new Address(symbol.getValue());
 		
 		System.out.println("CMD FIXED: " + inst.toString());
 	}
