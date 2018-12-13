@@ -1,11 +1,15 @@
 package z808;
 
 import java.util.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.charset.Charset;
 
-import util.TestFaliedException;
-import util.ExecutionException;
-import util.NotImplementedException;
 import util.FinishedException;
+import util.ExecutionException;
+import util.TestFaliedException;
+import util.NotImplementedException;
 
 import z808.Program;
 import z808.Processor;
@@ -42,7 +46,7 @@ public class MainTest {
 
 		try {
 			System.out.println("--- Macro Processor Tests ---");
-			MainTest.MacroProcessorTests();
+			MainTest.MacroProcessorTests2();
 		} catch (ExecutionException e) {
 			System.out.println("Failed Macro Tests:  " + e);
 		}
@@ -109,11 +113,11 @@ public class MainTest {
 		params.add("P2");
 		cmds.add("add P1 P1");
 		cmds.add("sub P1 P2");
-
+		cmds.add("add P1 P1");
 		params_call.add("AX");
 		params_call.add("DX");
 
-		prog.add(new MacroDef(label, params, cmds)); //Shitface MACRO P1 P2 
+		prog.add(new MacroDef(label, params, cmds)); 
 		prog.add(new Endm(label));
 		prog.add(new Equ(5));
 		prog.add(new Equ(6));
@@ -130,7 +134,61 @@ public class MainTest {
 
 		result = macro_proc.process(prog);
 		System.out.println("\n-- After process --");
-		//System.out.println(result);
+		
+		for(Command cmd : result) {
+			System.out.println(cmd.toString());
+		}
+	}
+
+	private static void MacroProcessorTests2() throws ExecutionException, IOException {
+		Translator transl = new Translator();
+		MacroProcessor macro_proc = null;
+
+		//le td do arquivo 
+		//List<String> arq = Files.readAllLines(Paths.get("sample/", "ex3_macro.asm"), Charset.forName("UTF-8"));
+		List<Command> prog = new ArrayList<Command>();
+		ArrayList<String> params = new ArrayList<String>();
+		ArrayList<String> commands = new ArrayList<String>();
+		ArrayList<String> params_call1 = new ArrayList<String>();
+		ArrayList<String> params_call2 = new ArrayList<String>();
+
+
+		String label = "SomaMem";
+		commands.add("add Mem1 Mem1");
+		commands.add("add Mem1 Mem2");
+		commands.add("sub Mem1 Mem2");
+		commands.add("add Mem1 Mem2");
+		commands.add("add Mem1 Mem2");
+		//prog = transl.convertCode(arq);
+		params.add("Mem1");
+		params.add("Mem2");
+
+		params_call1.add("AX");
+		params_call1.add("DX");
+
+		params_call2.add("AX");
+		params_call2.add("AX");
+
+		prog.add(new MacroDef(label, params, commands)); 
+		prog.add(new Endm(label));
+		prog.add(new Equ(8));
+		prog.add(new Equ(3));
+		prog.add(new MacroCall(label, params_call1));
+		prog.add(new Equ(9));
+		prog.add(new MacroCall(label, params_call2));
+		prog.add(new Hlt());
+
+		macro_proc = new MacroProcessor(prog);
+
+		System.out.println("\n-- B4 process --");
+		for(Command str : prog) {
+			System.out.print(str.toString() + "\n");
+		}
+
+		ArrayList<Command> result = new ArrayList<Command>();
+		result = macro_proc.process(prog);
+		
+		System.out.println("\n-- After process --");
 		
 		for(Command cmd : result) {
 			System.out.println(cmd.toString());

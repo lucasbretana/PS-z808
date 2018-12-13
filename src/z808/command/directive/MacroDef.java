@@ -28,16 +28,6 @@ public class MacroDef extends Directive {
 		this.commands = new ArrayList<String>(cmds);
 	}
 
-	/**
-	 * Creates a new MacroDef without header, used on macro def table
-	 * @param name Macro's name
-	 * @param cmds Macro's routine
-	 */
-	//public MacroDef(String name, List<String> cmds) {
-	//	this.label = new String(name);
-	//	this.commands = new ArrayList<String>(cmds);
-	//}
-
 	public List<String> getCommands() {
 		return this.commands;
 	}

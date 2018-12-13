@@ -3,6 +3,8 @@ package z808.command.directive;
 import z808.command.directive.Directive;
 import z808.memory.Memory;
 import util.NotImplementedException;
+import util.ExecutionException;
+import util.AZMRegexCommon;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
  */
 public class MacroCall extends Directive {
 	public List<String> parameters = null;
+	public static final String MNEMONIC = "MCALL";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " (" + AZMRegexCommon.NAME_RGX + ")*$";
 
 	/**
 	 * Creates a new MacroCall
@@ -26,6 +30,19 @@ public class MacroCall extends Directive {
 	@Override
 	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");
+	}
+
+	static public MacroCall makeMacroCall(String from) throws ExecutionException {
+		String []tokens = from.split(" ");
+		String name = tokens[0];
+		List<String> params = new ArrayList<String>();
+
+		int i;
+		for(i = 1; i < tokens.length; i++) {
+			params.add(tokens[i]);
+		}
+
+		return new MacroCall(name, params);
 	}
 
 	@Override

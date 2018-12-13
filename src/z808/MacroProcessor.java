@@ -29,9 +29,9 @@ public class MacroProcessor {
   /**
    * Search the whole code for macro def and macro call
    * @param commands List of commands a.k.a. code itself
-   * @return modifiedCmds a list of commands with expanded macros
+   * @return a list of commands with same received commands but macro calls substituted by actual macros
    */
-  public ArrayList<Command> process(ArrayList<Command> commands) {
+  public ArrayList<Command> process(List<Command> commands) {
     ArrayList<Command> modifiedCmds = new ArrayList<Command>(); 
     ArrayList<MacroDef> macroDefinitions = new ArrayList<MacroDef>();
     
@@ -45,10 +45,7 @@ public class MacroProcessor {
 
       } else if(cmd instanceof MacroCall) {
         try {
-          //printModified(1, modifiedCmds);
           expansionMode((MacroCall) cmd, modifiedCmds, macroDefinitions);
-          //printModified(2, modifiedCmds);
-          
         } catch (ExecutionException e) {
           System.out.println("Error: expansion mode: " + e);
         }
@@ -57,17 +54,8 @@ public class MacroProcessor {
         modifiedCmds.add(cmd);
       }
     }
-    //WHEN/WHERE DO I USE IT? :
-    //modifiedCmds.add(t.convertCode1(cmd));
     return modifiedCmds;
   }
-
-private void printModified(int i, ArrayList<Command> modified) {
-  System.out.println(i + " ");
-  for(Command cmd : modified) {
-    System.out.println(cmd.toString());
-  }
-}
 
   /**
    * Definition mode fills the Macro Definitions Table
@@ -94,40 +82,16 @@ private void printModified(int i, ArrayList<Command> modified) {
       if(md.getLabel().equals(call.getLabel())) { //compara o label
         for(String cmd : md.commands) { //itera lista de comandos da macro definition
           for(String curParam : md.parameters) { //pega lista de parametros do comando
-            cmd = cmd.replace(curParam, call.parameters.get(i)); //start looking here
+            cmd = cmd.replace(curParam, call.parameters.get(i)); //substitui os parametros
             ++i;
           }
           
           i = 0;
-          c = transl.convertCode1(cmd);
-          modCmds.add(c);
+          c = transl.convertCode1(cmd); //traduz a string para comando
+          modCmds.add(c); //adiciona o comando na lista final de comandos 
         }
       }
       c = null;
     }
   }
 }
-
-/*
-
-private void changeParameters(MacroCall call, ArrayList<Tuple<String, MacroDef>> macroDefinitions) {
-  for(String curParam : md.b.parameters) { //formal
-    //troca curParam call.parameters.get(idx_param)
-                 
-  md.b.parameters.get(idx_param).replace(curParam, call.parameters.get(idx_param));
-  idx_param++;
-}
-
-    
-    if(m.getLabel().equals(cmd.getLabel())) {
-       //translator has to make string become code
-    } else {
-       //not t
-    }
-    
-    new mCall()
-    call translator
-    look on both macro tables
-    return list<command>
-    */
- 
