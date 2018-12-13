@@ -11,21 +11,21 @@ import util.AZMRegexCommon;
 import util.NotImplementedException;
 import util.ExecutionException;
 
-public class Retn extends Instruction {
-	public static final int OPCODE = 0xC3;
-	public static final String MNEMONIC = "hlt";
-	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + "$";
+public class PopAX extends Instruction {
+	public static final int OPCODE = 0x58;
+	public static final String MNEMONIC = "pop";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " AX$";
 	public static final int SIZE = 1;
-	
-	public Retn () {
+
+	public PopAX () {
 		this(null);
 	}
 
-	public Retn (String label) {
-		this.size = SIZE;
+	public PopAX (String label) {
+		this.size = PopAX.SIZE;
 		this.label = label;
 
-		this.code = OPCODE;
+		this.code = PopAX.OPCODE;
 		return;
 	}
 
@@ -42,28 +42,26 @@ public class Retn extends Instruction {
 		// 6. Second Value fetch in case of address
 
 		// 7. Execution
-		// 7.1 Set next instruction
-		mem.CL.set( mem.SP.get() );
-		// 7.2 Set next instruction
+		mem.AX.set(mem.get( mem.SP ));
 		mem.SP.set( mem.SP.get() - 1 );
 
 		// 8. Write back
 		// 9. Program Counter increment
+		mem.CL.set( mem.CL.get() + this.getSize() );
 	}
 
-	static public Retn makeRetn(String from) throws ExecutionException {
+	static public PopAX makePopAX(String from) throws ExecutionException {
 		String []tokens = from.split(" ");
-		if (tokens.length < 1) throw new ExecutionException("This doesn't make any sense..mismatching expression");
-		String label = (tokens.length == 2) ? tokens[0] : null;
+		if (tokens.length < 2) throw new ExecutionException("This doesn't make any sense..mismatching expression");
+		String label = (tokens.length == 3) ? tokens[0] : null;
 
-		return new Retn(label);
+		return new PopAX(label);
 	}
 
 	@Override
 	public ArrayList<Register> asRegisters() {
 		ArrayList<Register> l = new ArrayList<Register>(SIZE);
-		l.add(new Register(0xC3));
+		l.add(new Register(0x58));
 		return l;
 	}
-
 }

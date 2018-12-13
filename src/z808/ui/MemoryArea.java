@@ -24,7 +24,9 @@ public class MemoryArea extends ScrollPane {
 		setPrefSize(BeautyFactory.SCREEN_WIDTH  * 0.2,
 								BeautyFactory.SCREEN_HEIGHT * 0.3);
 		setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+	}
 
+	public void setProcessor(Processor p) {
 		this.mem = new TilePane();
 		this.mem.setHgap(0);
 		this.mem.setPrefColumns(3);
@@ -35,9 +37,7 @@ public class MemoryArea extends ScrollPane {
 		this.addInfoLabel("+1");
 		this.insertIndex = 0;
 		this.colourIndex = 0;
-	}
 
-	public void setProcessor(Processor p) {
 		this.machine = p;
 		List<Register> l = this.machine.getMemoryRegisters();
 		for (Register r: l) {

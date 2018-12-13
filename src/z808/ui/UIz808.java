@@ -83,12 +83,14 @@ public class UIz808 extends Application {
 			// TODO: @Jonathas
 			// Source code and processor iniciation, this will be changed until final release
 			Program code = new Program();
-			code.add(new Address(0x0), new Equ (5));       // EQU 5
-			code.add(new Address(0x1), new AddCTE (0x0));  // add AX 0x0
-			code.add(new Address(0x4), new AddAX ());      // add AX AX
-			code.add(new Address(0x6), new AddAX ());      // add AX AX
-			code.add(new Address(0x8), new SubCTE (0x0));  // sub AX 0x0
-			code.add(new Address(0xb), new Hlt ());        // hlt
+			code.add(new Address(0x0), new Equ(5));         // EQU 5
+			code.add(new Address(0x1), new Equ(2));         // EQU 2
+			code.add(new Address(0x2), new MovAXMEM(0x1));  // mov AX 1
+			code.add(new Address(0x5), new MovSIAX());      // mov SI AX
+			code.add(new Address(0x7), new MovAXMEM(0x0));  // mov AX 0
+			code.add(new Address(0xA), new MultSI());       // mul SI
+			code.add(new Address(0xC), new MovMEMAX(0x0));  // mov 0 AX
+			code.add(new Address(0xF), new Hlt());          // hlt
 			this.machine.load(code);
 		} catch (ExecutionException e) {
 			this.reportError(e.getMessage());
@@ -99,10 +101,12 @@ public class UIz808 extends Application {
 		try {
 			this.toolBar.updateScreen();
 			this.srcCode.updateScreen("EQU 5\n" +
-																"add AX 0x0\n" +
-																"add AX AX\n" +
-																"add AX AX\n" +
-																"sub AX 0x0\n" +
+																"EQU 2\n" +
+																"mov AX 1\n" +
+																"mov SI AX\n" +
+																"mov AX 0\n" +
+																"mul SI\n" +
+																"mov 0 AX\n" +
 																"hlt\n");
 			this.innCode.updateScreen();
 			this.mainMem.updateScreen();

@@ -26,7 +26,7 @@ public class MainTest {
 			MainTest.ProcessorTests();
 			System.out.println("Processor is Ok!");
 		} catch (TestFaliedException e) {
-		  System.err.println("Failed Processor Tests:" + e);
+			System.err.println("Failed Processor Tests:" + e);
 		}
 
 		// @Bretana tests
@@ -50,31 +50,38 @@ public class MainTest {
 					 FinishedException, TestFaliedException {
 		String expected
 			= "0000 0005\n"
-			+ "0001 05 0000\n"
-			+ "0004 03 C0\n"
-			+ "0006 03 C0\n"
-			+ "0008 2B 0000\n"
-			+ "000B F4\n";
+			+ "0001 0002\n"
+			+ "0002 B8 0001\n"
+			+ "0005 8B F0\n"
+			+ "0007 B8 0000\n"
+			+ "000A F7 E6\n"
+			+ "000C A3 0000\n"
+			+ "000F F4\n";
 
 		Program code = new Program();
-		code.add(new Address(0x0), new Equ (5));       // EQU 5
-		code.add(new Address(0x1), new AddCTE (0x0));  // add AX 0x0
-		code.add(new Address(0x4), new AddAX ());      // add AX AX
-		code.add(new Address(0x6), new AddAX ());      // add AX AX
-		code.add(new Address(0x8), new SubCTE (0x0));  // sub AX 0x0
-		code.add(new Address(0xb), new Hlt ());        // hlt
+		code.add(new Address(0x0), new Equ(5));         // EQU 5
+		code.add(new Address(0x1), new Equ(2));         // EQU 2
+		code.add(new Address(0x2), new MovAXMEM(0x1));  // mov AX 1
+		code.add(new Address(0x5), new MovSIAX());      // mov SI AX
+		code.add(new Address(0x7), new MovAXMEM(0x0));  // mov AX 0
+		code.add(new Address(0xA), new MultSI());       // mul SI
+		code.add(new Address(0xC), new MovMEMAX(0x0));  // mov 0 AX
+		code.add(new Address(0xF), new Hlt());          // hlt
 
 		Processor p = new Processor();
 		p.load(code);
 		if (expected.compareTo(p.codeToString()) != 0)
 			throw new TestFaliedException(-1, p.codeToString());
 		expected
-			= "CL:0C\n"
+			= "CL:10\n"
 			+ "RI:F4\n"
-			+ "REM:0B\n"
+			+ "REM:0F\n"
 			+ "RBM:F4\n"
-			+ "AX:0F\n"
-			+ "DX:00\n";
+			+ "SP:XX\n"
+			+ "SR:XX\n"
+			+ "AX:0A\n"
+			+ "DX:00\n"
+			+ "SI:02\n";
 		p.process();
 		if (expected.compareTo(p.registersToString()) != 0)
 			throw new TestFaliedException(-2, p.registersToString());

@@ -16,7 +16,7 @@ public class AddAX extends Instruction {
 	public static final String MNEMONIC = "add";
 	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " AX AX$";
 	public static final int SIZE   = 2;
-	
+
 	public AddAX () {
 		this(null);
 	}

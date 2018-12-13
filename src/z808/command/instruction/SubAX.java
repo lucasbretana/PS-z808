@@ -14,8 +14,8 @@ public class SubAX extends Instruction {
 	public static final int OPCODE = 0X2BC0;
 	public static final String MNEMONIC = "sub";
 	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " AX AX$";
-	public static final int SIZE   = 2;
-	
+	public static final int SIZE = 2;
+
 	public SubAX () {
 		this(null);
 	}
