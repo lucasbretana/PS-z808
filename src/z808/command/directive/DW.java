@@ -161,10 +161,15 @@ public class DW extends Directive {
 	@Override
 	public ArrayList<Register> asRegisters() {
 		ArrayList<Register> l = new ArrayList<Register>(this.size);
-		int value = Integer.class.cast(this.value).intValue();
-		for (int i = 0; i < this.size/2; ++i) {
-			l.add(new Register((value << 16) >> 16));
-			l.add(new Register(value >> 16));
+		if (this.value != null) {
+			int value = Integer.class.cast(this.value).intValue();
+			for (int i = 0; i < this.size/2; ++i) {
+				l.add(new Register((value << 16) >> 16));
+				l.add(new Register(value >> 16));
+			}
+		} else {
+			l.add(new Register(0));
+			l.add(new Register(0));
 		}
 		return l;
 	}

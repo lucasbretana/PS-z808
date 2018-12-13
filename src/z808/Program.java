@@ -20,12 +20,6 @@ public class Program extends TreeMap<Address, Command> {
 	public static final int IS_IN_STACK_SEGMENT = 1;
 	public static final int IS_IN_CODE_SEGMENT = 2;
 	protected static final long serialVersionUID = 313L;
-	private Address startDataSegment = null;
-	private Integer sizeDataSegment = null;
-	private Address startStackSegment = null;
-	private Integer sizeStackSegment = null;
-	private Address startCodeSegment = null;
-	private Integer sizeCodeSegment = null;
 
 	private Address startDataSegment = null;
 	private int     sizeDataSegment = 0;

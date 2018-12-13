@@ -1,21 +1,21 @@
 Inicio:
 mov AX Um
 add AX Um
-mov AX Dois
+mov Dois AX
 add AX Um
-mov AX Tres
+mov Tres AX
 add AX Um
-mov AX Quatro
+mov Quatro AX
 add AX Um
-mov AX Cinco
+mov Cinco AX
 add AX Um
-mov AX Seis
+mov Seis AX
 add AX Um
-mov AX Sete
+mov Sete AX
 add AX Um
-mov AX Oito
+mov Oito AX
 add AX Um
-mov AX Nove
+mov Nove AX
 hlt
 Um DW 1
 Dois DW ?
