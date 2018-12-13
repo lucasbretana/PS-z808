@@ -30,7 +30,7 @@ public class MainTest {
 			MainTest.ProcessorTests();
 			System.out.println("Processor is Ok!");
 		} catch (TestFaliedException e) {
-			System.err.println("Failed Processor Tests:" + e);
+		  System.err.println("Failed Processor Tests:" + e);
 		}
 
 		// @Bretana tests
@@ -52,8 +52,8 @@ public class MainTest {
 		}
 
 		// Implement try to other tests here.
-		
-		//Linker.LinkerTests();
+
+		Linker.LinkerTests();
 	}
 
 	private static void ProcessorTests()
@@ -70,14 +70,14 @@ public class MainTest {
 			+ "000F F4\n";
 
 		Program code = new Program();
-		code.add(new Address(0x0), new Equ(5));         // EQU 5
-		code.add(new Address(0x1), new Equ(2));         // EQU 2
+		code.add(new Address(0x0), new Equ(5));         // Equ 5
+		code.add(new Address(0x1), new Equ(2));         // Equ 2
 		code.add(new Address(0x2), new MovAXMEM(0x1));  // mov AX 1
 		code.add(new Address(0x5), new MovSIAX());      // mov SI AX
 		code.add(new Address(0x7), new MovAXMEM(0x0));  // mov AX 0
 		code.add(new Address(0xA), new MultSI());       // mul SI
 		code.add(new Address(0xC), new MovMEMAX(0x0));  // mov 0 AX
-		code.add(new Address(0xF), new Hlt());          // hlt
+		code.add(new Address(0x0f), new Hlt());          // hlt
 
 		Processor p = new Processor();
 		p.load(code);
@@ -118,9 +118,9 @@ public class MainTest {
 		params_call.add("DX");
 
 		prog.add(new MacroDef(label, params, cmds)); 
-		prog.add(new Endm(label));
-		prog.add(new Equ(5));
-		prog.add(new Equ(6));
+		prog.add(new Endm());
+		prog.add(new DW(5));
+		prog.add(new DW(6));
 		prog.add(new MacroCall(label, params_call));
 		prog.add(new Hlt());
 		macro_proc = new MacroProcessor(prog);
@@ -170,7 +170,7 @@ public class MainTest {
 		params_call2.add("AX");
 
 		prog.add(new MacroDef(label, params, commands)); 
-		prog.add(new Endm(label));
+		prog.add(new Endm());
 		prog.add(new Equ(8));
 		prog.add(new Equ(3));
 		prog.add(new MacroCall(label, params_call1));

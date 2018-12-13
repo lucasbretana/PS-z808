@@ -28,10 +28,20 @@ public class Public extends Directive {
 		return this.names;
 	}
 
+	public static Public makePublic(String from) {
+	  String []tokens = from.split(" ");
+
+	  tokens = tokens[1].split(",");
+	  return new Public(tokens);
+	}
+
 	@Override
 	public void exec (Memory mem) throws ExecutionException {
 		throw new ExecutionException("This shouls never reach to the processor.");
 	}
+
+	@Override
+	public String toCode() { return this.toString(); }
 
 	@Override
 	public String toString() {

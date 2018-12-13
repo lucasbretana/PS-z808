@@ -1,12 +1,14 @@
 package z808.command.directive;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import util.AZMRegexCommon;
+import util.NotImplementedException;
+
 import z808.command.directive.Directive;
 import z808.command.Command;
 import z808.memory.Memory;
-import util.NotImplementedException;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * @author Alana Schwendler
@@ -35,7 +37,16 @@ public class MacroDef extends Directive {
 	public List<String> getParameters() {
 		return this.parameters;
 	}
-	
+
+	@Override
+	public String toCode() {
+	  String ret = "";
+	  ret += MNEMONIC + " " + this.getLabel() + " " + AZMRegexCommon.toString(this.parameters, ", ") + "\n";
+	  ret += AZMRegexCommon.toString(this.commands, "\n");
+
+	  return ret;
+	}
+
 	@Override
 	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");

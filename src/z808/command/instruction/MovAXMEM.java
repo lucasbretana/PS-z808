@@ -33,16 +33,16 @@ public class MovAXMEM extends Instruction {
 		this(null, call, null);
 	}
 
-	public MovAXMEM (String call, Address _arg) {
-		this(null, call, _arg);
+	public MovAXMEM (String label, Address _arg) {
+		this(label, null, _arg);
 	}
 
 	public MovAXMEM (String label, String call) {
 		this(label, call, null);
 	}
 
-	public MovAXMEM (String call, int _arg) throws ExecutionException {
-		this(null, call, new Address(_arg));
+	public MovAXMEM (String label, int _arg) throws ExecutionException {
+		this(label, null, new Address(_arg));
 	}
 
 	public MovAXMEM (int _arg) throws ExecutionException {
@@ -82,8 +82,22 @@ public class MovAXMEM extends Instruction {
 	}
 
 	@Override
+	public void setUndefValue(int val) throws RuntimeException {
+		if(isDefined()) super.setUndefValue(val);
+		try {
+			this.arg = new Address(val);
+		} catch(ExecutionException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
+
+	@Override
 	public String toString() {
-		return "B8 " + ((this.isDefined()) ? arg : this.u_arg);
+		if (isDefined())
+			return "B8 " + this.arg;
+		else
+			return ((this.getLabel()!=null) ? this.getLabel() + " " : "")
+				+ MNEMONIC + " " + this.u_arg;
 	}
 
 	static public MovAXMEM makeMovAXMEM(String from) throws ExecutionException {

@@ -28,6 +28,11 @@ public class MacroCall extends Directive {
 	}
 
 	@Override
+	public String toCode() {
+	  return MNEMONIC + " " + AZMRegexCommon.toString(this.parameters, ", ");
+	}
+
+	@Override
 	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");
 	}

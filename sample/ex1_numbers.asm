@@ -17,13 +17,13 @@ mov AX Oito
 add AX Um
 mov AX Nove
 hlt
-Um     DW 1
-Dois   DW ?
-Tres   DW ?
+Um DW 1
+Dois DW ?
+Tres DW ?
 Quatro DW ?
-Cinco  DW ?
-Seis   DW ?
-Sete   DW ?
-Oito   DW ?
-Novo   DW ?
+Cinco DW ?
+Seis DW ?
+Sete DW ?
+Oito DW ?
+Nove DW ?
 END Inicio

@@ -83,14 +83,18 @@ public class UIz808 extends Application {
 			// TODO: @Jonathas
 			// Source code and processor iniciation, this will be changed until final release
 			Program code = new Program();
-			code.add(new Address(0x0), new Equ(5));         // EQU 5
-			code.add(new Address(0x1), new Equ(2));         // EQU 2
-			code.add(new Address(0x2), new MovAXMEM(0x1));  // mov AX 1
-			code.add(new Address(0x5), new MovSIAX());      // mov SI AX
-			code.add(new Address(0x7), new MovAXMEM(0x0));  // mov AX 0
-			code.add(new Address(0xA), new MultSI());       // mul SI
-			code.add(new Address(0xC), new MovMEMAX(0x0));  // mov 0 AX
-			code.add(new Address(0xF), new Hlt());          // hlt
+			code.add(new Address(0x0) , new DW(5));          // DW 5
+			code.add(new Address(0x2) , new DW(2));          // DW 2
+			code.add(new Address(0x4) , new MovAXMEM(0x2));  // mov AX 1
+			code.add(new Address(0x7) , new MovSIAX());      // mov SI AX
+			code.add(new Address(0x9) , new MovAXMEM(0x0));  // mov AX 0
+			code.add(new Address(0xC) , new MultSI());       // mul SI
+			code.add(new Address(0xE) , new MovMEMAX(0x0));  // mov 0 AX
+			code.add(new Address(0x11), new Hlt());          // hlt
+			code.setStartCodeSegment(new Address(0x4));
+			code.setSizeCodeSegment(0x12 - 0x4);
+			code.setStartDataSegment(new Address(0x0));
+			code.setSizeDataSegment(0x4 - 0x0);
 			this.machine.load(code);
 		} catch (ExecutionException e) {
 			this.reportError(e.getMessage());
@@ -100,8 +104,8 @@ public class UIz808 extends Application {
 	public void updateScreen() {
 		try {
 			this.toolBar.updateScreen();
-			this.srcCode.updateScreen("EQU 5\n" +
-																"EQU 2\n" +
+			this.srcCode.updateScreen("DW 5\n" +
+																"DW 2\n" +
 																"mov AX 1\n" +
 																"mov SI AX\n" +
 																"mov AX 0\n" +

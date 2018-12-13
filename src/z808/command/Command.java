@@ -11,7 +11,7 @@ import util.ExecutionException;
 import util.FinishedException;
 
 public abstract class Command {
-	protected int size;
+	protected int size = 0;
 	protected String label = null;
 
 	public abstract void exec (Memory mem) throws NotImplementedException, ExecutionException, FinishedException;
@@ -39,7 +39,7 @@ public abstract class Command {
 	}
 
 	public void setUndefValue(int val) {
-		throw new RuntimeException("Cannot set a new value for an already defined command");
+		throw new RuntimeException("Cannot set a new value for an already defined command (" + this.getClass().getSimpleName() + ")");
 	}
 
 }

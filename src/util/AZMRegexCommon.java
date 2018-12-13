@@ -1,5 +1,7 @@
 package util;
 
+import java.util.List;
+
 public interface AZMRegexCommon {
 	public static final String CHAR_RGX = "[a-zA-Z]";
 	public static final String SPACE = "\\s";
@@ -31,4 +33,12 @@ public interface AZMRegexCommon {
 		return new Integer(val);
 	}
 
+	public static String toString(List<String> str, String div) {
+	  String ret = "";
+
+	  for(String i : str)
+	    ret += i + div;
+
+	  return ret;
+	}
 }

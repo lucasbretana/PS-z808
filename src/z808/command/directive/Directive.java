@@ -17,4 +17,6 @@ public abstract class Directive extends Command {
 		else
 			throw new ExecutionException("Cannot change a already set label");
 	}
+
+	public abstract String toCode();
 }

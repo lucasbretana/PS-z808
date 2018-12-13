@@ -12,9 +12,13 @@ public class Endm extends Directive {
 	 * Create a ENDM 
 	 * @param name macro name
 	 */
-	public Endm(String name) {
-		this.label = new String(name);
+	public Endm() {
 		this.size = 0;
+	}
+
+	@Override
+	public String toCode() {
+	  return MNEMONIC;
 	}
 
 	@Override

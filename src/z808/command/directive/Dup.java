@@ -1,7 +1,9 @@
 package z808.command.directive;
 
+import util.AZMRegexCommon;
 import util.ExecutionException;
 import util.NotImplementedException;
+
 import z808.command.Command;
 import z808.memory.Memory;
 import z808.memory.Address;
@@ -10,6 +12,9 @@ import z808.command.directive.Directive;
 
 public class Dup extends Directive {
 	public static final String MNEMONIC = "DUP";
+	public static final String REGEX =  MNEMONIC + " (" + AZMRegexCommon.CHAR_RGX 
+							    + "|" + AZMRegexCommon.INTEGER_RGX 
+							    + "|([\\?])/)";
 
 	private Object value  = null;
 	private Class<?> type = null;
@@ -64,6 +69,7 @@ public class Dup extends Directive {
 		return this.value != null ? this.value.toString() : "XXXX";
 	}
 
+	@Override
 	public String toCode() {
 		String ret = this.count + " " + Dup.MNEMONIC + " ";
 		if (this.value == null)

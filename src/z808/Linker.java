@@ -28,42 +28,50 @@ import z808.memory.Address;
 
 public class Linker {
 	private ArrayList<Symbol> m_GlobalSymbolTable;
-	
 	private ArrayList<Module> m_Module;
-	private int m_ModuleAlign;
-	
+
+	private int dataSize;
+	private int stackSize;
+	private int codeSize;
+
 	public Linker() {
 		m_GlobalSymbolTable = new ArrayList<>();
-		
+
 		m_Module = new ArrayList<>();
-		m_ModuleAlign = 0;
+
+		this.dataSize = 0;
+		this.stackSize = 0;
+		this.codeSize = 0;
 	}
-	
+
 	public void InsertModule(Module module) throws ExecutionException {
-		module.setModuleAlign(m_ModuleAlign);
 		m_Module.add(module);
-		
-		for (Symbol symbol : module.global_symbol_table) {
-			Number addr = symbol.getValue();
-			
-			if (symbol.isRelative())
-				addr = ((int)addr + m_ModuleAlign);
-			
-			m_GlobalSymbolTable.add(new Symbol(symbol.getName(), addr, symbol.isAbs()));
-		}
-		
-		m_ModuleAlign += module.getSize();
+
+		this.dataSize  += module.getProgram().getSizeDataSegment();
+		this.stackSize += module.getProgram().getSizeStackSegment();
+		this.codeSize  += module.getProgram().getSizeCodeSegment();
 	}
-	
+
 	public Program LinkModules() throws SymbolNotFound, ExecutionException {
+		int ds = 0, ss = this.dataSize, cs = this.dataSize+this.stackSize;
+		for (Module module : m_Module) {
+			module.setModuleAlign(ds,
+														ss,
+														cs);
+
+			for (Symbol symbol : module.global_symbol_table) {
+				m_GlobalSymbolTable.add(symbol);
+			}
+
+			ds += module.getProgram().getSizeDataSegment();
+			ss += module.getProgram().getSizeStackSegment();
+			cs += module.getProgram().getSizeCodeSegment();
+		}
+
 		fixSymbols();
-		
 		Program program = new Program();
-		
 		for (Module module : m_Module)
-			for (Map.Entry<Address, Command> entry : module.getProgram().entrySet())
-				program.add(entry.getKey(), entry.getValue());
-		
+			program.merge(module.getProgram());
 		return program;
 	}
 	
@@ -124,10 +132,15 @@ public class Linker {
 		Assembler asm = new Assembler();
 		mod[0] = asm.assembleCode(code);
 		mod[1] = asm.assembleCode(code2);
-		
+
+		mod[0].getProgram().setStartCodeSegment(new Address(0));
+		mod[0].getProgram().setSizeCodeSegment(0x2F);
+		mod[1].getProgram().setStartCodeSegment(new Address(0));
+		mod[1].getProgram().setSizeCodeSegment(7);
+
 		Linker l = new Linker();
-		l.InsertModule(mod[0]);
 		l.InsertModule(mod[1]);
+		l.InsertModule(mod[0]);
 		
 		try {
 			l.LinkModules();
