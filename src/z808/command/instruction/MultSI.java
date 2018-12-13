@@ -48,12 +48,12 @@ public class MultSI extends Instruction {
 		mem.CL.set( mem.CL.get() + this.getSize() );
 	}
 
-	static public MultAX makeMultAX(String from) throws ExecutionException {
+	static public MultSI makeMultSI(String from) throws ExecutionException {
 		String []tokens = from.split(" ");
 		if (tokens.length < 2) throw new ExecutionException("This doesn't make any sense..mismatching expression");
 		String label = (tokens.length == 3) ? tokens[0] : null;
 
-		return new MultAX(label);
+		return new MultSI(label);
 	}
 
 	@Override

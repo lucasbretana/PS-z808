@@ -97,6 +97,33 @@ public class Translator {
 			} else if (cmd.matches(Hlt.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "Hlt", cmd);
 				c = Hlt.makeHlt(cmd);
+			} else if (cmd.matches(Call.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "Call", cmd);
+				c = Call.makeCall(cmd);
+			} else if (cmd.matches(DivAX.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "DivAX", cmd);
+				c = DivAX.makeDivAX(cmd);	
+			} else if (cmd.matches(DivSI.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "DivSI", cmd);
+				c = DivSI.makeDivSI(cmd);
+			} else if (cmd.matches(Jump.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "Jump", cmd);
+				c = Jump.makeJump(cmd);
+			} else if (cmd.matches(MultAX.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MultAX", cmd);
+				c = MultAX.makeMultAX(cmd);
+			} else if (cmd.matches(MultSI.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MultSI", cmd);
+				c = MultSI.makeMultSI(cmd);
+			} else if (cmd.matches(PopAX.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "PopAX", cmd);
+				c = PopAX.makePopAX(cmd);
+			} else if (cmd.matches(PushAX.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "PushAX", cmd);
+				c = PushAX.makePushAX(cmd);
+			} else if (cmd.matches(Retn.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "Retn", cmd);
+				c = Retn.makeRetn(cmd);
 			} else if (cmd.equals("Inicio:")) {
 				if (verb) System.err.printf("\nDEBUG, nothing with \"%s\"", cmd);
 				continue;
