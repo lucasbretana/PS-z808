@@ -13,7 +13,6 @@ import java.util.ArrayList;
  */
 public class MacroDef extends Directive {
 	public static String MNEMONIC = "MACRO";
-	public String label = null;
 	public List<String> parameters = null;
 	public List<String> commands = null;
 
@@ -24,7 +23,7 @@ public class MacroDef extends Directive {
 	 * @param cmds List of future macro commands
 	 */
 	public MacroDef(String name, List<String> params, List<String> cmds) {
-		this.label = new String(name);
+		super.label = new String(name);
 		this.parameters = new ArrayList<String>(params);
 		this.commands = new ArrayList<String>(cmds);
 	}
@@ -60,9 +59,10 @@ public class MacroDef extends Directive {
 		for(String param : parameters) {
 			ret += " " + param;
 		}
+		//ret += "\n";
 
 		for(String cmds : commands) {
-			ret += " " + cmds;
+			ret += "\n" + cmds;
 		}
 		return ret;
 	}

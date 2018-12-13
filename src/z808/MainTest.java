@@ -98,7 +98,7 @@ public class MainTest {
 	private static void MacroProcessorTests() throws ExecutionException {
 		MacroProcessor macro_proc = null;
 
-		String label = "Shitface";
+		String label = "AddSub";
 		ArrayList<Command> prog = new ArrayList<Command>();
 		ArrayList<String> params = new ArrayList<String>();
 		ArrayList<String> cmds = new ArrayList<String>();
@@ -107,29 +107,33 @@ public class MainTest {
 
 		params.add("P1");
 		params.add("P2");
-		cmds.add("ADD P1 P2");
-		cmds.add("SUB P2 P1");
+		cmds.add("add P1 P1");
+		cmds.add("sub P1 P2");
 
-		params_call.add("Val1");
-		params_call.add("Val2");
+		params_call.add("AX");
+		params_call.add("DX");
 
 		prog.add(new MacroDef(label, params, cmds)); //Shitface MACRO P1 P2 
+		prog.add(new Endm(label));
+		prog.add(new Equ(5));
+		prog.add(new Equ(6));
 		prog.add(new MacroCall(label, params_call));
+		prog.add(new Hlt());
 		macro_proc = new MacroProcessor(prog);
-		System.out.println("B4 process");
+		System.out.println("\n-- B4 process --");
 
-		for(String str : cmds) {
-			System.out.print(str + " ");
+		for(Command str : prog) {
+			System.out.print(str.toString() + "\n");
 		}
-		macro_proc.process(prog);
-		System.out.println("After process");
 
-		for(Command cmd : prog) {
-			//if(cmd instanceof MacroDef) {
-				System.out.println(cmd.toString());
-			//}
+		ArrayList<Command> result = new ArrayList<Command>();
+
+		result = macro_proc.process(prog);
+		System.out.println("\n-- After process --");
+		//System.out.println(result);
+		
+		for(Command cmd : result) {
+			System.out.println(cmd.toString());
 		}
 	}
-
 }
-

@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * @author Alana Schwendler
  */
 public class MacroCall extends Directive {
-	public String label = null;
 	public List<String> parameters = null;
 
 	/**
@@ -20,7 +19,7 @@ public class MacroCall extends Directive {
 	 * @param params List of received parameters
 	 */
 	public MacroCall(String name, List<String> params) {
-		this.label = new String(name);
+		super.label = new String(name);
 		this.parameters = new ArrayList<String>(params);
 	}
 
@@ -36,7 +35,6 @@ public class MacroCall extends Directive {
 		for(String param : parameters) {
 			ret += " " + param;
 		}
-		
 		return ret;
 	}
 

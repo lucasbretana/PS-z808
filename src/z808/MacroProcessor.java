@@ -36,7 +36,6 @@ public class MacroProcessor {
     ArrayList<MacroDef> macroDefinitions = new ArrayList<MacroDef>();
     
     for(Command cmd : commands) {
-      System.out.println(cmd.getClass().getName());
       if(cmd instanceof MacroDef) {
         try {
           definitionMode((MacroDef) cmd, macroDefinitions);
@@ -45,14 +44,16 @@ public class MacroProcessor {
         }
 
       } else if(cmd instanceof MacroCall) {
-        
         try {
+          //printModified(1, modifiedCmds);
           expansionMode((MacroCall) cmd, modifiedCmds, macroDefinitions);
+          //printModified(2, modifiedCmds);
+          
         } catch (ExecutionException e) {
           System.out.println("Error: expansion mode: " + e);
         }
 
-      } else {
+      } else if (!(cmd instanceof Endm)){
         modifiedCmds.add(cmd);
       }
     }
@@ -60,6 +61,13 @@ public class MacroProcessor {
     //modifiedCmds.add(t.convertCode1(cmd));
     return modifiedCmds;
   }
+
+private void printModified(int i, ArrayList<Command> modified) {
+  System.out.println(i + " ");
+  for(Command cmd : modified) {
+    System.out.println(cmd.toString());
+  }
+}
 
   /**
    * Definition mode fills the Macro Definitions Table
@@ -83,19 +91,21 @@ public class MacroProcessor {
     int i = 0;
 
     for(MacroDef md : defs) {
-      if(md.label.equals(call.getLabel())) { //compara o label
+      if(md.getLabel().equals(call.getLabel())) { //compara o label
         for(String cmd : md.commands) { //itera lista de comandos da macro definition
           for(String curParam : md.parameters) { //pega lista de parametros do comando
-            c = transl.convertCode1(cmd.replace(curParam, call.parameters.get(i)));
-            modCmds.add(c);
-            i++;
+            cmd = cmd.replace(curParam, call.parameters.get(i)); //start looking here
+            ++i;
           }
+          
+          i = 0;
+          c = transl.convertCode1(cmd);
+          modCmds.add(c);
         }
       }
+      c = null;
     }
-    i = 0;
   }
-
 }
 
 /*
