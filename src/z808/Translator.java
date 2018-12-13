@@ -35,7 +35,7 @@ public class Translator {
 	 * @param raw_code the code the translated
 	 */
 	public List<Command> convertCode(List<String> raw_code) throws ExecutionException {
-		boolean verb = true;
+		boolean verb = !true;
 		ArrayList<Command> output = new ArrayList<>();
 
 		Command c = null;
@@ -102,6 +102,12 @@ public class Translator {
 
 		if (verb) System.err.println("Resulting transaltor: " + t);
 		if (verb) System.err.println("Resulting code: " + res);
+
+		if (verb) {
+			for(Command cmd : res)
+				if(cmd instanceof Directive)
+					System.out.println("Directive " + cmd.getClass().getSimpleName() + "!: " + Directive.class.cast(cmd).toCode());
+		}
 
 		res = null;
 		t = null;

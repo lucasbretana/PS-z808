@@ -26,7 +26,7 @@ public class DW extends Directive {
 	 */
 	private DW(String lbl, Object value, Class<?> type) {
 		this.size = 2; // WORDSIZE
-		this.label = new String(lbl);
+		this.label = (lbl.equals("")) ? null : new String(lbl);
 		if (value instanceof Dup)
 			this.size *= Dup.class.cast(value).getSize();
 		this.value = value;
@@ -138,6 +138,7 @@ public class DW extends Directive {
 	/**
 	 * Returns the z808 string equivalent of this DW directive
 	 */
+	@Override
 	public String toCode() {
 		String ret = "";
 		if (this.getLabel() != null)
@@ -147,6 +148,8 @@ public class DW extends Directive {
 			ret += "313"; //empty memory, "random" values
 		else if (this.value instanceof Character)
 			ret += "'" + this.value.toString() + "'";
+		else if (this.value instanceof Dup)
+			ret += ((Dup)this.value).toCode();
 		else
 			ret += this.value.toString();
 		return ret;

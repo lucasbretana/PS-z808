@@ -41,6 +41,9 @@ public class Public extends Directive {
 	}
 
 	@Override
+	public String toCode() { return this.toString(); }
+
+	@Override
 	public String toString() {
 		return Public.MNEMONIC + " " + this.names.stream().reduce("", (x, y) -> x.trim() + " " + y.trim());
 	}

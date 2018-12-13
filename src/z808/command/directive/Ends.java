@@ -17,6 +17,9 @@ public class Ends extends Directive {
 	}
 
 	@Override
+	public String toCode() { return this.toString(); }
+
+	@Override
 	public void exec (Memory mem) throws NotImplementedException {
 		throw new NotImplementedException("TODO");
 	}

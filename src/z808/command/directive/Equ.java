@@ -19,6 +19,7 @@ public class Equ extends Directive {
 
 	private int arg;
 	
+	@Deprecated // TODO remove
 	public Equ (int value) throws TooLongValue { this(null, value); }
 	public Equ (String label, int value) throws TooLongValue {
 		if (Math.abs(value) >= 0xFFFF)
@@ -30,6 +31,7 @@ public class Equ extends Directive {
 		return;
 	}
 
+	// TODO remove?
 	public void exec (Memory mem)
 		throws ExecutionException {
 		// 1. Create Memory entry
@@ -39,8 +41,14 @@ public class Equ extends Directive {
 		mem.CL.set( mem.CL.get() + this.getSize() );
 	}
 
+	@Override
 	public String toString() {
 		return String.format("%04X", this.arg);
+	}
+
+	@Override
+	public String toCode() {
+		return ((this.label != null) ? this.label + " " : "") + MNEMONIC + " " + this.arg;
 	}
 
 	/**
@@ -50,6 +58,7 @@ public class Equ extends Directive {
 	 */
 	static public Equ makeEqu(String s_cmd) throws ExecutionException {
 		// TODO @Bretana finish to add support to stuff like
+		// // ain't gonna happen
 		// <expression> + <expression>
 		// -<expression>
 

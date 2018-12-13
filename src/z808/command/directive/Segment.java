@@ -22,6 +22,9 @@ public class Segment extends Directive {
 	}
 
 	@Override
+	public String toCode(){ return this.toString(); }
+
+	@Override
 	public String toString() {
 		return this.label + " " + Segment.MNEMONIC;
 	}

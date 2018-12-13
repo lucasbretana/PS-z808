@@ -69,6 +69,7 @@ public class Dup extends Directive {
 		return this.value != null ? this.value.toString() : "XXXX";
 	}
 
+	@Override
 	public String toCode() {
 		String ret = this.count + " " + Dup.MNEMONIC + " ";
 		if (this.value == null)
