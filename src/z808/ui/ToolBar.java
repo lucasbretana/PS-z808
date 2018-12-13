@@ -67,13 +67,13 @@ public class ToolBar extends HBox {
 													 OutputArea oArea,
 													 CodeArea cArea) {
 		this.machine = p;
-		MacroProcessor mcrPr = null;
 		Translator trans = new Translator();
 		Assembler assmb = new Assembler();
 
 		this.reset.setOnAction((event) -> {
 				ui.configMachine();
 				ui.updateScreen();
+				pArea.updateScreen();
 			});
 
 		this.addSource.setOnAction((event) -> {
@@ -85,7 +85,8 @@ public class ToolBar extends HBox {
 				try {
 					List<String> lines = cArea.getCode();
 					List<Command> code = trans.convertCode(lines);
-					// mcrPr.process(code); // TODO use real MP method
+					MacroProcessor mcrPr = new MacroProcessor(code);
+					code = mcrPr.process(code);
 					oArea.updateScreen(code.toString());
 					ui.updateScreen();
 				} catch (Exception e) {
@@ -98,7 +99,8 @@ public class ToolBar extends HBox {
 				try {
 					List<String> lines = cArea.getCode();
 					List<Command> code = trans.convertCode(lines);
-					// mcrPr.process(code); // TODO use real MP method
+					MacroProcessor mcrPr = new MacroProcessor(code);
+					code = mcrPr.process(code);
 					Module mod = assmb.assembleCode(code);
 					oArea.updateScreen(mod.toString());
 					ui.updateScreen();
@@ -113,7 +115,8 @@ public class ToolBar extends HBox {
 					Linker lng = new Linker();
 					for (List<String> src : cArea.getAllCode()) {
 						List<Command> code = trans.convertCode(src);
-						// mcrPr.process(code); // TODO use real MP method
+						MacroProcessor mcrPr = new MacroProcessor(code);
+						code = mcrPr.process(code);
 						Module mod = assmb.assembleCode(code);
 						lng.InsertModule(mod);
 						ui.updateScreen();

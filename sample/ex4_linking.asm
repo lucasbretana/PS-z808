@@ -1,0 +1,8 @@
+;; P1
+EXTERN MEM:NEAR
+Codigo SEGMENT
+mov AX MEM
+Codigo ENDS
+;; P2
+PUBLIC MEM
+MEM DW 313
