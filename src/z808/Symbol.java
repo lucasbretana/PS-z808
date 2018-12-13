@@ -26,6 +26,8 @@ public class Symbol {
 		this.absolute = is_abs;
 	}
 
+	public void setValue(Number n) { this.value = n; }
+
 	/**
 	 * @return true if is an absolute symbol, false otherwise
 	 */
