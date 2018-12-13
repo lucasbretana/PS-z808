@@ -17,6 +17,12 @@ import z808.command.Command;
  */
 public class Program extends TreeMap<Address, Command> {
 	protected static final long serialVersionUID = 313L;
+	private Address startDataSegment = null;
+	private Integer sizeDataSegment = null;
+	private Address startStackSegment = null;
+	private Integer sizeStackSegment = null;
+	private Address startCodeSegment = null;
+	private Integer sizeCodeSegment = null;
 
 	/**
 	 * Adds a  new command the current program;
@@ -33,6 +39,21 @@ public class Program extends TreeMap<Address, Command> {
 																	 + "Trying to insert: " + cmd);
 		return;
 	}
+
+	public Address getStartDataSegment() { return this.startDataSegment; }
+	public void    setStartDataSegment(Address s) { this.startDataSegment = s; }
+	public Integer getSizeDataSegment() { return this.sizeDataSegment; }
+	public void    setSizeDataSegment(Integer s) { this.sizeDataSegment = s; }
+
+	public Address getStartStackSegment() { return this.startStackSegment; }
+	public void    setStartStackSegment(Address s) { this.startStackSegment = s; }
+	public Integer getSizeStackSegment() { return this.sizeStackSegment; }
+	public void    setSizeStackSegment(Integer s) { this.sizeStackSegment = s; }
+
+	public Address getStartCodeSegment() { return this.startCodeSegment; }
+	public void    setStartCodeSegment(Address s) { this.startCodeSegment = s; }
+	public Integer getSizeCodeSegment() { return this.sizeCodeSegment; }
+	public void    setSizeCodeSegment(Integer s) { this.sizeCodeSegment = s; }
 
 	/**
 	 * Get fetch the command from it's address;

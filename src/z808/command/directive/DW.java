@@ -1,5 +1,7 @@
 package z808.command.directive;
 
+import java.util.ArrayList;
+
 import util.AZMRegexCommon;
 import util.ExecutionException;
 import util.NotImplementedException;
@@ -7,6 +9,7 @@ import util.NotImplementedException;
 import z808.command.Command;
 import z808.memory.Memory;
 import z808.memory.Address;
+import z808.memory.Register;
 
 public class DW extends Directive {
 	public static final String MNEMONIC = "DW";
@@ -92,5 +95,16 @@ public class DW extends Directive {
 		else
 			ret += this.value.toString();
 		return ret;
+	}
+
+	@Override
+	public ArrayList<Register> asRegisters() {
+		ArrayList<Register> l = new ArrayList<Register>(this.size);
+		int value = Integer.class.cast(this.value).intValue();
+		for (int i = 0; i < this.size/2; ++i) {
+			l.add(new Register((value << 16) >> 16));
+			l.add(new Register(value >> 16));
+		}
+		return l;
 	}
 }

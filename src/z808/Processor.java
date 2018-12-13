@@ -71,6 +71,13 @@ public class Processor {
 		if (this.commands != null) this.commands.merge(cmds);
 		else this.commands = cmds;
 
+		// Set registers
+		Address r = cmds.getStartStackSegment();
+		if (r != null) this.memory.SP.set(r);
+		r = cmds.getStartCodeSegment();
+		if (r != null) this.memory.CL.set(r);
+		r = null;
+
 		this.memory.load(this.commands.memoryView());
 		return;
 	}
