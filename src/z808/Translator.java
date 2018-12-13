@@ -85,18 +85,18 @@ public class Translator {
 			} else if (cmd.matches(MovAXDX.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovAXDX", cmd);
 				c = MovAXDX.makeMovAXDX(cmd);
-			} else if (cmd.matches(MovAXMEM.REGEX)) {
-				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovAXMEM", cmd);
-				c = MovAXMEM.makeMovAXMEM(cmd);
 			} else if (cmd.matches(MovDXAX.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovDXAX", cmd);
 				c = MovDXAX.makeMovDXAX(cmd);
-			} else if (cmd.matches(MovMEMAX.REGEX)) {
-				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovMEMAX", cmd);
-				c = MovMEMAX.makeMovAXMEM(cmd);
 			} else if (cmd.matches(MovSIAX.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovSIAX", cmd);
 				c = MovSIAX.makeMovSIAX(cmd);
+			} else if (cmd.matches(MovAXMEM.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovAXMEM", cmd);
+				c = MovAXMEM.makeMovAXMEM(cmd);
+			} else if (cmd.matches(MovMEMAX.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovMEMAX", cmd);
+				c = MovMEMAX.makeMovAXMEM(cmd);
 			} else if (cmd.matches(Hlt.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "Hlt", cmd);
 				c = Hlt.makeHlt(cmd);

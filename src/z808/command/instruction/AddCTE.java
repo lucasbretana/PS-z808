@@ -122,8 +122,8 @@ public class AddCTE extends Instruction {
 	public ArrayList<Register> asRegisters() {
 		ArrayList<Register> l = new ArrayList<Register>(AddCTE.SIZE);
 		l.add(new Register(0x05));
-		l.add(new Register(this.arg >> 16));
 		l.add(new Register((this.arg << 16) >> 16));
+		l.add(new Register(this.arg >> 16));
 		return l;
 	}
 }
