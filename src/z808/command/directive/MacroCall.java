@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class MacroCall extends Directive {
 	public List<String> parameters = null;
 	public static final String MNEMONIC = "MCALL";
-	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " (" + AZMRegexCommon.NAME_RGX + ")*$";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )" + MNEMONIC + " (" + AZMRegexCommon.NAME_RGX + ")*$";
 
 	/**
 	 * Creates a new MacroCall
@@ -38,7 +38,7 @@ public class MacroCall extends Directive {
 		List<String> params = new ArrayList<String>();
 
 		int i;
-		for(i = 1; i < tokens.length; i++) {
+		for(i = 2; i < tokens.length; i++) {
 			params.add(tokens[i]);
 		}
 
