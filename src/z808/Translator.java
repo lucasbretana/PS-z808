@@ -35,7 +35,7 @@ public class Translator {
 	 * @param raw_code the code the translated
 	 */
 	public List<Command> convertCode(List<String> raw_code) throws ExecutionException {
-		boolean verb = !true;
+		boolean verb = true;
 		ArrayList<Command> output = new ArrayList<>();
 
 		Command c = null;
@@ -43,9 +43,18 @@ public class Translator {
 			if (cmd.matches(Equ.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "Equ", cmd);
 				c = Equ.makeEqu(cmd);
-			} else if (cmd.matches(DW.REGEX)) {
+			} else if ((cmd.matches(DW.REGEX)) || (cmd.contains(Dup.MNEMONIC))) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "DW", cmd);
 				c = DW.makeDW(cmd);
+			} else if (cmd.matches(End.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "End", cmd);
+				c = End.makeEnd(cmd);
+			} else if (cmd.contains(Extern.MNEMONIC)) {
+				System.err.printf("\nDEBUG, made a %s with \"%s\"", "Extern", cmd);
+				c = Extern.makeExtern(cmd);
+			} else if (cmd.contains(Public.MNEMONIC)) {
+				System.err.printf("\nDEBUG, made a %s with \"%s\"", "Public", cmd);
+				c = Public.makePublic(cmd);
 			} else if (cmd.matches(AddAX.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "AddAX", cmd);
 				c = AddAX.makeAddAX(cmd);
@@ -65,7 +74,7 @@ public class Translator {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "SubCTE", cmd);
 				c = SubCTE.makeSubCTE(cmd);
 			} else {
-				if (verb) System.out.println("TODO: command string \"" + cmd + "\"");
+				if (verb) System.out.println("\nTODO: command string \"" + cmd + "\"");
 				else throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
 			}
 

@@ -10,7 +10,11 @@ import z808.memory.Address;
 
 public class DW extends Directive {
 	public static final String MNEMONIC = "DW";
-	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " (" + AZMRegexCommon.CHAR_RGX + "|" + AZMRegexCommon.INTEGER_RGX + "|([\\?]))$";
+	public static final String REGEX = "^(" + AZMRegexCommon.NAME_RGX + " )?" + MNEMONIC + " (" + AZMRegexCommon.CHAR_RGX 
+											      + "|" + AZMRegexCommon.INTEGER_RGX 
+											      + "|([\\?])" 
+											      + "|" + AZMRegexCommon.INTEGER_RGX + " " + Dup.MNEMONIC + " "
+											      + ")$";
 	private Object value  = null;
 	private Class<?> type = null;
 
@@ -79,7 +83,7 @@ public class DW extends Directive {
 		// label DW int|char|?
 		if (tokens.length == 3) {
 			if (!tokens[1].equals(MNEMONIC))
-				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic");
+				throw new ExecutionException("This doesn't make any sense..mismatching expression, invalid mnemonic \"" + tokens[1] + "\"");
 
 			if ( tokens[2].matches("\\?") )
 				return new DW(tokens[0]);
