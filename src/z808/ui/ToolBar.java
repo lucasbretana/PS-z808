@@ -61,7 +61,11 @@ public class ToolBar extends HBox {
 												 step);
 	}
 
-	public void setProcessor(UIz808 ui, Processor p, OutputArea oArea, CodeArea cArea) {
+	public void setProcessor(UIz808 ui,
+													 Processor p,
+													 ProcessedCodeArea pArea,
+													 OutputArea oArea,
+													 CodeArea cArea) {
 		this.machine = p;
 		MacroProcessor mcrPr = null;
 		Translator trans = new Translator();
@@ -85,6 +89,7 @@ public class ToolBar extends HBox {
 					oArea.updateScreen(code.toString());
 					ui.updateScreen();
 				} catch (Exception e) {
+					e.printStackTrace();
 					oArea.updateScreen(e.getMessage());
 				}
 			});
@@ -98,7 +103,8 @@ public class ToolBar extends HBox {
 					oArea.updateScreen(mod.toString());
 					ui.updateScreen();
 				} catch (Exception e) {
-					oArea.updateScreen(e.getMessage());
+					e.printStackTrace();
+					oArea.updateScreen("Exception:" + e.getMessage());
 				}
 			});
 
@@ -113,8 +119,11 @@ public class ToolBar extends HBox {
 						ui.updateScreen();
 					}
 					Program finalProgram = lng.LinkModules();
+					oArea.updateScreen(finalProgram.toString());
 					this.machine.load(finalProgram);
+					pArea.updateScreen();
 				} catch (Exception e) {
+					e.printStackTrace();
 					oArea.updateScreen(e.getMessage());
 				}
 			});
@@ -124,6 +133,7 @@ public class ToolBar extends HBox {
 					this.machine.step();
 					ui.updateScreen();
 				} catch (Exception e) {
+					e.printStackTrace();
 					oArea.updateScreen(e.getMessage());
 				}
 			});

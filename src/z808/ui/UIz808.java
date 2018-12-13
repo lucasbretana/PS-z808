@@ -78,46 +78,17 @@ public class UIz808 extends Application {
 			this.innCode.setProcessor(this.machine);
 			this.mainMem.setProcessor(this.machine);
 			this.regBank.setProcessor(this.machine);
-			this.toolBar.setProcessor(this, this.machine, this.outArea, this.srcCode);
-
-			// TODO: @Jonathas
-			// Source code and processor iniciation, this will be changed until final release
-			Program code = new Program();
-			code.add(new Address(0x0) , new DW(5));          // DW 5
-			code.add(new Address(0x2) , new DW(2));          // DW 2
-			code.add(new Address(0x4) , new MovAXMEM(0x2));  // mov AX 1
-			code.add(new Address(0x7) , new MovSIAX());      // mov SI AX
-			code.add(new Address(0x9) , new MovAXMEM(0x0));  // mov AX 0
-			code.add(new Address(0xC) , new MultSI());       // mul SI
-			code.add(new Address(0xE) , new MovMEMAX(0x0));  // mov 0 AX
-			code.add(new Address(0x11), new Hlt());          // hlt
-			code.setStartCodeSegment(new Address(0x4));
-			code.setSizeCodeSegment(0x12 - 0x4);
-			code.setStartDataSegment(new Address(0x0));
-			code.setSizeDataSegment(0x4 - 0x0);
-			this.machine.load(code);
+			this.toolBar.setProcessor(this,
+																this.machine,
+																this.innCode,
+																this.outArea,
+																this.srcCode);
 		} catch (ExecutionException e) {
 			this.reportError(e.getMessage());
 		}
 	}
 
 	public void updateScreen() {
-		try {
-			this.toolBar.updateScreen();
-			this.srcCode.updateScreen("DW 5\n" +
-																"DW 2\n" +
-																"mov AX 1\n" +
-																"mov SI AX\n" +
-																"mov AX 0\n" +
-																"mul SI\n" +
-																"mov 0 AX\n" +
-																"hlt\n");
-			this.innCode.updateScreen();
-			this.mainMem.updateScreen();
-			this.regBank.updateScreen();
-		} catch (Exception e) {
-			reportError(e.getMessage());
-		}
 	}
 
 	private void reportError(String e) {
