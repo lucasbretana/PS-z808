@@ -1,8 +1,7 @@
-Codigo SEGMENT
+Dados SEGMENT
 V1 DW ?
 V2 DW ?
 Dados ENDS
-
 Codigo SEGMENT
 Inicio:
 mov AX V2
