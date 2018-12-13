@@ -16,6 +16,9 @@ import z808.command.Command;
  * @author Jonathas-Conceicao
  */
 public class Program extends TreeMap<Address, Command> {
+	public static final int IS_IN_DATA_SEGMENT = 0;
+	public static final int IS_IN_STACK_SEGMENT = 1;
+	public static final int IS_IN_CODE_SEGMENT = 2;
 	protected static final long serialVersionUID = 313L;
 	private Address startDataSegment = null;
 	private Integer sizeDataSegment = null;
@@ -23,6 +26,13 @@ public class Program extends TreeMap<Address, Command> {
 	private Integer sizeStackSegment = null;
 	private Address startCodeSegment = null;
 	private Integer sizeCodeSegment = null;
+
+	private Address startDataSegment = null;
+	private int     sizeDataSegment = 0;
+	private Address startStackSegment = null;
+	private int     sizeStackSegment = 0;
+	private Address startCodeSegment = null;
+	private int     sizeCodeSegment = 0;
 
 	/**
 	 * Adds a  new command the current program;
@@ -42,18 +52,18 @@ public class Program extends TreeMap<Address, Command> {
 
 	public Address getStartDataSegment() { return this.startDataSegment; }
 	public void    setStartDataSegment(Address s) { this.startDataSegment = s; }
-	public Integer getSizeDataSegment() { return this.sizeDataSegment; }
-	public void    setSizeDataSegment(Integer s) { this.sizeDataSegment = s; }
+	public int     getSizeDataSegment() { return this.sizeDataSegment; }
+	public void    setSizeDataSegment(int s) { this.sizeDataSegment = s; }
 
 	public Address getStartStackSegment() { return this.startStackSegment; }
 	public void    setStartStackSegment(Address s) { this.startStackSegment = s; }
-	public Integer getSizeStackSegment() { return this.sizeStackSegment; }
-	public void    setSizeStackSegment(Integer s) { this.sizeStackSegment = s; }
+	public int     getSizeStackSegment() { return this.sizeStackSegment; }
+	public void    setSizeStackSegment(int s) { this.sizeStackSegment = s; }
 
 	public Address getStartCodeSegment() { return this.startCodeSegment; }
 	public void    setStartCodeSegment(Address s) { this.startCodeSegment = s; }
-	public Integer getSizeCodeSegment() { return this.sizeCodeSegment; }
-	public void    setSizeCodeSegment(Integer s) { this.sizeCodeSegment = s; }
+	public int     getSizeCodeSegment() { return this.sizeCodeSegment; }
+	public void    setSizeCodeSegment(int s) { this.sizeCodeSegment = s; }
 
 	/**
 	 * Get fetch the command from it's address;
@@ -64,6 +74,22 @@ public class Program extends TreeMap<Address, Command> {
 		Command c = super.get(addr);
 		if (c != null) return c;
 		throw new SegmentationException ("Trying to fetch instruction from outside code segment:" + addr);
+	}
+
+	public int rangeAddress(Address a) throws ExecutionException {
+		if (this.startDataSegment != null)
+			if (a.intValue() >= this.startDataSegment.intValue() ||
+					a.intValue() < (this.startDataSegment.intValue() + this.sizeDataSegment - 1))
+				return IS_IN_DATA_SEGMENT;
+		if (this.startStackSegment != null)
+			if (a.intValue() >= this.startStackSegment.intValue() ||
+					a.intValue() < (this.startStackSegment.intValue() + this.sizeStackSegment - 1))
+				return IS_IN_STACK_SEGMENT;
+		if (this.startCodeSegment != null)
+			if (a.intValue() >= this.startCodeSegment.intValue() ||
+					a.intValue() < (this.startCodeSegment.intValue() + this.sizeCodeSegment - 1))
+				return IS_IN_CODE_SEGMENT;
+		throw new ExecutionException("Trying to align address for outside memory bounds:" + a.toString());
 	}
 
 	public TreeMap<Address, Register> memoryView() throws ExecutionException {
@@ -90,6 +116,12 @@ public class Program extends TreeMap<Address, Command> {
 		for (Map.Entry<Address, Command> entry : p.entrySet()) {
 			this.add(entry.getKey(), entry.getValue());
 		}
+		if (this.startDataSegment == null) this.startDataSegment = p.getStartDataSegment();
+		if (this.startStackSegment == null) this.startStackSegment = p.getStartStackSegment();
+		if (this.startCodeSegment == null) this.startCodeSegment = p.getStartCodeSegment();
+		this.sizeDataSegment += p.getSizeDataSegment();
+		this.sizeStackSegment += p.getSizeStackSegment();
+		this.sizeCodeSegment += p.getSizeCodeSegment();
 	}
 
 	public String toString() {

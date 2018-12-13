@@ -108,18 +108,49 @@ public class Module {
 		this.m_size += plus;
 	}
 
-	public void setModuleAlign(int align) throws ExecutionException {
+	public void setModuleAlign(int da, int sa, int ca) throws ExecutionException {
 		TreeMap<Address, Command> newcode = new TreeMap<>();
-		
+
 		for (Map.Entry<Address,Command> entry : m_code.entrySet()) {
-			Address addr = new Address(entry.getKey().intValue() + align);
-			newcode.put(addr, entry.getValue());
+			Address addr = entry.getKey();
+			Address nAddr = null;
+			switch (this.m_code.rangeAddress(addr)) {
+			case Program.IS_IN_DATA_SEGMENT:
+				nAddr = new Address(addr.intValue() + da);
+				break;
+			case Program.IS_IN_STACK_SEGMENT:
+				nAddr = new Address(addr.intValue() + sa);
+				break;
+			case Program.IS_IN_CODE_SEGMENT:
+				nAddr = new Address(addr.intValue() + ca);
+				break;
+			}
+			newcode.put(nAddr, entry.getValue());
 		}
-		
+
+		for (Symbol symbol : global_symbol_table) {
+			if (symbol.isRelative()) {
+				int addr = symbol.getValue();
+				Address nAddr = null;
+				switch (this.m_code.rangeAddress(new Address(addr))) {
+				case Program.IS_IN_DATA_SEGMENT:
+					nAddr = new Address(addr + da);
+					break;
+				case Program.IS_IN_STACK_SEGMENT:
+					nAddr = new Address(addr + sa);
+					break;
+				case Program.IS_IN_CODE_SEGMENT:
+					nAddr = new Address(addr + ca);
+					break;
+				}
+				symbol.setValue(nAddr);
+			}
+		}
+
 		m_code.clear();
 		m_code.putAll(newcode);
 	}
-	
+
 	public Program getProgram() {
 		return this.m_code;
 	}
