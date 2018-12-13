@@ -39,7 +39,7 @@ public abstract class Command {
 	}
 
 	public void setUndefValue(int val) {
-		throw new RuntimeException("Cannot set a new value for an already defined command");
+		throw new RuntimeException("Cannot set a new value for an already defined command (" + this.getClass().getSimpleName() + ")");
 	}
 
 }

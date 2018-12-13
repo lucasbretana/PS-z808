@@ -42,7 +42,7 @@ public class End extends Directive {
 	  if(tokens.length == 2)
 	    return new End(tokens[1]);
 	  if(tokens.length == 3)
-	    return new End(tokens[2]);
+	    return new End(tokens[0], tokens[2]);
 
 	  throw new ExecutionException("Invalid End construction");
 	}
