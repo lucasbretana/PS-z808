@@ -50,6 +50,16 @@ public class MovMEMAX extends Instruction {
 	}
 
 	@Override
+	public void setUndefValue(int val) throws RuntimeException {
+		if(isDefined()) super.setUndefValue(val);
+		try {
+			this.arg = new Address(val);
+		} catch(ExecutionException e) {
+			throw new RuntimeException(e.getMessage(), e);
+		}
+	}
+
+	@Override
 	public boolean isDefined() {
 		return this.arg != null;
 	}

@@ -146,6 +146,9 @@ public class Module {
 
 		ret += "## code\n";
 		ret += this.m_code;
+		ret += " CS mod at 0x" + this.m_code.getStartCodeSegment() + " with size " + this.m_code.getSizeCodeSegment() + "\n";
+		ret += " DS mod at 0x" + this.m_code.getStartDataSegment() + " with size " + this.m_code.getSizeDataSegment() + "\n";
+		ret += " CS mod at 0x" + this.m_code.getStartStackSegment() + " with size " + this.m_code.getSizeStackSegment() + "\n";
 		ret += "-- end module --";
 
 		return ret;

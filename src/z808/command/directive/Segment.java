@@ -6,27 +6,30 @@ import util.ExecutionException;
 
 public class Segment extends Directive {
 	public static String MNEMONIC = "SEGMENT";
-	public static String REGEX = "(STACK|CODE|DATA) " + MNEMONIC;
+	public static String REGEX = "(Pilha|Codigo|Dados) " + MNEMONIC;
 
-	public String NAME = null;
+	public String name = null;
+
 	/**
 	 * Creates and Segment
 	 * Later this must have an equivalent Ends
 	 * @param name the name of the segment
 	 */
 	public Segment(String name) {
-		this.label = new String(name);
+		this.name = new String(name);
 		this.size = 0;
 	}
 
 	public static Segment makeSegment(String from) throws ExecutionException{
 		String []tokens = from.split(" ");
 
-		if ( (!tokens[0].equals("CODE")) && (!tokens[0].equals("STACK")) && (!tokens.equals("DATA")) )
-			throw new ExecutionException("Invalid Segment name \"" + tokens[0] + "\"");
+		//if ( (!tokens[0].equals("Codigo")) && (!tokens[0].equals("Pilha")) && (!tokens.equals("Dados")) )
+		//	throw new ExecutionException("Invalid Segment name \"" + tokens[0] + "\"");
 		
 		return new Segment(tokens[0]);
 	}
+
+	public String getName() { return this.name; }
 
 	@Override
 	public void exec (Memory mem) throws ExecutionException {

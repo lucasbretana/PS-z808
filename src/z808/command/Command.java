@@ -11,7 +11,7 @@ import util.ExecutionException;
 import util.FinishedException;
 
 public abstract class Command {
-	protected int size;
+	protected int size = 0;
 	protected String label = null;
 
 	public abstract void exec (Memory mem) throws NotImplementedException, ExecutionException, FinishedException;

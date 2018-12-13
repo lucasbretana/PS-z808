@@ -6,7 +6,7 @@ import util.ExecutionException;
 
 public class Ends extends Directive {
 	public static String MNEMONIC = "ENDS";
-	public static String REGEX = "(STACK|CODE|DATA) " + MNEMONIC;
+	public static String REGEX = "(Pilha|Codigo|Dados) " + MNEMONIC;
 
 	public String name = null;
 
@@ -23,10 +23,14 @@ public class Ends extends Directive {
 	public static Ends makeEnds(String from) throws ExecutionException{
 		String []tokens = from.split(" ");
 
-		if ( (!tokens[0].equals("CODE")) && (!tokens[0].equals("STACK")) && (!tokens.equals("DATA")) )
-			throw new ExecutionException("Invalid Ends name \"" + tokens[0] + "\"");
+		//if ( (!tokens[0].equals("Codigo")) && (!tokens[0].equals("Pilha")) && (!tokens.equals("Dados")) )
+		//	throw new ExecutionException("Invalid Ends name \"" + tokens[0] + "\"");
 		
 		return new Ends(tokens[0]);
+	}
+
+	public String getName() {
+		return this.name;
 	}
 
 	@Override

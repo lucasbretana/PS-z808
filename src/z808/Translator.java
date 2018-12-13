@@ -90,7 +90,7 @@ public class Translator {
 				c = MovDXAX.makeMovDXAX(cmd);
 			} else if (cmd.matches(MovMEMAX.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovMEMAX", cmd);
-				c = MovMEMAX.makeMovMEMAX(cmd);
+				c = MovMEMAX.makeMovAXMEM(cmd);
 			} else if (cmd.matches(MovSIAX.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovSIAX", cmd);
 				c = MovSIAX.makeMovSIAX(cmd);
@@ -99,95 +99,55 @@ public class Translator {
 				c = Hlt.makeHlt(cmd);
 			} else if (cmd.equals("Inicio:")) {
 				if (verb) System.err.printf("\nDEBUG, nothing with \"%s\"", cmd);
+				continue;
 			} else {
-				if (verb) System.out.println("\nTODO: command string \"" + cmd + "\"");
-				else throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
+				System.out.println("\nTODO: command string \"" + cmd + "\"");
+				throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
 			}
 
+			if (c == null) throw new NullPointerException("Could not create a valid command");
 			output.add(c);
 			c = null;
 		}
 		return output;
 	}
 
-	public static void testTranslator(Boolean verb) throws ExecutionException {
-		//testCode1(verb);
-		//testCode2(verb);
-		testCode3(verb);
+	public static void testTranslator(boolean verb) throws ExecutionException {
+		//testCode("code1.asm", verb);
+		//testCode("code2.asm", verb);
+		testCode("ex1_numbers.asm", verb);
+		testCode("ex2_swap.asm", verb);
+		testCode("ex3_macro.asm", verb);
 	}
 
-	public static void testCode1(Boolean verb) throws ExecutionException {
-		if (verb) System.err.println("-- Starting code #1 test --");
+	public static void testCode(String code, Boolean verb) throws ExecutionException {
+		if (verb) System.err.println("-- Starting " + code + " test --");
 		Translator t = new Translator();
 
 		List<Command> res = null;
 		try {
-			res = t.convertCode(Files.readAllLines(Paths.get("sample/", "code1.asm"), Charset.forName("UTF-8")));
+			res = t.convertCode(Files.readAllLines(Paths.get("sample/", code), Charset.forName("UTF-8")));
 		} catch (IOException ioE) {
-			throw new ExecutionException("Some error reading the code1.asm file", ioE);
-		}
-
-		if (verb) System.err.println("Resulting transaltor: " + t);
-		if (verb) System.err.println("Resulting code: " + res);
-
-		if (verb) {
-			for(Command cmd : res)
-				if(cmd instanceof Directive)
-					System.out.println("Directive " + cmd.getClass().getSimpleName() + "!: " + Directive.class.cast(cmd).toCode());
-				else if(cmd instanceof Instruction)
-					System.out.println("Instruction " + cmd.getClass().getSimpleName() + "!: " + Instruction.class.cast(cmd).toString());
-		}
-
-		res = null;
-		t = null;
-		System.gc();
-		System.err.println("-- Code#1 tests are OK --");
-	}
-
-	public static void testCode2(Boolean verb) throws ExecutionException {
-		if (verb) System.err.println("-- Starting code #2 test --");
-		Translator t = new Translator();
-
-		List<Command> list = null;
-		try {
-			list = new Translator().convertCode(Files.readAllLines(Paths.get("sample/", "code2.asm"), Charset.forName("UTF-8")));
-		} catch (IOException ioE) {
-			throw new ExecutionException("Some error reading the code2.asm file", ioE);
-		}
-		if (verb) {
-			for(Command cmd : list)
-				if(cmd instanceof Directive)
-					System.out.println("Directive " + cmd.getClass().getSimpleName() + "!: " + Directive.class.cast(cmd).toCode());
-				else if(cmd instanceof Instruction)
-					System.out.println("Instruction " + cmd.getClass().getSimpleName() + "!: " + Instruction.class.cast(cmd).toString());
-		}
-
-
-		System.err.println("-- Code#2 tests are OK --");
-	}
-
-	public static void testCode3(Boolean verb) throws ExecutionException {
-		if (verb) System.err.println("-- Starting code #3 test --");
-		Translator t = new Translator();
-
-		List<Command> res = null;
-		try {
-			res = t.convertCode(Files.readAllLines(Paths.get("sample/", "ex1_numbers.asm"), Charset.forName("UTF-8")));
-		} catch (IOException ioE) {
-			throw new ExecutionException("Some error reading the ex1_numbers.asm file", ioE);
+			throw new ExecutionException("Some error reading the " + code + " file", ioE);
 		}
 
 		if (verb) {
 			for(Command cmd : res)
 				if(cmd instanceof Directive)
-					System.out.println("Directive " + cmd.getClass().getSimpleName() + "!: " + Directive.class.cast(cmd).toCode());
+					System.err.println("Directive " + cmd.getClass().getSimpleName() + "!: " + Directive.class.cast(cmd).toCode());
 				else if(cmd instanceof Instruction)
-					System.out.println("Instruction " + cmd.getClass().getSimpleName() + "!: " + Instruction.class.cast(cmd).toString());
+					System.err.println("Instruction " + cmd.getClass().getSimpleName() + "!: " + Instruction.class.cast(cmd).toString());
 		}
+
+		if (verb) System.err.println("Sub test, START testing Assembler");
+		Module m = new z808.Assembler().assembleCode(res);
+		if (verb) System.err.println("\nPrinting module\n" + m);
+		if (verb) System.err.println("Sub test, ENDED testing Assembler");
 
 		res = null;
 		t = null;
 		System.gc();
-		System.err.println("-- Code#3 tests are OK --");
+		System.err.println("-- " + code +" tests are OK --");
 	}
+
 }
