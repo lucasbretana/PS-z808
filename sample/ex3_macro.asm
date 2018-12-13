@@ -14,8 +14,8 @@ add AX DX
 mov Mem1 AX
 ENDM
 Inicio:
-SomaMem Var1 Var2
-SomaMem Var1 Var3
+SomaMem MCALL Var1 Var2
+SomaMem MCALL Var1 Var3
 Codigo ENDS
 END Inicio
 Pilha SEGMENT

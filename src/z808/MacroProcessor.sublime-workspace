@@ -1,0 +1,611 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"glo",
+				"globalLine"
+			],
+			[
+				"op",
+				"operation"
+			],
+			[
+				"transfer",
+				"transfer_cycle"
+			],
+			[
+				"q",
+				"q_priority"
+			],
+			[
+				"free",
+				"freeQueue"
+			],
+			[
+				"prio",
+				"priority"
+			],
+			[
+				"curre",
+				"current_request"
+			],
+			[
+				"aux",
+				"auxRequest"
+			],
+			[
+				"ne",
+				"next"
+			],
+			[
+				"priority",
+				"priorityQueue"
+			],
+			[
+				"prev",
+				"previous"
+			],
+			[
+				"pri",
+				"priority"
+			],
+			[
+				"pro",
+				"priority"
+			],
+			[
+				"file",
+				"file_op"
+			],
+			[
+				"elemen",
+				"element_t"
+			],
+			[
+				"inde",
+				"index"
+			],
+			[
+				"addre",
+				"address"
+			],
+			[
+				"add",
+				"address"
+			],
+			[
+				"stat",
+				"stats_t"
+			],
+			[
+				"mem",
+				"mem_lat"
+			],
+			[
+				"str",
+				"strcpy"
+			],
+			[
+				"tag",
+				"tag_size"
+			],
+			[
+				"offset",
+				"offset_size"
+			],
+			[
+				"block",
+				"block_size"
+			],
+			[
+				"altura",
+				"alturaEsq"
+			],
+			[
+				"alt",
+				"alturaArvore"
+			],
+			[
+				"min",
+				"main\tmain()"
+			],
+			[
+				"margin",
+				"margin-left"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"fon",
+				"font"
+			],
+			[
+				"tex",
+				"text-decoration"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"back",
+				"background-image"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"text",
+				"text-indent"
+			],
+			[
+				"border",
+				"border-color"
+			],
+			[
+				"inli",
+				"inline-block"
+			],
+			[
+				"top",
+				"border-top"
+			],
+			[
+				"p",
+				"p"
+			],
+			[
+				"nome",
+				"nomeAux"
+			],
+			[
+				"tam",
+				"tamFazenda"
+			],
+			[
+				"es",
+				"espacoAnimal"
+			],
+			[
+				"premio",
+				"premioFinal"
+			],
+			[
+				"st",
+				"str1"
+			],
+			[
+				"qt",
+				"qtLinhas"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "MacroProcessor.java",
+			"settings":
+			{
+				"buffer_size": 2183,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 75.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"java",
+				"Set Syntax: Java"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/aschwendler/Documents/Aulas/AED3/aed-cripto/files/factor.txt",
+		"/home/aschwendler/Documents/Aulas/AED3/rsa/quebrando",
+		"/home/aschwendler/Documents/Aulas/AED3/ggnfs-0.77.0/ggnfs/Makefile",
+		"/home/aschwendler/Documents/Aulas/AED3/ggnfs-0.77.0/ggnfs/INSTALL",
+		"/home/aschwendler/Documents/Aulas/AED3/ggnfs-0.77.0/ggnfs/LICENSE",
+		"/home/aschwendler/Documents/Aulas/AED3/rsa/gerachaveprivada.py",
+		"/home/aschwendler/Documents/Aulas/AED3/rsa/cipher_text",
+		"/home/aschwendler/Documents/Aulas/AED3/rsa/cipher_key",
+		"/home/aschwendler/Documents/Aulas/AED3/rsa/key.pub",
+		"/home/aschwendler/Documents/Aulas/AED3/rsa/yafu/session.log",
+		"/home/aschwendler/Documents/Aulas/AED3/aed-cripto/files/cipher_pass.enc",
+		"/home/aschwendler/Documents/Aulas/AED3/aed-cripto/files/cipher_out.enc",
+		"/home/aschwendler/Documents/Aulas/AED3/files/cipher_out.enc",
+		"/home/aschwendler/Documents/Aulas/AED3/files/cipher_in.enc",
+		"/home/aschwendler/Documents/Aulas/AED3/files/cipher_pass.enc",
+		"/home/aschwendler/Documents/Aulas/AED3/files/generated.txt",
+		"/home/aschwendler/Documents/Aulas/AED3/files/cipher_pub.enc",
+		"/home/aschwendler/Documents/Aulas/EVS/filosofos.txt",
+		"/home/aschwendler/Documents/Aulas/AED3/files/README.txt",
+		"/home/aschwendler/Documents/Aulas/SO/t1_2018_2/test.c",
+		"/home/aschwendler/Documents/Aulas/SO/t1_2018_2/nqueens.h",
+		"/home/aschwendler/Documents/Aulas/SO/t1_2018_2/nqueenst.c",
+		"/home/aschwendler/Documents/Aulas/SO/t1_2018_2/simplegrade.h",
+		"/home/aschwendler/Documents/Aulas/EVS/evs/ATM_attr.gps/system.properties",
+		"/home/aschwendler/Documents/SO/global.c",
+		"/home/aschwendler/Documents/Aulas/PF/PF/exerciciosP2.hs",
+		"/home/aschwendler/.cache/.fr-vSrc6z/ExerciciosP1/exs.hs",
+		"/home/aschwendler/.cache/.fr-RaaVdr/ExerciciosP1/ex2_lista5.hs",
+		"/home/aschwendler/.cache/.fr-pmOpVr/ExerciciosP1/ex2.hs",
+		"/home/aschwendler/.cache/.fr-hpfcPN/ExerciciosP1/ex1.hs",
+		"/home/aschwendler/Documents/Aulas/AED2/graphs/santaClaus.c",
+		"/home/aschwendler/Documents/dark.c",
+		"/tmp/mozilla_aschwendler0/tipos_algeb.hs",
+		"/tmp/dark.c",
+		"/tmp/darkRoads.c",
+		"/home/aschwendler/Documents/Aulas/PF/src/Main.hs",
+		"/tmp/mozilla_aschwendler0/Main.hs",
+		"/home/aschwendler/Documents/Aulas/CLP/opt3-alana.txt",
+		"/home/aschwendler/Documents/Aulas/CLP/mult_mat.c",
+		"/home/aschwendler/Documents/Aulas/CLP/multiplicacao_matrizes.c",
+		"/home/aschwendler/Downloads/task1.hs",
+		"/home/aschwendler/Documents/Aulas/PF/justifica.hs",
+		"/home/aschwendler/Documents/Aulas/PF/ExerciciosP1/ex6_l6.hs",
+		"/home/aschwendler/Documents/Aulas/PF/ExerciciosP1/ex2_lista5.hs",
+		"/home/aschwendler/Documents/Aulas/PF/ExerciciosP1/ex2.hs",
+		"/home/aschwendler/Documents/Aulas/PF/ExerciciosP1/ex1.hs",
+		"/home/aschwendler/Documents/Aulas/PF/ExerciciosP1/ex4_lista5.hs",
+		"/home/aschwendler/Documents/Aulas/PF/ExerciciosP1/exs.hs",
+		"/home/aschwendler/Documents/Aulas/PF/lista5Extra/listaExtra/ex3.hs",
+		"/home/aschwendler/Documents/Aulas/PF/lista5Extra/listaExtra/ex2.hs",
+		"/home/aschwendler/Documents/Aulas/PF/lista5Extra/lista5/ex3.hs",
+		"/home/aschwendler/Documents/Aulas/PF/lista4/ex5.hs",
+		"/home/aschwendler/Documents/Aulas/AED/trie.h",
+		"/home/aschwendler/Documents/Aulas/AED/trie.c",
+		"/home/aschwendler/Documents/Aulas/AED/2017-02/tree.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/Makefile",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/simplegrade.h",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/io.h",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/test.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/io.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/t3.txt",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/sim.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/mytests.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/t1.txt",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/pedidos.txt",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/mytests.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a03_2017_2-weizenbier/README.md",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/sim.h",
+		"/home/aschwendler/Documents/Aulas/AED/aed/fila.c",
+		"/home/aschwendler/Documents/Aulas/AED/estruturas/fila.c",
+		"/home/aschwendler/Documents/Aulas/AED/estruturas/lista.c",
+		"/home/aschwendler/Documents/Aulas/AED/estruturas/pilha.c",
+		"/home/aschwendler/Documents/Aulas/AED/aed/lista.c",
+		"/home/aschwendler/Documents/Aulas/AED/fila.c",
+		"/home/aschwendler/Documents/Aulas/AED/pilha.c",
+		"/home/aschwendler/Documents/ILUCTUS/ILUCTUS/USECASE.md",
+		"/home/aschwendler/Downloads/prova2.c",
+		"/home/aschwendler/Downloads/m2(2).c",
+		"/home/aschwendler/Documents/Aulas/AED/aed/quick.c",
+		"/home/aschwendler/Documents/Aulas/AED/aed/merge.c",
+		"/home/aschwendler/Documents/Aulas/AED/aed/mergesort.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/test.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/trace_small.txt",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/Makefile",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/simplegrade.h",
+		"/home/aschwendler/Documents/Aulas/AED/aed/agenda.c",
+		"/tmp/mozilla_aschwendler0/agenda.c",
+		"/home/aschwendler/Documents/Aulas/AED/agenda.c",
+		"/home/aschwendler/Documents/Aulas/AED/arvore.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/mytraces.txt",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/main.c",
+		"/home/aschwendler/Documents/Aulas/AOC2/a02_2017_2-alanaschwendler/README.md",
+		"/home/aschwendler/Documents/Aulas/AED/2017-02/agenda.c",
+		"/home/aschwendler/Documents/Aulas/AED/2017-02/main.c",
+		"/tmp/mozilla_aschwendler0/main.c",
+		"/home/aschwendler/Documents/Aulas/AED/2017-02/teste.c",
+		"/home/aschwendler/Documents/testes.c",
+		"/home/aschwendler/Documents/Aulas/AOC/Snake-AOC/snake.asm",
+		"/home/aschwendler/Documents/Aulas/AED/aed/arvore.c",
+		"/home/aschwendler/Documents/Aulas/AED/ProjArvoreAVL/ArvoreAVL.c",
+		"/home/aschwendler/Documents/Aulas/AED/ProjArvoreAVL/main.c",
+		"/home/aschwendler/Documents/Aulas/AED/ProjArvoreAVL/ArvoreAVL.h",
+		"/home/aschwendler/Documents/Aulas/AED/ProjArvoreAVL/ProjArvoreAVL.cbp",
+		"/home/aschwendler/Documents/Aulas/AED/ProjArvoreAVL/ProjArvoreAVL.depend",
+		"/home/aschwendler/Documents/Aulas/AED/ProjArvoreAVL/ProjArvoreAVL.layout",
+		"/home/aschwendler/Documents/Aulas/AED/arvSlide.c",
+		"/home/aschwendler/Documents/Aulas/AED/aed/pilha.c",
+		"/home/aschwendler/Documents/Aulas/AED/aed/main.c",
+		"/home/aschwendler/Downloads/main.c",
+		"/home/aschwendler/Documents/Aulas/AED/aed/ordenacao.c",
+		"/home/aschwendler/Documents/Aulas/aed/Agenda/agenda.c",
+		"/home/aschwendler/Documents/Aulas/AED/ordenacao.c",
+		"/home/aschwendler/Documents/LUPS/index.html",
+		"/home/aschwendler/Documents/LUPS/style.css",
+		"/home/aschwendler/Documents/Aulas/aed/pilha.c",
+		"/home/aschwendler/Documents/Aulas/AED/listaComplexidade.txt",
+		"/home/aschwendler/Documents/PC/arquivo.txt",
+		"/home/aschwendler/Documents/PC/exProva03.c",
+		"/home/aschwendler/Documents/PC/saida.txt",
+		"/home/aschwendler/Documents/Aulas/PC/entrada.ppm",
+		"/home/aschwendler/Documents/Aulas/PC/saida.ppm",
+		"/home/aschwendler/Documents/Aulas/PC/exProva02.c",
+		"/home/aschwendler/Documents/package tests;",
+		"/home/aschwendler/Documents/Aulas/PC/testeStruct.c",
+		"/home/aschwendler/.cache/.fr-mdXj4e/META-INF/MANIFEST.MF",
+		"/home/aschwendler/Documents/Gerson/importsCloudVision.txt",
+		"/home/aschwendler/Documents/Aulas/PC/Aquecimentos - BOCA/entrada.txt",
+		"/home/aschwendler/Documents/Aulas/PC/Aquecimentos - BOCA/problema_I.c"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			":",
+			" ",
+			"globalLine",
+			"tid =",
+			"TID",
+			"printf",
+			"1",
+			"result->busy",
+			"result->idle",
+			"&",
+			"result->requests",
+			"getWaitingRequest",
+			"auxRequest",
+			"            \n",
+			"cyclesQueue",
+			"mallo",
+			"0",
+			"main",
+			"x",
+			".",
+			"q.",
+			"prev",
+			"\t\n",
+			"main",
+			"k",
+			"x",
+			"printf",
+			"i ",
+			"i",
+			"auxTroca",
+			"auxComp[j]",
+			"].",
+			"p[",
+			"p",
+			"->",
+			"parts",
+			"arts",
+			"->",
+			"head",
+			"hea",
+			"he",
+			"head",
+			"raiz",
+			"No",
+			"no",
+			"No *",
+			"No* ",
+			"struct ",
+			"struct A",
+			"struct Ar\t",
+			"a",
+			"A",
+			"a",
+			"A",
+			"a",
+			"A",
+			"a",
+			"A",
+			"a",
+			"B",
+			"a",
+			"A",
+			"a",
+			"A",
+			"a",
+			"A",
+			"a",
+			"A",
+			"labs",
+			"sizeof",
+			"e",
+			"Elemento",
+			"Nodo",
+			"nodo",
+			"Nodo",
+			"\t\n",
+			"TItem",
+			"aui",
+			"x",
+			"vet",
+			"p",
+			"x",
+			"n",
+			"vet",
+			"limite",
+			"p",
+			":",
+			"%p",
+			"\\n",
+			"z",
+			"char",
+			"vet",
+			"comprimento",
+			"z",
+			"y",
+			"x"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "MacroProcessor.java",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2183,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								616,
+								616
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "MacroProcessor.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

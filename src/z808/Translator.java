@@ -39,7 +39,10 @@ public class Translator {
 		ArrayList<Command> output = new ArrayList<>();
 
 		Command c = null;
-		for (String cmd : raw_code) {
+		String cmd = null;
+		int sz = raw_code.size();
+		for (int i=0;i<sz;++i) {
+			cmd = raw_code.get(i);
 			if (cmd.matches(Equ.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "Equ", cmd);
 				c = Equ.makeEqu(cmd);
@@ -82,18 +85,18 @@ public class Translator {
 			} else if (cmd.matches(MovAXDX.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovAXDX", cmd);
 				c = MovAXDX.makeMovAXDX(cmd);
-			} else if (cmd.matches(MovAXMEM.REGEX)) {
-				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovAXMEM", cmd);
-				c = MovAXMEM.makeMovAXMEM(cmd);
 			} else if (cmd.matches(MovDXAX.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovDXAX", cmd);
 				c = MovDXAX.makeMovDXAX(cmd);
-			} else if (cmd.matches(MovMEMAX.REGEX)) {
-				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovMEMAX", cmd);
-				c = MovMEMAX.makeMovAXMEM(cmd);
 			} else if (cmd.matches(MovSIAX.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovSIAX", cmd);
 				c = MovSIAX.makeMovSIAX(cmd);
+			} else if (cmd.matches(MovAXMEM.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovAXMEM", cmd);
+				c = MovAXMEM.makeMovAXMEM(cmd);
+			} else if (cmd.matches(MovMEMAX.REGEX)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MovMEMAX", cmd);
+				c = MovMEMAX.makeMovAXMEM(cmd);
 			} else if (cmd.matches(Hlt.REGEX)) {
 				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "Hlt", cmd);
 				c = Hlt.makeHlt(cmd);
@@ -127,6 +130,32 @@ public class Translator {
 			} else if (cmd.equals("Inicio:")) {
 				if (verb) System.err.printf("\nDEBUG, nothing with \"%s\"", cmd);
 				continue;
+			} else if (cmd.contains(MacroCall.MNEMONIC)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MacroCall", cmd);
+				c = MacroCall.makeMacroCall(cmd);
+			} else if (cmd.contains(MacroDef.MNEMONIC)) {
+				if (verb) System.err.printf("\nDEBUG, made a %s with \"%s\"", "MacroDef", cmd);
+				List<String> param = new ArrayList<>();
+				String []tokens = cmd.split(" ");
+				String name = tokens[0];
+
+				for(int z=2;z<tokens.length;++z)
+					param.add(tokens[z]);
+
+				int j = i+1; // current position is safe
+				String next = "";
+				List<String> l = new ArrayList<>();
+				while(true) {
+					next = raw_code.get(j);
+					if(next.equalsIgnoreCase(Endm.MNEMONIC)) break;
+
+					l.add(next);
+					++j;
+				}
+
+				i = j;
+				c = new MacroDef(name, param, l);
+
 			} else {
 				System.out.println("\nTODO: command string \"" + cmd + "\"");
 				throw new NotImplementedException("TODO: command string \"" + cmd + "\"");
@@ -137,6 +166,12 @@ public class Translator {
 			c = null;
 		}
 		return output;
+	}
+
+	public Command convertCode1(String raw_code) throws ExecutionException {
+		List<String> l = new ArrayList<>(1);
+		l.add(raw_code);
+		return this.convertCode(l).get(0);
 	}
 
 	public static void testTranslator(boolean verb) throws ExecutionException {

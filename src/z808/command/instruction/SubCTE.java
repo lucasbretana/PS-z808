@@ -115,8 +115,8 @@ public class SubCTE extends Instruction {
 	public ArrayList<Register> asRegisters() {
 		ArrayList<Register> l = new ArrayList<Register>(SubCTE.SIZE);
 		l.add(new Register(0x2b));
-		l.add(new Register(this.arg.intValue() >> 16));
 		l.add(new Register((this.arg.intValue() << 16) >> 16));
+		l.add(new Register(this.arg.intValue() >> 16));
 		return l;
 	}
 }

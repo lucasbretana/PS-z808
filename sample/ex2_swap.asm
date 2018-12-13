@@ -1,6 +1,6 @@
 Dados SEGMENT
-V1 DW ?
-V2 DW ?
+V1 DW 10
+V2 DW 5
 Dados ENDS
 Codigo SEGMENT
 Inicio:

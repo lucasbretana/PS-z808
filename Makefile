@@ -28,11 +28,14 @@ FILES =\
 	z808/command/directive/Extern \
 	z808/command/directive/Public \
 	z808/command/directive/End \
+	z808/command/directive/Endm \
 	z808/command/directive/Ends \
 	z808/command/directive/Segment \
 	z808/command/directive/Dup \
 	z808/command/directive/DW \
 	z808/command/directive/Equ \
+	z808/command/directive/MacroDef \
+	z808/command/directive/MacroCall \
 	z808/command/instruction/Instruction \
 	z808/command/instruction/AddDX \
 	z808/command/instruction/AddAX \
