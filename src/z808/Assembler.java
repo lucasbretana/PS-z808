@@ -44,7 +44,7 @@ public class Assembler {
 		if(!(code.get(0) instanceof Segment)) {
 			System.err.println("Warning! Everything on the same Segment");
 			cur_seg_name = "Codigo";
-			seg_left = 0;
+			seg_left = -1;
 
 			mod.m_code.setSizeCodeSegment(new Integer(0));
 			mod.m_code.setStartCodeSegment(new Address(0x0));
@@ -62,7 +62,7 @@ public class Assembler {
 		for (Command cmd : code) {
 			// 0. talk segments
 			if (cmd instanceof Segment) {
-				if (seg_left-- == 0)
+				if (seg_left-- <= 0)
 					throw new ExecutionException("No more than three segments");
 
 				if (cur_seg_name != null)
@@ -183,6 +183,8 @@ public class Assembler {
 			}
 		}
 
+		if (seg_left == -1)
+			mod.m_code.setSizeCodeSegment(mod.getSize());
 		return mod;
 	}
 
