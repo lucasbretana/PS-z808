@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Created-By: alanaschwendlerJonathas-Conceicao;jrzanol;lucasbretana #https://github.com/lucasbretana/PS-z808/branches
+Main-Class: z808.ui.UIz808
